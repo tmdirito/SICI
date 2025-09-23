@@ -1,0 +1,7 @@
+node_modules/
+*.local
+# Ignore Next.js local environment variables
+.env.local
+
+# Ignore Firebase Functions environment variables
+functions/.env*
