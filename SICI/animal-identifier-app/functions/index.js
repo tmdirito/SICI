@@ -51,7 +51,7 @@ exports.identifyAnimal = onObjectFinalized(async (event) => {
 
     console.log("✅ Image downloaded. Calling Gemini API...");
 
-    const model = genAI.getGenerativeModel({model: "gemini-1.5-flash-latest"});
+    const model = genAI.getGenerativeModel({model: "gemini-2.5-flash-image-preview"});
     const prompt = `Identify the animal in this image. Provide a detailed response formatted as a single JSON object. The JSON object must have these exact keys and nothing else: "commonName", "scientificName", "description", and "conservationStatus". If the image does not contain an animal, the value for all keys should be the string "N/A".`;
     const result = await model.generateContent([prompt, imagePart]);
 
