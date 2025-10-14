@@ -11,8 +11,9 @@ export default function HomePage() {
   const { currentUser } = useAuth();
 
   return (
+    
     <div className={styles.page}>
-          <NavBar />
+          <NavBar className={styles.navContainer} />
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Animal Identifier</h1>
         <p className={styles.description}>
