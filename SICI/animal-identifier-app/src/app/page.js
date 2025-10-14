@@ -2,7 +2,7 @@
 import styles from './page.module.css';
 import UploadForm from './components/UploadForm';
 import NavBar from './components/NavBar';
-import { useState } from 'react';
+import { useState } from 'react'; 
 
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext'; // Import the auth hook
