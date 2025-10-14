@@ -76,7 +76,7 @@ export default function UploadForm() {
         {file && <p>Selected: {file.name}</p>}
 
         <button type="submit" className={styles.button} disabled={isLoading || !file}>
-          {isLoading ? 'Uploading...' : 'Identify Animal'}
+          {isLoading ? 'Downloading...' : 'Identify Animal'}
         </button>
       </form>
 
