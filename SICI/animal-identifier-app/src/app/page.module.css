@@ -79,3 +79,72 @@
 .error {
   color: #ef4444; /* A standard red for errors */
 }
+
+/* Add these new classes to your existing page.module.css file */
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 16px;
+  margin-bottom: 1rem;
+}
+
+.toggleText {
+  margin-top: 1rem;
+  font-size: 14px;
+}
+
+.toggleText a {
+  color: var(--primary);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.logoutButton {
+  background-color: #ef4444; /* A red color for logout */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.logoutButton:hover {
+  background-color: #dc2626;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.ctaContainer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.buttonSecondary {
+  color-scheme: button; /* Inherits all styles from .button */
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.buttonSecondary:hover {
+  background-color: var(--primary);
+  color: white;
+}
