@@ -12,7 +12,18 @@ export default function NavBar() {
       >
         Tutorial
       </a>
-      {/* Add any other nav links here */}
+      <a 
+      href="/login"
+        className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-indigo-700 transition-all duration-200"
+        >
+          Login
+        </a>
+        <a 
+      href="/info"
+        className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-indigo-700 transition-all duration-200"
+        >
+          Info
+        </a>
     </nav>
   );
 }
