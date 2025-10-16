@@ -24,6 +24,12 @@ export default function NavBar() {
         >
           Info
         </a>
+        <a 
+      href="/history"
+        className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-indigo-700 transition-all duration-200"
+        >
+          History
+        </a>
     </nav>
   );
 }
