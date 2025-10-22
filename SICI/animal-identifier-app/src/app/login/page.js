@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { app } from '../lib/firebase';
 import styles from '../page.module.css';
 
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

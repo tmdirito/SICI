@@ -3,16 +3,16 @@
 
 /* --- 2. Define the new color palette --- */
 :root {
-  --background: #f4f4f9;
+  --background: linear-gradient(135deg, #bdf6d6, #03240a);
   --foreground: #111827;
-  --card-bg: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.1);
   --card-border: #e5e7eb;
   --primary: #3b82f6;
   --primary-hover: #2563eb;
-  --secondary-text: #6b7280;
+  --secondary-text: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #111827;
     --foreground: #f9fafb;
@@ -23,7 +23,7 @@
     --secondary-text: #9ca3af;
   }
 }
-
+*/
 * {
   box-sizing: border-box;
   padding: 0;
