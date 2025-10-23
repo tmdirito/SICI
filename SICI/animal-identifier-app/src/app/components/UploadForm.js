@@ -68,7 +68,7 @@ export default function UploadForm() {
         <input id="file-upload" type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
         
         <button type="submit" className={styles.button} disabled={isLoading || !file}>
-          {isLoading ? 'Downloading...' : 'Identify Animal'}
+          {isLoading ? 'Uploading...' : 'Identify Animal'}
         </button>
       </form>
 

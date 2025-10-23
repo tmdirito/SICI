@@ -19,7 +19,7 @@ export default function SignUpPage() {
     setError('');
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      router.push('/dashboard'); // Redirect on success
+      router.push('/'); // Redirect on success
     } catch (err) {
       setError("Failed to create an account. Password should be at least 6 characters.");
     }

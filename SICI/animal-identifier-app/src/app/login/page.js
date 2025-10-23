@@ -20,7 +20,7 @@ export default function LoginPage() {
     setError('');
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/dashboard'); // Redirect on success
+      router.push('/'); // Redirect on success
     } catch (err) {
       setError("Failed to log in. Please check your credentials.");
     }

@@ -1,18 +1,21 @@
-rules_version='2'
+rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      // This rule allows anyone with your database reference to view, edit,
-      // and delete all data in your database. It is useful for getting
-      // started, but it is configured to expire after 30 days because it
-      // leaves your app open to attackers. At that time, all client
-      // requests to your database will be denied.
-      //
-      // Make sure to write security rules for your app before that time, or
-      // else all client requests to your database will be denied until you
-      // update your rules.
-      allow read, write: if request.time < timestamp.date(2025, 10, 22);
+
+    // RULE 1 (The Fix):
+    // Allow a user to read their own parent user document. This is
+    // required to be able to query the 'animals' subcollection below.
+    match /users/{userId} {
+      allow get: if request.auth.uid == userId;
+    }
+
+    // RULE 2 (Your Original Rule):
+    // Allow a user to list the animal documents within their own
+    // subcollection. This rule was correct but incomplete without Rule 1.
+    match /users/{userId}/animals/{animalId} {
+      allow get, list: if request.auth.uid == userId;
+      allow write: if false; // Deny writes from the browser for safety
     }
   }
 }
