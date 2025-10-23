@@ -144,3 +144,29 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--card-border);
 }
+
+/* Add these new classes to the end of your file */
+
+.passwordContainer {
+  position: relative;
+  width: 100%;
+}
+
+/* This targets the input field specifically when it's inside the new container */
+.passwordContainer .input {
+  padding-right: 70px; /* Adds space inside the input field for the button */
+}
+
+.passwordToggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--secondary-text);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px; /* Makes the button easier to click */
+}
