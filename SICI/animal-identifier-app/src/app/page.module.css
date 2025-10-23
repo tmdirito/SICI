@@ -1,12 +1,13 @@
 .page {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   min-height: 100vh;
   padding: 24px;
 }
 
-/* --- 1. The new "card" style for your main content --- */
+/* --- The new "glass card" style for your main content --- */
 .main {
   width: 100%;
   max-width: 560px;
@@ -14,14 +15,16 @@
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 16px;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   gap: 24px;
   text-align: center;
 }
 
-/* --- 2. Improved typography for headings and paragraphs --- */
+/* --- Typography --- */
 .title {
   font-size: 28px;
   font-weight: 600;
@@ -33,18 +36,17 @@
   line-height: 1.6;
 }
 
-/* --- 3. Enhanced styles for your forms and results --- */
 .form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* A style for the file input and other buttons */
+/* --- Button Styles (Green Primary) --- */
 .button {
   appearance: none;
   background-color: var(--primary);
-  color: white; /* Text color is white for both light/dark mode */
+  color: white;
   border: none;
   border-radius: 8px;
   padding: 12px 20px;
@@ -52,21 +54,27 @@
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .button:hover {
   background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .button:disabled {
   background-color: var(--secondary-text);
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
+/* --- Glass effect for identified animal cards --- */
 .resultCard {
+  background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 16px;
   margin-top: 16px;
   text-align: left;
@@ -77,48 +85,53 @@
 }
 
 .error {
-  color: #ef4444; /* A standard red for errors */
+  color: #fca5a5; /* A lighter red for dark backgrounds */
 }
 
-/* Add these new classes to your existing page.module.css file */
 .input {
   width: 100%;
   padding: 12px;
   border: 1px solid var(--card-border);
   border-radius: 8px;
-  background-color: var(--background);
+  background-color: rgba(0, 0, 0, 0.2); /* Darker transparent input */
   color: var(--foreground);
   font-family: inherit;
   font-size: 16px;
-  margin-bottom: 1rem;
 }
 
 .toggleText {
   margin-top: 1rem;
   font-size: 14px;
+  color: var(--secondary-text);
 }
 
 .toggleText a {
   color: var(--primary);
-  text-decoration: underline;
+  text-decoration: none;
   font-weight: 500;
 }
+.toggleText a:hover {
+  text-decoration: underline;
+}
 
+/* --- Soft, transparent red for logout button --- */
 .logoutButton {
-  background-color: #ef4444; /* A red color for logout */
-  color: white;
-  border: none;
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.5);
   border-radius: 8px;
   padding: 8px 16px;
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .logoutButton:hover {
-  background-color: #dc2626;
+  background-color: rgba(239, 68, 68, 0.4);
+  color: white;
+  border-color: rgba(239, 68, 68, 0.7);
 }
 
 .header {
@@ -129,22 +142,4 @@
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--card-border);
-}
-
-.ctaContainer {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.buttonSecondary {
-  color-scheme: button; /* Inherits all styles from .button */
-  background-color: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary);
-}
-
-.buttonSecondary:hover {
-  background-color: var(--primary);
-  color: white;
 }

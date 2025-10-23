@@ -25,17 +25,17 @@ export default function NavBar() {
     <nav className={styles.nav}>
       <div className={styles.navLinks}>
         {currentUser && (
-          <Link href="/dashboard" className={linkStyle}>
+          <Link href="/dashboard" className={styles.linkStyle}>
             Identify Animals
           </Link>
         )}
-        <Link href="/history" className={linkStyle}>
+        <Link href="/history" className={styles.linkStyle}>
           History
         </Link>
-        <Link href="/tutorial" className={linkStyle}>
+        <Link href="/tutorial" className={styles.linkStyle}>
           Tutorial
         </Link>
-        <Link href="/info" className={linkStyle}>
+        <Link href="/info" className={styles.linkStyle}>
           Info
         </Link>
         {/* You can add back Tutorial and Info links here if you wish */}
@@ -45,16 +45,16 @@ export default function NavBar() {
         {currentUser ? (
           <>
             <span className="text-sm mr-4">Hi, {currentUser.email}</span>
-            <button onClick={handleLogout} className={linkStyle}>
+            <button onClick={handleLogout} className={styles.linkStyle}>
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link href="/login" className={linkStyle}>
+            <Link href="/login" className={styles.linkStyle}>
               Login
             </Link>
-            <Link href="/signup" className={linkStyle}>
+            <Link href="/signup" className={styles.linkStyle}>
               Sign Up
             </Link>
           </>

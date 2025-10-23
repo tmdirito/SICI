@@ -11,6 +11,7 @@ export default function HomePage() {
           alt="Animal Identifier Logo"
           width={75} // Set the actual width of your logo
           height={75}  // Set the actual height of your logo
+          style={{ marginRight: 'auto' }}
         />
         <NavBar />
       </header>
