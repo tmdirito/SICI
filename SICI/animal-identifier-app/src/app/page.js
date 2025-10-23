@@ -2,19 +2,11 @@ import Link from 'next/link';
 import styles from './home.module.css';
 import NavBar from './components/NavBar';
 import Image from 'next/image';
+import Header from './components/Header';
 export default function HomePage() {
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <Image
-          src="/eco-dex dark.png" // The path to your logo in the `public` folder
-          alt="Animal Identifier Logo"
-          width={75} // Set the actual width of your logo
-          height={75}  // Set the actual height of your logo
-          style={{ marginRight: 'auto' }}
-        />
-        <NavBar />
-      </header>
+      <Header/>
       <main className={styles.main}>
         {/* Hero Section */}
         <section className={styles.hero}>

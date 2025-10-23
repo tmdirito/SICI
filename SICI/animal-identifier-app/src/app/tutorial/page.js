@@ -1,8 +1,10 @@
 import styles from '../page.module.css';
-
+import Header from '../components/Header';
 
 export default function TutorialPage(){
     return (
+      <>
+      <Header/>
         <div className={styles.page}>
         <main className={styles.main}>
         <h1 className={styles.title}>Tutorial</h1>
@@ -16,5 +18,6 @@ export default function TutorialPage(){
         </p>
         </main>
         </div>
+        </>
     );
 }

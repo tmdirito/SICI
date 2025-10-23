@@ -35,8 +35,8 @@ export default function NavBar() {
         <Link href="/tutorial" className={styles.linkStyle}>
           Tutorial
         </Link>
-        <Link href="/info" className={styles.linkStyle}>
-          Info
+        <Link href="/about" className={styles.linkStyle}>
+          About
         </Link>
         {/* You can add back Tutorial and Info links here if you wish */}
       </div>

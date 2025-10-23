@@ -1,10 +1,11 @@
 .page {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   min-height: 100vh;
   padding: 24px;
+  padding-top: 120px; /* Add this line */
 }
 
 /* --- The new "glass card" style for your main content --- */

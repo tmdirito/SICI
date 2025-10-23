@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import UploadForm from '../components/UploadForm';
 import styles from '../page.module.css';
-
+import Header from '../components/Header';
 export default function DashboardPage() {
   const { currentUser, logout } = useAuth();
   const router = useRouter();
@@ -29,6 +29,8 @@ export default function DashboardPage() {
 
   // Only when we are sure currentUser exists, we render the page.
   return (
+    <>
+    <Header/>
     <div className={styles.page}>
       <main className={styles.main}>
         <div className={styles.header}>
@@ -40,5 +42,6 @@ export default function DashboardPage() {
         <UploadForm />
       </main>
     </div>
+    </>
   );
 }

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { app } from '../lib/firebase';
 import styles from '../page.module.css';
-
+import Header from '../components/Header';
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,6 +26,8 @@ export default function SignUpPage() {
   };
   
   return (
+    <>
+    <Header/>
     <div className={styles.page}>
       <main className={styles.main}>
         <h1 className={styles.title}>Create an Account</h1>
@@ -38,5 +40,6 @@ export default function SignUpPage() {
         <p className={styles.toggleText}>Already have an account? <Link href="/login">Log In</Link></p>
       </main>
     </div>
+    </>
   );
 }

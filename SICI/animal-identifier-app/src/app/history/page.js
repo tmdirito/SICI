@@ -6,7 +6,7 @@ import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { firestore } from '../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
 import styles from '../page.module.css';
-
+import Header from '../components/Header';
 export default function HistoryPage() {
   const { currentUser } = useAuth();
   const router = useRouter();
@@ -50,6 +50,8 @@ export default function HistoryPage() {
   }
 
   return (
+    <>
+    <Header />
     <div className={styles.page}>
       <main className={styles.main}>
         <h1 className={styles.title}>Your Identification History</h1>
@@ -76,5 +78,6 @@ export default function HistoryPage() {
         </div>
       </main>
     </div>
+    </>
   );
 }
