@@ -13,6 +13,7 @@ export default function UploadForm() {
   const [error, setError] = useState('');
   const [animals, setAnimals] = useState([]);
   const { currentUser } = useAuth();
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     if (!currentUser) return; // Don't run if no user is logged in
@@ -31,9 +32,14 @@ export default function UploadForm() {
 
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
+      const selectedFile = e.target.files[0];
       setFile(e.target.files[0]);
+      const previewURL = URL.createObjectURL(selectedFile);
+      setImagePreview(previewURL);
     }
   };
+
+  
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,7 +72,11 @@ export default function UploadForm() {
           {file ? `Selected: ${file.name}` : 'Choose File'}
         </label>
         <input id="file-upload" type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
-        
+        <img 
+            src={imagePreview} 
+            alt="Selected preview" 
+            style={{ width: '300px', height: 'auto', border: '1px solid #ccc' }} 
+          />
         <button type="submit" className={styles.button} disabled={isLoading || !file}>
           {isLoading ? 'Uploading...' : 'Identify Animal'}
         </button>

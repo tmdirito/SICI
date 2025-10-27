@@ -7,14 +7,32 @@ import { firestore } from '../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
 import styles from '../page.module.css';
 import Header from '../components/Header';
+import {doc, deleteDoc } from 'firebase/firestore';
 export default function HistoryPage() {
   const { currentUser } = useAuth();
   const router = useRouter();
   const [animals, setAnimals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [isDeleting, setIsDeleting] = useState(false); // Renamed for clarity
   // Page protector: redirect if not logged in
-  useEffect(() => {
+
+   const handleDelete = async (animalID) => {
+      if (!currentUser) return; // Make sure user is still logged in
+
+        setIsDeleting(true); // Disable buttons
+        try {
+      const docRef = doc(firestore, 'users', currentUser.uid, 'animals', animalID);
+      
+      await deleteDoc(docRef);
+
+      
+      } catch (error) {
+        console.error("Error deleting document: ", error);
+      } finally {
+        setIsDeleting(false); // Re-enable buttons
+      }
+    }
+  useEffect(() => { 
     if (!currentUser) {
       router.push('/login');
     }
@@ -41,6 +59,8 @@ export default function HistoryPage() {
       setAnimals(animalsData);
       setIsLoading(false);
     });
+
+   
 
     return () => unsubscribe(); // Cleanup listener on unmount
   }, [currentUser]);
@@ -72,6 +92,13 @@ export default function HistoryPage() {
                 <p style={{marginTop: '1rem', fontSize: '0.8rem', color: 'gray'}}>
                   <em>Identified on: {animal.createdAt}</em>
                 </p>
+                  <div style={{ textAlign: 'right' }}>
+                    <button
+                      onClick={() => handleDelete(animal.id)}
+                      disabled={isDeleting}>
+                      {isDeleting ? 'Deleting...' : 'Delete'}
+                    </button>
+                  </div>
               </div>
             ))
           )}
