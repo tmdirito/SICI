@@ -1,4 +1,4 @@
-Eco-Dex: AI Animal Identifier 🌿🔍
+## Eco-Dex: AI Animal Identifier 🌿🔍
 Eco-Dex is a full-stack web application that allows users to upload images of animals and receive detailed information about them, including their common and scientific names, a brief description, and current conservation status, powered by Google's Gemini AI.
 
 ## Core Features
