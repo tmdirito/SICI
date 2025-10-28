@@ -1,9 +1,17 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      // Allow all reads and writes for local development
-      allow read, write: if true;
+    // Match the path where your user images are stored
+    match /userUploads/{userId}/{allPaths=**} {
+
+      // Allow a user to upload (create) files only to their own folder.
+      allow create: if request.auth.uid == userId;
+
+      // Allow anyone to read (get) the images.
+      allow get;
+
+      // Deny updates or deletes from the browser for safety.
+      allow update, delete: if false;
     }
   }
 }
