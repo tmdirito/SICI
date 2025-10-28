@@ -95,7 +95,9 @@ export default function HistoryPage() {
                   <div style={{ textAlign: 'right' }}>
                     <button
                       onClick={() => handleDelete(animal.id)}
-                      disabled={isDeleting}>
+                      disabled={isDeleting}
+                      className={styles.deleteButton}
+                      >
                       {isDeleting ? 'Deleting...' : 'Delete'}
                     </button>
                   </div>

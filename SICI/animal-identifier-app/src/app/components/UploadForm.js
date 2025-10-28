@@ -75,7 +75,7 @@ export default function UploadForm() {
         <img 
             src={imagePreview} 
             alt="Selected preview" 
-            style={{ width: '300px', height: 'auto', border: '1px solid #ccc' }} 
+            style={{ width: '300px', height: 'auto', border: '1px solid #ccc', margin: '0 auto'}} 
           />
         <button type="submit" className={styles.button} disabled={isLoading || !file}>
           {isLoading ? 'Uploading...' : 'Identify Animal'}

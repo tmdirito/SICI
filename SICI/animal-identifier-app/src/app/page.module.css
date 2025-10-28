@@ -129,6 +129,26 @@
   transition: all 0.2s ease-in-out;
 }
 
+.deleteButton {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+}
+
+.deleteButton:hover{
+  background-color: rgba(239, 68, 68, 0.4);
+  color: white;
+  border-color: rgba(239, 68, 68, 0.7);
+}
+
 .logoutButton:hover {
   background-color: rgba(239, 68, 68, 0.4);
   color: white;
