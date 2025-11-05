@@ -10,7 +10,7 @@ import {
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { app } from '../lib/firebase';
-import { createFirestoreUser } from '../../lib/firestore-service'; // <-- NEW: Import Firestore user creation
+import { createFirestoreUser } from '../lib/firestore-service'; // <-- CORRECT RELATIVE PATH
 import styles from '../page.module.css';
 import loginStyles from './login.module.css'; // <-- NEW: Import local login styles
 import Header from '../components/Header';

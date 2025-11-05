@@ -1,0 +1,59 @@
+/* --- Dashboard Specific Styles --- */
+
+.uploadArea {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    width: 100%;
+}
+
+.dropZone {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    border: 3px dashed var(--card-border);
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--secondary-text);
+    transition: all 0.2s ease-in-out;
+}
+
+.dropZone:hover {
+    border-color: var(--primary);
+    background-color: rgba(34, 197, 94, 0.1); /* Light green tint on hover */
+}
+
+.previewContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.previewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.imageName {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
