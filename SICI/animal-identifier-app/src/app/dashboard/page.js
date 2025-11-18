@@ -39,7 +39,7 @@ export default function DashboardPage() {
             Logout
           </button>
         </div>
-        <UploadForm />
+        <UploadForm />    
       </main>
     </div>
     </>
