@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, {useState} from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
@@ -9,56 +9,109 @@ import styles from './NavBar.module.css';
 export default function NavBar() {
   const { currentUser, logout } = useAuth();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
       await logout();
-      router.push('/'); // Redirect to homepage on logout
+      router.push('/');
+      setIsOpen(false);
     } catch (error) {
       console.error('Failed to log out', error);
     }
   };
 
-  const linkStyle = "inline-block bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-indigo-700 transition-all duration-200";
+  const closeMenu = () => setIsOpen(false);
+  const linkStyle = styles.linkStyle; // Use the CSS module class name
+
+  // Helper function to render auth buttons for reuse
+  const renderAuthButtons = (mobile = false) => (
+    <>
+      {currentUser ? (
+        <>
+          <span className={mobile ? styles.authStatus : "text-sm mr-4"}>
+            Hi, {currentUser.email}
+          </span>
+          <button onClick={handleLogout} className={linkStyle}>
+            Logout
+          </button>
+        </>
+      ) : (
+        <>
+          <Link href="/login" className={linkStyle} onClick={closeMenu}>
+            Login
+          </Link>
+          <Link href="/signup" className={linkStyle} onClick={closeMenu}>
+            Sign Up
+          </Link>
+        </>
+      )}
+    </>
+  );
+
+  const renderNavLinks = (extraLinks) => (
+    <>
+      {currentUser && (
+        <Link href="/dashboard" className={linkStyle} onClick={closeMenu}>
+          Identify Animals
+        </Link>
+      )}
+      <Link href="/history" className={linkStyle} onClick={closeMenu}>
+        History
+      </Link>
+      <Link href="/tutorial" className={linkStyle} onClick={closeMenu}>
+        Tutorial
+      </Link>
+      <Link href="/about" className={linkStyle} onClick={closeMenu}>
+        Info
+      </Link>
+    </>
+  );
 
   return (
     <nav className={styles.nav}>
-      <div className={styles.navLinks}>
-        {currentUser && (
-          <Link href="/dashboard" className={styles.linkStyle}>
-            Identify Animals
-          </Link>
-        )}
-        <Link href="/history" className={styles.linkStyle}>
-          History
-        </Link>
-        <Link href="/tutorial" className={styles.linkStyle}>
-          Tutorial
-        </Link>
-        <Link href="/about" className={styles.linkStyle}>
-          About
-        </Link>
-        {/* You can add back Tutorial and Info links here if you wish */}
+      {/* --- 1. Desktop View (Visible until 1024px) --- */}
+      <div className={styles.desktopLinks}>
+        <div className={styles.navLinks}>
+          {renderNavLinks()}
+        </div>
+        <div className={styles.authLinks}>
+          {renderAuthButtons()}
+        </div>
       </div>
-
-      <div className={styles.authLinks}>
-        {currentUser ? (
-          <>
-            <span className="text-sm mr-4">Hi, {currentUser.email}</span>
-            <button onClick={handleLogout} className={styles.linkStyle}>
-              Logout
-            </button>
-          </>
+      
+      {/* --- 2. Hamburger Button (Hidden on desktop, appears for mobile/overflow) --- */}
+      <button 
+        className={styles.hamburger} 
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle menu"
+      >
+        {isOpen ? (
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         ) : (
-          <>
-            <Link href="/login" className={styles.linkStyle}>
-              Login
-            </Link>
-            <Link href="/signup" className={styles.linkStyle}>
-              Sign Up
-            </Link>
-          </>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
         )}
+      </button>
+
+      {/* --- 3. Mobile/Collapsible Menu (Hidden by default, slides in from right) --- */}
+      <div className={`${styles.mobileMenu} ${isOpen ? styles.menuOpen : ''}`}>
+        
+        {/* Top Section: Navigation Links */}
+        <div className={styles.mobileLinks}>
+          {renderNavLinks()}
+        </div>
+
+        {/* Bottom Section: Authentication Links (Pushed to bottom by flexbox) */}
+        <div className={styles.mobileAuth}>
+          {renderAuthButtons(true)}
+        </div>
       </div>
     </nav>
   );
