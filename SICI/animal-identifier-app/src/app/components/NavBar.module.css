@@ -6,7 +6,17 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap; /* allows for wrap on mobile */
 }
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+}
+
 
 /* --- Containers to separate main links from auth buttons --- */
 .navLinks, .authLinks {
@@ -28,6 +38,7 @@
   transition: all 0.2s ease-in-out;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  white-space: nowrap;
 }
 
 .linkStyle:hover {
@@ -35,4 +46,46 @@
   border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px); /* Lifts the button slightly */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Adds a soft glow */
+}
+
+.hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: white;
+  z-index: 1001;
+}
+
+/* --- Mobile Styles --- */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block; /* Show hamburger on small screens */
+  }
+
+  .menu {
+    display: none; /* Hide menu by default on mobile */
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  /* This class is added by React when the menu is open */
+  .menuOpen {
+    display: flex;
+  }
+
+  .navLinks, .authLinks {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .linkStyle {
+    width: 100%;
+    text-align: center;
+    display: block;
+  }
 }
