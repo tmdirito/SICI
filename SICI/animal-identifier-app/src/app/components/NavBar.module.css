@@ -1,25 +1,32 @@
-/* --- Glass effect for the main nav container --- */
+/* --- Base Desktop Styles --- */
 .nav {
-  flex-grow: 1;
+  /* This container only holds the desktop links and the mobile hamburger */
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* Push all content to the right edge */
   align-items: center;
   gap: 1rem;
 }
 
-/* --- Containers to separate main links from auth buttons --- */
+/* This is the container for all links on desktop (visible) */
+.desktopLinks {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  flex-grow: 1; /* Allows the link container to push auth links to the right */
+}
+
+/* Containers for link groups on desktop */
 .navLinks, .authLinks {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-/* Find the .linkStyle class */
+/* --- Styling for individual links/buttons (Keep existing styles) --- */
 .linkStyle {
   background-color: rgba(255, 255, 255, 0.1); 
   border: 1px solid rgba(255, 255, 255, 0.2);
-  /* Change the vertical padding from 10px to 8px */
   padding: 8px 18px; 
   border-radius: 8px;
   text-decoration: none;
@@ -28,11 +35,86 @@
   transition: all 0.2s ease-in-out;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  white-space: nowrap;
 }
 
 .linkStyle:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px); /* Lifts the button slightly */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Adds a soft glow */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Hamburger Button (Hidden by default) --- */
+.hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: white;
+  z-index: 1001;
+  margin-left: 1rem; /* Space between the last desktop link and the hamburger */
+}
+
+/* --- Mobile Menu Container (The full sliding panel) --- */
+.mobileMenu {
+  /* Default: Hidden off-screen */
+  position: fixed; 
+  top: 0;
+  right: 0;
+  width: 80vw; /* 80% of screen width */
+  height: 100vh;
+  background: rgba(12, 40, 22, 0.98); 
+  z-index: 999;
+  
+  /* Flexbox settings for stacking and bottom alignment (Crucial for auth links) */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  padding: 80px 24px 40px; /* Padding for content */
+  
+  transform: translateX(100%); /* Start completely hidden */
+  transition: transform 0.3s ease-out;
+}
+
+/* State when the menu is open */
+.menuOpen {
+  transform: translateX(0);
+}
+
+/* --- Mobile Styles (@media query handles the showing/hiding of the right elements) --- */
+@media (max-width: 1024px) { /* Changed breakpoint to 1024px for better desktop overflow simulation */
+  
+  /* Hides the desktop links on mobile/overflow */
+  .desktopLinks {
+    display: none;
+  }
+  
+  /* Shows hamburger on mobile/overflow */
+  .hamburger {
+    display: block;
+  }
+  
+  /* Ensure links/buttons fill the width of the open menu */
+  .mobileLinks, .mobileAuth {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .linkStyle {
+    width: 100%;
+    text-align: center;
+    display: block;
+    box-sizing: border-box; /* Ensures padding is counted inside the width */
+  }
+  
+  /* Styles for the user email inside the mobile menu */
+  .authStatus {
+    color: var(--secondary-text);
+    margin-bottom: 0.5rem;
+  }
 }
