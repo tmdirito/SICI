@@ -1,74 +1,116 @@
-/* eslint-disable require-jsdoc */
-/* eslint-disable max-len */
-// Import the specific v2 functions we need
-const {onObjectFinalized} = require("firebase-functions/v2/storage");
-const {setGlobalOptions} = require("firebase-functions/v2");
-const admin = require("firebase-admin");
-const {GoogleGenerativeAI} = require("@google/generative-ai");
-const {FieldValue} = require("firebase-admin/firestore");
-// Set global options for all functions
-setGlobalOptions({timeoutSeconds: 300, memory: "1GiB"});
+/**
+ * Cloud Function (Generation 2, ES Module) triggered when a new image file is uploaded to Firebase Storage.
+ * - Uses Modular Admin SDK.
+ */
 
-admin.initializeApp();
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
+// --- 1. Modular Imports ---
+import { onObjectFinalized } from "firebase-functions/v2/storage"; 
+import { initializeApp } from "firebase-admin/app";
+import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import { getStorage } from "firebase-admin/storage";
+import { GoogleGenAI } from "@google/genai";
+// Removed: defineSecret, config
 
-function fileToGenerativePart(buffer, mimeType) {
-  return {
-    inlineData: {
-      data: buffer.toString("base64"),
-      mimeType,
-    },
-  };
-}
+// --- 2. Modular Admin SDK Initialization (Global) ---
+initializeApp();
+const db = getFirestore();
+const storage = getStorage();
 
-// This is the new, correct v2 syntax for a Storage Trigger
-exports.identifyAnimal = onObjectFinalized(async (event) => {
-  // The event object contains all the file information
-  const fileBucket = event.data.bucket;
-  const filePath = event.data.name;
-  const contentType = event.data.contentType;
+// --- 3. FINALIZED Storage Trigger with Resource Tuning and Robustness ---
+export const processImageForAI = onObjectFinalized({ 
+    memory: "2GiB",        // Recommended bump for image processing performance
+    cpu: "gcf_gen2",       // Ensures dedicated CPU
+    timeoutSeconds: 300    // Long timeout for safety
+}, async (event) => {
+    // Initialize the AI client INSIDE the handler using process.env.GEMINI_KEY
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_KEY }); 
 
-  // Exit if the file is not an image
-  if (!contentType.startsWith("image/")) {
-    console.log("This is not an image.");
-    return;
-  }
+    const fileBucket = event.data.bucket;
+    const filePath = event.data.name;     
+    const contentType = event.data.contentType; 
+    
+    // 1. Basic Validation
+    if (!filePath || !filePath.startsWith("userUploads/") || !contentType || !contentType.startsWith("image/")) {
+        console.log("File skipped: Not a user upload or not an image.");
+        return null;
+    }
 
-  console.log(`✅ New image detected: ${filePath}. Starting analysis.`);
+    const pathParts = filePath.split("/");
+    const userId = pathParts[1];
 
-  // Extract user ID from the file path (e.g., "userUploads/test-user/...")
-  const userId = filePath.split("/")[1];
-  if (!userId) {
-    console.error("❌ Could not determine user ID from file path.");
-    return;
-  }
+    const file = storage.bucket(fileBucket).file(filePath);
 
-  try {
-    const bucket = admin.storage().bucket(fileBucket);
-    const file = bucket.file(filePath);
-    const [fileBuffer] = await file.download();
-    const imagePart = fileToGenerativePart(fileBuffer, contentType);
+    try {
+        // 2. Prepare image data
+        const [fileDownload] = await file.download(); 
+        const imagePart = {
+            inlineData: {
+                data: fileDownload.toString("base64"),
+                mimeType: contentType,
+            },
+        };
 
-    console.log("✅ Image downloaded. Calling Gemini API...");
+        // 3. Optimized Prompt (Focus on compliance, not just request)
+        const prompt = "Identify the animal in this image. You must return the analysis as a single JSON object " +
+                        "that strictly conforms to the provided schema. Do not include any commentary, " +
+                        "explanations, or extraneous text outside the JSON object.";
+        
+        // 4. Call the Gemini AI API
+        const model = "gemini-2.5-flash"; 
 
-    const model = genAI.getGenerativeModel({model: "gemini-2.5-flash-image-preview"});
-    const prompt = `Identify the animal in this image. Provide a detailed response formatted as a single JSON object. The JSON object must have these exact keys and nothing else: "commonName", "scientificName", "description", and "conservationStatus". If the image does not contain an animal, the value for all keys should be the string "N/A".`;
-    const result = await model.generateContent([prompt, imagePart]);
+        const response = await ai.models.generateContent({
+            model: model,
+            contents: [{ role: "user", parts: [{ text: prompt }, imagePart] }],
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: "OBJECT",
+                    properties: {
+                        "commonName": { "type": "STRING" },
+                        "scientificName": { "type": "STRING" },
+                        "conservationStatus": { "type": "STRING" },
+                        "description": { "type": "STRING" }
+                    },
+                }
+            }
+        });
 
-    console.log("✅ Gemini API call successful. Parsing response...");
-    const responseText = result.response.text();
-    const cleanedJson = responseText.replaceAll("```json", "").replaceAll("```", "").trim();
-    const animalData = JSON.parse(cleanedJson);
+        const aiResultPart = response.candidates[0].content.parts[0].text;
+        
+        // 5. ROBUST JSON PARSING (Fixes the Mumbling/Monologue Issue)
+        // Find the first opening brace '{' and the last closing brace '}'
+        const startIndex = aiResultPart.indexOf('{');
+        const endIndex = aiResultPart.lastIndexOf('}');
 
-    console.log("✅ Response parsed. Saving to Firestore...");
-    await admin.firestore().collection("users").doc(userId).collection("animals").add({
-      ...animalData,
-      imagePath: filePath,
-      createdAt: FieldValue.serverTimestamp(),
-    });
+        if (startIndex === -1 || endIndex === -1 || startIndex > endIndex) {
+            throw new Error("AI response did not contain a valid JSON object within the text.");
+        }
+        
+        // Extract only the content between (and including) the braces
+        const cleanedJson = aiResultPart.substring(startIndex, endIndex + 1).trim();
+        const aiData = JSON.parse(cleanedJson);
+        
+        // 6. Save result to Firestore
+        const animalData = {
+            ...aiData,
+            imagePath: filePath, 
+            userId: userId,
+            createdAt: FieldValue.serverTimestamp(), 
+            isPublic: false, 
+        };
 
-    console.log(`✅ Successfully identified ${animalData.commonName} and saved for user ${userId}.`);
-  } catch (error) {
-    console.error("❌ ERROR in identifyAnimal trigger:", error);
-  }
+        await db.collection("users").doc(userId).collection("animals").add(animalData);
+        
+        console.log(`Successfully analyzed and saved result for user ${userId}.`);
+
+        // 7. Cleanup
+        await file.delete();
+        console.log(`Cleaned up temporary file: ${filePath}`);
+
+        return null;
+
+    } catch (error) {
+        console.error(`❌ AI processing failed for ${filePath}:`, error);
+        return null;
+    }
 });

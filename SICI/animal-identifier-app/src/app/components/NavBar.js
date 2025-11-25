@@ -21,25 +21,12 @@ export default function NavBar() {
     }
   };
 
-  const closeMenu = () => setIsOpen(false);
-  const linkStyle = styles.linkStyle; // Use the CSS module class name
-
-  // Helper function to render auth buttons for reuse
-  const renderAuthButtons = (mobile = false) => (
-    <>
-      {currentUser ? (
-        <>
-          <span className={mobile ? styles.authStatus : "text-sm mr-4"}>
-            Hi, {currentUser.email}
-          </span>
-          <button onClick={handleLogout} className={linkStyle}>
-            Logout
-          </button>
-        </>
-      ) : (
-        <>
-          <Link href="/login" className={linkStyle} onClick={closeMenu}>
-            Login
+  return (
+    <nav className={styles.nav}>
+      <div className={styles.navLinks}>
+        {currentUser && (
+          <Link href="/dashboard" className={styles.linkStyle}>
+            Identify Animals
           </Link>
           <Link href="/signup" className={linkStyle} onClick={closeMenu}>
             Sign Up
