@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
@@ -21,12 +21,25 @@ export default function NavBar() {
     }
   };
 
-  return (
-    <nav className={styles.nav}>
-      <div className={styles.navLinks}>
-        {currentUser && (
-          <Link href="/dashboard" className={styles.linkStyle}>
-            Identify Animals
+  const closeMenu = () => setIsOpen(false);
+  const linkStyle = styles.linkStyle; // Use the CSS module class name
+
+  // Helper function to render auth buttons for reuse
+  const renderAuthButtons = (mobile = false) => (
+    <>
+      {currentUser ? (
+        <>
+          <span className={mobile ? styles.authStatus : "text-sm mr-4"}>
+            Hi, {currentUser.email}
+          </span>
+          <button onClick={handleLogout} className={linkStyle}>
+            Logout
+          </button>
+        </>
+      ) : (
+        <>
+          <Link href="/login" className={linkStyle} onClick={closeMenu}>
+            Login
           </Link>
           <Link href="/signup" className={linkStyle} onClick={closeMenu}>
             Sign Up
@@ -36,7 +49,7 @@ export default function NavBar() {
     </>
   );
 
-  const renderNavLinks = (extraLinks) => (
+  const renderNavLinks = () => (
     <>
       {currentUser && (
         <Link href="/dashboard" className={linkStyle} onClick={closeMenu}>
