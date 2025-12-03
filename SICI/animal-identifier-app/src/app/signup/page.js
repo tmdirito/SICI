@@ -6,7 +6,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { app } from '../lib/firebase';
-import { createFirestoreUser } from '@/lib/firestore-service';
+import { createFirestoreUser } from '../lib/firestore-service';
 import styles from '../page.module.css';
 import Header from '../components/Header';
 
