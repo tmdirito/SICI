@@ -1,17 +1,35 @@
 rules_version = '2';
+
+// Craft rules based on data in your Firestore 'users' collection
 service firebase.storage {
   match /b/{bucket}/o {
-    // Match the path where your user images are stored
+    
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // --- 1. User Uploads Folder (Where the AI looks) ---
+    // Path: userUploads/{userId}/{fileName}
     match /userUploads/{userId}/{allPaths=**} {
+      // Allow read: If you want these public (for sharing), change to 'true'. 
+      // For now, let's say only logged-in users can see images.
+      allow read: if isSignedIn();
+      
+      // Allow write: ONLY if the folder matches their User ID
+      // This prevents User A from overwriting User B's photos.
+      allow write: if isOwner(userId);
+    }
 
-      // Allow a user to upload (create) files only to their own folder.
-      allow create: if request.auth.uid == userId;
-
-      // Allow anyone to read (get) the images.
-      allow get;
-
-      // Deny updates or deletes from the browser for safety.
-      allow update, delete: if false;
+    // --- 2. Species Reference Images (For the Encyclopedia) ---
+    // Path: species/{fileName}
+    match /species/{allPaths=**} {
+      allow read: if true; // Publicly visible
+      allow write: if false; // Only Admins (managed via Console for now)
     }
   }
 }
