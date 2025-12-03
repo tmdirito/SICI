@@ -11,22 +11,28 @@ export default function HeroSection() {
   const [video, setVideo] = useState(null);
 
   useEffect(() => {
+    // Select the video only after the component mounts on the client
     const random = videos[Math.floor(Math.random() * videos.length)];
     setVideo(random);
   }, []);
 
   return (
     <section className={styles.heroSection}>
-      <video
-        key={video}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className={styles.backgroundVideo}
-      >
-        <source src={video} type="video/mp4" />
-      </video>
+      {/* Only render the video tag if a video source is selected */}
+      {video && (
+        <video
+          key={video} // Forces React to re-render the element when source changes
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={styles.backgroundVideo}
+        >
+          {/* Move src directly to the source tag, or use src on video tag */}
+          <source src={video} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
 
       <div className={styles.overlay}></div>
 
