@@ -1,0 +1,110 @@
+.featuresSection {
+    padding: 5rem 10rem;
+    max-width: 1200px;
+    margin: auto;
+    position: relative;
+  }
+  .heading {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 5rem;
+  }
+  .featuresWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    width: 100%;
+    position: relative;
+  }
+  
+  /* Feature card */
+  .featureCard {
+    display: flex;
+    align-items: center;
+    width: 700px;
+    position: relative;
+    min-height: 150px;
+  }
+  
+  /* IMAGE STARTS CENTER */
+  .imageWrapper {
+    position: absolute;
+    left: 0;                /* fixed left of section */
+    width: 200px;
+    height: 200px;
+    transform: translateX(50vw); /* start at center of viewport */
+    transition: transform 1.5s ease; /* smooth GPU-accelerated transition */
+    z-index: 2;
+  }
+  
+  /* IMAGE MOVES FULLY LEFT */
+  .moveLeft {
+    transform: translateX(0); /* fully left */
+  }
+  
+  /* Add a subtle border */
+.featureImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    border: 3px solid rgba(255,255,255,0.3); /* subtle white border */
+    transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+    z-index: 1;
+  }
+  
+  /* Hover effect */
+  .featureImage:hover {
+    transform: scale(1.1) rotate(-1deg); /* subtle grow + tilt */
+    border-color: #e1e9e5; /* highlight border color */
+    box-shadow: 0 15px 30px rgba(243, 244, 244, 0.35); /* glow effect */
+  }
+  
+  .featureImage {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    z-index: 1;
+  }
+  
+  /* TEXT APPEARS AFTER IMAGE MOVES LEFT */
+  .text {
+    max-width: 500px;
+    opacity: 0;
+    transform: translateY(0);   /* no horizontal movement */
+    text-align: left;
+    margin-left: 220px;         /* space for left image */
+    transition: opacity 0.8s ease 0s;
+  }
+  .showText {
+    opacity: 1;
+  }
+  
+  .text h3 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  .text p {
+    font-size: 1rem;
+    color: #ddd;
+    line-height: 1.6;
+  
+  }
+  
+  /* RESPONSIVE */
+  @media(max-width:768px) {
+    .featureCard { flex-direction: column; text-align: center; min-height: auto; }
+    .imageWrapper { position: relative; left: 0; transform: translateX(0); margin-bottom: 1rem; }
+    .text { margin-left: 0; text-align: center; opacity: 1; }
+  }
+
+  
+
+
+ 
