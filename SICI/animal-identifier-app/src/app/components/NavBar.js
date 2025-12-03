@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
@@ -49,7 +49,7 @@ export default function NavBar() {
     </>
   );
 
-  const renderNavLinks = (extraLinks) => (
+  const renderNavLinks = () => (
     <>
       {currentUser && (
         <Link href="/dashboard" className={linkStyle} onClick={closeMenu}>

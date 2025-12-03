@@ -1,21 +1,68 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // RULE 1 (The Fix):
-    // Allow a user to read their own parent user document. This is
-    // required to be able to query the 'animals' subcollection below.
-    match /users/{userId} {
-      allow get: if request.auth.uid == userId;
+    // Helper function to check if the authenticated user is an Admin
+    function isAdmin() {
+      // CRITICAL FIX: Check if the user document exists before attempting to read the 'role'.
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Helper function to check if the user is authenticated
+    function isSignedIn() {
+      return request.auth != null;
     }
 
-    // RULE 2 (Your Original Rule):
-    // Allow a user to list the animal documents within their own
-    // subcollection. This rule was correct but incomplete without Rule 1.
-    match /users/{userId}/animals/{animalId} {
-      allow get, list: if request.auth.uid == userId;
-      allow write: if false; // Deny writes from the browser for safety
-      allow read, delete: if request.auth != null && request.auth.uid == userId;    }
+    // Helper function to check if the user is the owner of the document
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // --- 1. User Profile Collection (Public Read for Listing, Owner Write) ---
+    match /users/{userId} {
+      allow create: if isSignedIn();
+      // Allow all authenticated users to read the list of users 
+      allow list: if isSignedIn(); 
+      // Only the owner can read/update their specific document
+      allow get, update: if isOwner(userId);
+      allow delete: if isAdmin();
+    }
+
+    // --- 2. Observations Collection (Master Admin/Public Data) ---
+    match /observations/{observationId} {
+      
+      // Deny all LIST reads here. This FORCES frontend components 
+      // to query the secure subcollection path instead.
+      allow list: if false; 
+      
+      // Allow GET (single document read) based on visibility.
+      allow get: if resource.data.isPublic == true || 
+                     isOwner(resource.data.userId) || 
+                     isAdmin();
+
+      // WRITE permissions (Only allowed if authenticated and matching the user ID)
+      allow create: if isSignedIn() 
+                     && request.resource.data.userId == request.auth.uid;
+
+      // UPDATE/DELETE permissions (Only the owner or Admin can change/remove)
+      allow update, delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+
+    // --- 3. Species/Conservation Info Collection (Master Data) ---
+    match /species/{speciesId} {
+      allow read: if true; // Publicly readable
+      allow write: if isAdmin(); // Admin only
+    }
+    
+    // --- 4. History Subcollection (CRITICAL FIX: Uses 'animals') ---
+    // This is the correct path used by HistoryPage.js and now UploadForm.js
+    match /users/{userId}/animals/{docId} {
+      // Grant explicit LIST and GET access only if the user is the owner.
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update, delete: if isOwner(userId);
+    }
   }
 }
