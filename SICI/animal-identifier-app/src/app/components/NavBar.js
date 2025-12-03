@@ -14,22 +14,25 @@ export default function NavBar() {
   const handleLogout = async () => {
     try {
       await logout();
-      router.push('/');
-      setIsOpen(false);
+      setIsOpen(false); // Close menu if open
+      router.push('/'); // Redirect to homepage
     } catch (error) {
       console.error('Failed to log out', error);
     }
   };
 
   const closeMenu = () => setIsOpen(false);
-  const linkStyle = styles.linkStyle; // Use the CSS module class name
+  
+  // Use the CSS module class for consistent glassmorphism style
+  const linkStyle = styles.linkStyle; 
 
-  // Helper function to render auth buttons for reuse
+  // --- Helper: Render Auth Buttons (Login/Signup/Logout) ---
+  // The 'mobile' prop allows us to style the email text differently in the mobile menu
   const renderAuthButtons = (mobile = false) => (
     <>
       {currentUser ? (
         <>
-          <span className={mobile ? styles.authStatus : "text-sm mr-4"}>
+          <span className={mobile ? styles.authStatus : styles.desktopAuthStatus}>
             Hi, {currentUser.email}
           </span>
           <button onClick={handleLogout} className={linkStyle}>
@@ -49,6 +52,7 @@ export default function NavBar() {
     </>
   );
 
+  // --- Helper: Render Navigation Links ---
   const renderNavLinks = () => (
     <>
       {currentUser && (
@@ -70,28 +74,33 @@ export default function NavBar() {
 
   return (
     <nav className={styles.nav}>
-      {/* --- 1. Desktop View (Visible until 1024px) --- */}
+      
+      {/* --- 1. Desktop View --- */}
+      {/* Hidden via CSS on screens smaller than 1024px */}
       <div className={styles.desktopLinks}>
         <div className={styles.navLinks}>
           {renderNavLinks()}
         </div>
         <div className={styles.authLinks}>
-          {renderAuthButtons()}
+          {renderAuthButtons(false)}
         </div>
       </div>
       
-      {/* --- 2. Hamburger Button (Hidden on desktop, appears for mobile/overflow) --- */}
+      {/* --- 2. Hamburger Button --- */}
+      {/* Hidden via CSS on screens larger than 1024px */}
       <button 
         className={styles.hamburger} 
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
       >
         {isOpen ? (
+          // Close Icon (X)
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         ) : (
+          // Menu Icon (Hamburger)
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -100,19 +109,21 @@ export default function NavBar() {
         )}
       </button>
 
-      {/* --- 3. Mobile/Collapsible Menu (Hidden by default, slides in from right) --- */}
+      {/* --- 3. Mobile Slide-out Menu --- */}
+      {/* Always rendered, but styled to slide in/out based on 'isOpen' state */}
       <div className={`${styles.mobileMenu} ${isOpen ? styles.menuOpen : ''}`}>
         
-        {/* Top Section: Navigation Links */}
+        {/* Top: Nav Links */}
         <div className={styles.mobileLinks}>
           {renderNavLinks()}
         </div>
 
-        {/* Bottom Section: Authentication Links (Pushed to bottom by flexbox) */}
+        {/* Bottom: Auth Links */}
         <div className={styles.mobileAuth}>
           {renderAuthButtons(true)}
         </div>
       </div>
+
     </nav>
   );
 }

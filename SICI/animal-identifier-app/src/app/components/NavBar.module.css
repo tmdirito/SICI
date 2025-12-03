@@ -1,29 +1,28 @@
-/* --- Base Desktop Styles --- */
+/* --- Base Styles --- */
 .nav {
-  /* This container only holds the desktop links and the mobile hamburger */
   width: 100%;
   display: flex;
-  justify-content: flex-end; /* Push all content to the right edge */
+  justify-content: flex-end; /* Pushes content to right, or space-between if logo added later */
   align-items: center;
-  gap: 1rem;
+  position: relative; /* Ensure relative positioning for context */
 }
 
-/* This is the container for all links on desktop (visible) */
+/* --- Desktop View Container --- */
 .desktopLinks {
   display: flex;
   justify-content: space-between; 
   align-items: center;
-  flex-grow: 1; /* Allows the link container to push auth links to the right */
+  flex-grow: 1;
+  width: 100%;
 }
 
-/* Containers for link groups on desktop */
 .navLinks, .authLinks {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-/* --- Styling for individual links/buttons (Keep existing styles) --- */
+/* --- Shared Link Styling (Glassmorphism) --- */
 .linkStyle {
   background-color: rgba(255, 255, 255, 0.1); 
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -36,6 +35,7 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .linkStyle:hover {
@@ -45,76 +45,86 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* --- Hamburger Button (Hidden by default) --- */
+/* Status Text Styles */
+.desktopAuthStatus {
+  font-size: 0.875rem; /* text-sm */
+  margin-right: 1rem;
+  color: white;
+}
+
+.authStatus {
+  color: #ddd; /* Slightly lighter for mobile contrast */
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* --- Hamburger Button --- */
 .hamburger {
-  display: none;
+  display: none; /* Hidden by default on desktop */
   background: transparent;
   border: none;
   cursor: pointer;
   padding: 0.5rem;
   color: white;
-  z-index: 1001;
-  margin-left: 1rem; /* Space between the last desktop link and the hamburger */
+  z-index: 1001; /* Above the mobile menu */
+  margin-left: 1rem;
 }
 
-/* --- Mobile Menu Container (The full sliding panel) --- */
+/* --- Mobile Menu Overlay --- */
 .mobileMenu {
-  /* Default: Hidden off-screen */
   position: fixed; 
   top: 0;
   right: 0;
-  width: 80vw; /* 80% of screen width */
+  width: 80vw; /* Covers 80% of width */
+  max-width: 300px;
   height: 100vh;
-  background: rgba(12, 40, 22, 0.98); 
-  z-index: 999;
   
-  /* Flexbox settings for stacking and bottom alignment (Crucial for auth links) */
+  /* Dark Green Glass Background */
+  background: rgba(12, 40, 22, 0.98); 
+  backdrop-filter: blur(10px);
+  
+  z-index: 999;
   display: flex;
   flex-direction: column;
   justify-content: space-between; 
-  padding: 80px 24px 40px; /* Padding for content */
+  padding: 80px 24px 40px; /* Top padding clears the close button area */
   
-  transform: translateX(100%); /* Start completely hidden */
-  transition: transform 0.3s ease-out;
+  /* Animation Props */
+  transform: translateX(100%); /* Start hidden to the right */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -5px 0 15px rgba(0,0,0,0.5);
 }
 
-/* State when the menu is open */
+/* State when menu is open */
 .menuOpen {
   transform: translateX(0);
 }
 
-/* --- Mobile Styles (@media query handles the showing/hiding of the right elements) --- */
-@media (max-width: 1024px) { /* Changed breakpoint to 1024px for better desktop overflow simulation */
-  
-  /* Hides the desktop links on mobile/overflow */
+.mobileLinks, .mobileAuth {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* --- Responsive Breakpoint (1024px) --- */
+@media (max-width: 1024px) {
+  /* Hide the desktop row */
   .desktopLinks {
     display: none;
   }
   
-  /* Shows hamburger on mobile/overflow */
+  /* Show the hamburger */
   .hamburger {
     display: block;
   }
   
-  /* Ensure links/buttons fill the width of the open menu */
-  .mobileLinks, .mobileAuth {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 1rem;
-    align-items: center;
-  }
-
+  /* Make links stretch full width in mobile menu */
   .linkStyle {
     width: 100%;
     text-align: center;
     display: block;
-    box-sizing: border-box; /* Ensures padding is counted inside the width */
-  }
-  
-  /* Styles for the user email inside the mobile menu */
-  .authStatus {
-    color: var(--secondary-text);
-    margin-bottom: 0.5rem;
+    box-sizing: border-box;
   }
 }
