@@ -1,0 +1,90 @@
+.heroSection {
+    position: relative;
+    height: 70vh; /* Normal website hero height */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+  }
+  
+  /* 🎥 Bright and detailed background video */
+  .backgroundVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    opacity: 1; /* full visibility */
+    filter: brightness(85%) contrast(115%) saturate(130%); /* makes details pop */
+  }
+  
+  /* 🌫️ Subtle gradient to keep text readable */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.6)
+    );
+    z-index: -1;
+  }
+  .content {
+    text-align: center;
+    padding: 0 20px;
+    max-width: 800px;
+  }
+  
+  .title {
+    font-size: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+  
+  .buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+  }
+  
+  .primaryBtn,
+  .secondaryBtn {
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .primaryBtn {
+    background: #00ff88;
+    color: #000;
+  }
+  
+  .primaryBtn:hover {
+    background: #00cc66;
+  }
+  
+  .secondaryBtn {
+    border: 2px solid #fff;
+    color: #fff;
+  }
+  
+  .secondaryBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }

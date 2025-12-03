@@ -1,0 +1,120 @@
+.habitat-section {
+  background-color: #f8f9fa;
+  color: #222;
+  font-family: "Inter", sans-serif;
+  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Circular 3D Container */
+.circular-model-container {
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #e0e0e0;
+}
+
+/* Connector line */
+.vertical-connector {
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(to bottom, #dcdcdc, #f1f1f1);
+  margin: 40px 0;
+}
+
+/* Table Section */
+.scientific-table-container {
+  width: 80%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  border: 1px solid #e6e6e6;
+}
+
+.scientific-table-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  color: #003366;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ✅ Scoped table styles for CSS Modules */
+.scientific-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.scientific-table-container th,
+.scientific-table-container td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ececec;
+}
+
+.scientific-table-container th {
+  background-color: #f5f7fa;
+  font-weight: 600;
+  color: #003366;
+  text-align: left;
+}
+
+.scientific-table-container tr:hover {
+  background-color: #f9fafc;
+}
+
+.species-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.species-cell img {
+  width: 55px;
+  height: 55px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+/* Tooltip */
+.tooltip-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px 12px;
+  border-radius: 40px;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tooltip-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.tooltip-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #003366;
+}
+
+.tooltip-text {
+  font-size: 0.85rem;
+  color: #555;
+}

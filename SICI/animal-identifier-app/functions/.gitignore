@@ -5,3 +5,5 @@ node_modules/
 
 # Ignore Firebase Functions environment variables
 functions/.env*
+
+firestore-debug.log
