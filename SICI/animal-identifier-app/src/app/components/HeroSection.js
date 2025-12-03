@@ -5,7 +5,7 @@ import styles from "./HeroSection.module.css";
 
 export default function HeroSection() {
   const videos = [
-    "/videos/NatureLove.mp4",
+    "/videos/nature-love.mp4",
   ];
 
   const [video, setVideo] = useState(null);
