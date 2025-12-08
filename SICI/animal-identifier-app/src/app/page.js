@@ -23,7 +23,7 @@ export default function HomePage() {
       </main>
 
       <footer className={styles.footer}>
-        <p>&copy; 2024 Animal Identifier. All rights reserved.</p>
+        <p>&copy; 2025 Animal Identifier. All rights reserved.</p>
       </footer>
     </div>
   );

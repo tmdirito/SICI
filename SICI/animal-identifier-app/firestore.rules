@@ -4,7 +4,7 @@ service cloud.firestore {
 
     // Helper function to check if the authenticated user is an Admin
     function isAdmin() {
-      // CRITICAL FIX: Check if the user document exists before attempting to read the 'role'.
+      // Your function is correct: checks auth, existence, and the 'role' field.
       return request.auth != null && 
              exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
@@ -20,49 +20,58 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    // --- 1. User Profile Collection (Public Read for Listing, Owner Write) ---
+    // --- 1. User Profile Collection (Owner-Only) ---
     match /users/{userId} {
-      allow create: if isSignedIn();
-      // Allow all authenticated users to read the list of users 
-      allow list: if isSignedIn(); 
-      // Only the owner can read/update their specific document
+      // CHANGED: Only a user can create their *own* profile document.
+      allow create: if isOwner(userId);
+      
+      // CHANGED: Leaking all user data is a major privacy risk.
+      // Only allow Admins to see the full list of users.
+      allow list: if isAdmin(); 
+      
+      // This is correct: Only the owner can read/update their specific document
       allow get, update: if isOwner(userId);
+      
+      // This is correct: Only admins can delete profiles.
       allow delete: if isAdmin();
     }
 
     // --- 2. Observations Collection (Master Admin/Public Data) ---
+    // NOTE: This collection does not seem to be used by your eco-dex app.
+    // Your app uses /users/{userId}/animals. If you don't use this collection,
+    // you can remove this block for a simpler, more secure ruleset.
     match /observations/{observationId} {
-      
-      // Deny all LIST reads here. This FORCES frontend components 
-      // to query the secure subcollection path instead.
       allow list: if false; 
       
-      // Allow GET (single document read) based on visibility.
       allow get: if resource.data.isPublic == true || 
-                     isOwner(resource.data.userId) || 
-                     isAdmin();
+                    isOwner(resource.data.userId) || 
+                    isAdmin();
 
-      // WRITE permissions (Only allowed if authenticated and matching the user ID)
       allow create: if isSignedIn() 
-                     && request.resource.data.userId == request.auth.uid;
+                      && request.resource.data.userId == request.auth.uid;
 
-      // UPDATE/DELETE permissions (Only the owner or Admin can change/remove)
       allow update, delete: if isOwner(resource.data.userId) || isAdmin();
     }
 
     // --- 3. Species/Conservation Info Collection (Master Data) ---
+    // This is perfect. Publicly readable, admin-only write. No changes.
     match /species/{speciesId} {
-      allow read: if true; // Publicly readable
-      allow write: if isAdmin(); // Admin only
+      allow read: if true; 
+      allow write: if isAdmin();
     }
     
-    // --- 4. History Subcollection (CRITICAL FIX: Uses 'animals') ---
-    // This is the correct path used by HistoryPage.js and now UploadForm.js
+    // --- 4. History Subcollection (Your App's Core Data) ---
     match /users/{userId}/animals/{docId} {
-      // Grant explicit LIST and GET access only if the user is the owner.
+      // This is correct: The owner can read their own animal list.
       allow get, list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update, delete: if isOwner(userId);
+      
+      // This is correct: The owner can delete their own records.
+      allow delete: if isOwner(userId);
+
+      // CHANGED: Your Cloud Function (running as admin) creates documents.
+      // The browser should *never* be allowed to create or update them,
+      // as this would allow a user to add fake data.
+      allow create, update: if false;
     }
   }
 }
