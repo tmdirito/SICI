@@ -63,3 +63,40 @@ export async function POST(request) {
     );
   }
 }
+
+// ------------------------------------------------------------------
+// 3. THE API HANDLER
+// ------------------------------------------------------------------
+export async function POST(request) {
+  try {
+    console.log("🚀 API Endpoint hit!");
+
+    // OPTIONAL: Parse body if you are sending data
+    // const body = await request.json(); 
+
+    // --- DEBUG: Write to Emulator ---
+    // This creates a document in a collection called "debug_logs".
+    // If this works, you will see it immediately in the Emulator UI (localhost:4000)
+    const docRef = await db.collection('debug_logs').add({
+      msg: "Connection successful!",
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      source: "Next.js API Route"
+    });
+
+    console.log(`✅ Successfully wrote to Emulator. Doc ID: ${docRef.id}`);
+
+    // Return success
+    return NextResponse.json({ 
+      message: "API connected to Emulator successfully", 
+      debugDocId: docRef.id,
+      identified: true 
+    });
+
+  } catch (error) {
+    console.error("❌ API Error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error", details: error.message }, 
+      { status: 500 }
+    );
+  }
+}
