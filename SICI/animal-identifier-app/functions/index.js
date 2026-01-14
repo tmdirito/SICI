@@ -56,7 +56,7 @@ export const processImageForAI = onObjectFinalized({
                         "explanations, or extraneous text outside the JSON object.";
         
         // 4. Call the Gemini AI API
-        const model = "gemini-2.5-flash"; 
+        const model = "gemini-2.5-flash-image"; 
 
         const response = await ai.models.generateContent({
             model: model,
