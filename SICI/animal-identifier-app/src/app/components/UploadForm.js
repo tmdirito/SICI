@@ -98,7 +98,7 @@ export default function UploadForm() {
   // --- 3. Render Logic ---
   return (
     <div>
-      <h2 className={styles.title}>Identify a New Animal</h2>
+      <h2 className={styles.title}>Identify a New Animal/Plant</h2>
       <p className={styles.description}>{uploadMessage}</p>
       
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -127,7 +127,7 @@ export default function UploadForm() {
           className={styles.button} 
           disabled={isProcessing || !file}
         >
-          {isProcessing ? 'ANALYZING...' : 'Identify Animal'}
+          {isProcessing ? 'ANALYZING...' : 'Identify Animal/Plant'}
         </button>
       </form>
 
@@ -135,8 +135,8 @@ export default function UploadForm() {
       
       <hr style={{margin: '2rem 0', border: 'none', borderTop: `1px solid var(--card-border)`}} />
 
-      <h2>Your Identified Animals</h2>
-      {animals.length === 0 && <p>No animals identified yet.</p>}
+      <h2>Your Identified Sepcies</h2>
+      {animals.length === 0 && <p>No species identified yet.</p>}
       {animals.map((animal) => (
         <div key={animal.id} className={styles.resultCard}>
           <h3>{animal.commonName}</h3>
