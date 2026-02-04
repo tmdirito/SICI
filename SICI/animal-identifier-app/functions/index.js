@@ -51,7 +51,7 @@ export const processImageForAI = onObjectFinalized({
         };
 
         // 3. Optimized Prompt (Focus on compliance, not just request)
-        const prompt = "Identify the animal in this image. You must return the analysis as a single JSON object " +
+        const prompt = "Identify the animal and/or plant in this image. You must return the analysis as a single JSON object " +
                         "that strictly conforms to the provided schema. Do not include any commentary, " +
                         "explanations, or extraneous text outside the JSON object.";
         
