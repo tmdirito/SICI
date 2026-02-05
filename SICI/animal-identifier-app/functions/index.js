@@ -51,9 +51,20 @@ export const processImageForAI = onObjectFinalized({
         };
 
         // 3. Optimized Prompt (Focus on compliance, not just request)
-        const prompt = "Identify the animal in this image. You must return the analysis as a single JSON object " +
-                        "that strictly conforms to the provided schema. Do not include any commentary, " +
-                        "explanations, or extraneous text outside the JSON object.";
+        const prompt = `
+        Analyze the image and identify the main subject. The subject will be either an animal or a plant.
+        
+        Return a single valid JSON object containing the following information. Do not wrap the JSON in markdown code blocks.
+        
+        Structure your response with these exact keys:
+        {
+            "commonName": "The common name of the animal or plant",
+            "scientificName": "The scientific name (genus and species)",
+            "description": "A concise description of the organism (2-3 sentences).",
+            "conservationStatus": "The IUCN conservation status (e.g., 'Least Concern', 'Endangered', 'Critically Endangered'). If not evaluated (common for many plants), use 'Not Evaluated'.",
+            "type": "Return either 'animal' or 'plant' based on your identification"
+        }
+    `;
         
         // 4. Call the Gemini AI API
         const model = "gemini-2.5-flash-image"; 
