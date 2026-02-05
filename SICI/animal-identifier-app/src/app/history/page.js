@@ -76,12 +76,12 @@ export default function HistoryPage() {
       <main className={styles.main}>
         <h1 className={styles.title}>Your Identification History</h1>
         <p className={styles.description}>
-          A log of all the animals you've discovered.
+          A log of all the animals/plants you've discovered.
         </p>
 
         <div className={styles.resultsContainer} style={{marginTop: '2rem', width: '100%'}}>
           {animals.length === 0 ? (
-            <p>No animals identified yet. Go to "Identify Animals" to start!</p>
+            <p>No animals identified yet. Go to "Identify Species" to start!</p>
           ) : (
             animals.map((animal) => (
               <div key={animal.id} className={styles.resultCard}>

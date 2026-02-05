@@ -57,7 +57,7 @@ export default function NavBar() {
     <>
       {currentUser && (
         <Link href="/dashboard" className={linkStyle} onClick={closeMenu}>
-          Identify Animals
+          Identify Species
         </Link>
       )}
       <Link href="/history" className={linkStyle} onClick={closeMenu}>

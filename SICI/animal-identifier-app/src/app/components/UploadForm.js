@@ -135,7 +135,7 @@ export default function UploadForm() {
       
       <hr style={{margin: '2rem 0', border: 'none', borderTop: `1px solid var(--card-border)`}} />
 
-      <h2>Your Identified Sepcies</h2>
+      <h2>Your Identified Species</h2>
       {animals.length === 0 && <p>No species identified yet.</p>}
       {animals.map((animal) => (
         <div key={animal.id} className={styles.resultCard}>

@@ -9,20 +9,20 @@ import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
 import { GoogleGenAI } from "@google/genai";
-// Removed: defineSecret, config
 
 // --- 2. Modular Admin SDK Initialization (Global) ---
 initializeApp();
 const db = getFirestore();
 const storage = getStorage();
 
-// --- 3. FINALIZED Storage Trigger with Resource Tuning and Robustness ---
+// --- 3. FINALIZED Storage Trigger ---
 export const processImageForAI = onObjectFinalized({ 
-    memory: "2GiB",        // Recommended bump for image processing performance
-    cpu: "gcf_gen2",       // Ensures dedicated CPU
-    timeoutSeconds: 300    // Long timeout for safety
+    memory: "2GiB",        
+    cpu: 1,                // FIXED: Must be a number (1), not a string
+    timeoutSeconds: 300    
 }, async (event) => {
-    // Initialize the AI client INSIDE the handler using process.env.GEMINI_KEY
+    
+    // Initialize AI
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_KEY }); 
 
     const fileBucket = event.data.bucket;
@@ -50,46 +50,35 @@ export const processImageForAI = onObjectFinalized({
             },
         };
 
-        // 3. Optimized Prompt (Focus on compliance, not just request)
+        // 3. Prompt (Strict JSON instruction)
         const prompt = `
         Analyze the image and identify the main subject. The subject will be either an animal or a plant.
         
-        Return a single valid JSON object containing the following information. Do not wrap the JSON in markdown code blocks.
+        Return a single valid JSON object. Do not wrap the JSON in markdown code blocks.
         
         Structure your response with these exact keys:
         {
             "commonName": "The common name of the animal or plant",
             "scientificName": "The scientific name (genus and species)",
             "description": "A concise description of the organism (2-3 sentences).",
-            "conservationStatus": "The IUCN conservation status (e.g., 'Least Concern', 'Endangered', 'Critically Endangered'). If not evaluated (common for many plants), use 'Not Evaluated'.",
+            "conservationStatus": "The IUCN conservation status (e.g., 'Least Concern', 'Endangered'). If not evaluated, use 'Not Evaluated'.",
             "type": "Return either 'animal' or 'plant' based on your identification"
         }
-    `;
+        `;
         
         // 4. Call the Gemini AI API
+        // Using the 2.5 model as you requested.
         const model = "gemini-2.5-flash-image"; 
 
         const response = await ai.models.generateContent({
             model: model,
-            contents: [{ role: "user", parts: [{ text: prompt }, imagePart] }],
-            config: {
-                responseMimeType: "application/json",
-                responseSchema: {
-                    type: "OBJECT",
-                    properties: {
-                        "commonName": { "type": "STRING" },
-                        "scientificName": { "type": "STRING" },
-                        "conservationStatus": { "type": "STRING" },
-                        "description": { "type": "STRING" }
-                    },
-                }
-            }
+            contents: [{ role: "user", parts: [{ text: prompt }, imagePart] }]
+            // Note: 'generationConfig' removed to prevent 400 Errors with this specific model
         });
 
         const aiResultPart = response.candidates[0].content.parts[0].text;
         
-        // 5. ROBUST JSON PARSING (Fixes the Mumbling/Monologue Issue)
-        // Find the first opening brace '{' and the last closing brace '}'
+        // 5. ROBUST JSON PARSING
         const startIndex = aiResultPart.indexOf('{');
         const endIndex = aiResultPart.lastIndexOf('}');
 
@@ -97,7 +86,6 @@ export const processImageForAI = onObjectFinalized({
             throw new Error("AI response did not contain a valid JSON object within the text.");
         }
         
-        // Extract only the content between (and including) the braces
         const cleanedJson = aiResultPart.substring(startIndex, endIndex + 1).trim();
         const aiData = JSON.parse(cleanedJson);
         
