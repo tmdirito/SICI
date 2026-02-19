@@ -10,8 +10,9 @@ import { firestore } from './firebase';
 /**
  * Creates a new user document in Firestore upon first sign-up/login.
  * @param {object} user - The Firebase Auth User object (user.uid, user.email).
+ * @param {boolean} isExpert - Flag indicating if the user signed up as an expert.
  */
-export async function createFirestoreUser(user) { 
+export async function createFirestoreUser(user, isExpert = false) { 
   const userRef = doc(firestore, 'users', user.uid);
   const userSnap = await getDoc(userRef);
 
@@ -19,10 +20,11 @@ export async function createFirestoreUser(user) {
     await setDoc(userRef, {
       email: user.email,
       createdAt: new Date(),
+      isExpert: isExpert, // <-- NEW: Saves the expert status to the database
       // Initialize the Bestiary tracking map
       identifiedAnimals: {}, 
     });
-    console.log(`New user document created for: ${user.email}`);
+    console.log(`New user document created for: ${user.email} | Expert: ${isExpert}`);
   }
 }
 
@@ -97,4 +99,19 @@ export async function getBestiaryStatus(userId) {
     }
     return {};
 }
-// The functions are now properly defined and implicitly exported.
+
+/**
+ * NEW: Fetches the user's main profile data (including if they are an expert)
+ * @param {string} userId - The authenticated user's UID.
+ * @returns {object|null} The user document data or null if not found.
+ */
+export async function getUserProfile(userId) {
+  if (!userId) return null;
+  const userRef = doc(firestore, 'users', userId);
+  const userSnap = await getDoc(userRef);
+  
+  if (userSnap.exists()) {
+    return userSnap.data();
+  }
+  return null;
+}
