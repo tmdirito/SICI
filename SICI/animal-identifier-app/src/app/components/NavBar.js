@@ -69,6 +69,9 @@ export default function NavBar() {
       <Link href="/about" className={linkStyle} onClick={closeMenu}>
         Info
       </Link>
+      <Link href="/feedback" className={linkStyle} onClick={closeMenu}>
+        Feedback
+      </Link>
     </>
   );
 
