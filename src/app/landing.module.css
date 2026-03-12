@@ -46,7 +46,7 @@
 /* --- Dialog Box --- */
 .dialog {
   width: 100%;
-  max-width: 450px;
+  width: 800px;
   height: auto;
   background: rgba(253, 253, 253, 0.95);
   border-radius: 12px;
@@ -87,7 +87,7 @@
 
 /* Discover Button */
 .discoverBtn {
-  margin-top: 1rem;
+  margin-top: 0.1rem;
   padding: 12px 20px;
   border: none;
   border-radius: 50px;

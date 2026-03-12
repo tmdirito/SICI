@@ -57,12 +57,13 @@
   .contactForm input,
   .contactForm textarea {
     padding: 14px 16px;
-    border: 1px solid #989696;
+    border: 1px solid #141414;
     border-radius: 26px;
     font-size: 0.95rem;
     font-weight: 300;
     outline: none;
     font-family: 'Roboto', sans-serif;
+    background-color: #f0ead2;
   }
   
   .contactForm input:focus,

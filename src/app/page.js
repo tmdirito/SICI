@@ -16,7 +16,7 @@ export default function LandingPage() {
       setEcoText(fullText.slice(0, index + 1));
       index++;
       if (index === fullText.length) clearInterval(interval);
-    }, 150); // speed of typing
+    }, 80); // speed of typing
     return () => clearInterval(interval);
   }, []);
 

@@ -19,7 +19,7 @@ export default function UploadForm() {
 useEffect(() => {
   const interval = setInterval(() => {
     setActiveWord(prev => (prev + 1) % words.length);
-  }, 4000); // changed from 1500ms to 3000ms
+  }, 2000); // changed from 1500ms to 3000ms
   return () => clearInterval(interval);
 }, []);
 
