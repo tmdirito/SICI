@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // RULE 1 (The Fix):
+    // Allow a user to read their own parent user document. This is
+    // required to be able to query the 'animals' subcollection below.
+    match /users/{userId} {
+      allow get: if request.auth.uid == userId;
+    }
+
+    // RULE 2 (Your Original Rule):
+    // Allow a user to list the animal documents within their own
+    // subcollection. This rule was correct but incomplete without Rule 1.
+    match /users/{userId}/animals/{animalId} {
+      allow get, list: if request.auth.uid == userId;
+      allow write: if false; // Deny writes from the browser for safety
+      allow read, delete: if request.auth != null && request.auth.uid == userId;    }
+  }
+}

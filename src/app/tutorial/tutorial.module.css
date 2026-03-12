@@ -1,0 +1,71 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #021f1b 0%, #04382e 100%);
+  color: #e3fff5;
+  overflow-x: hidden;
+}
+
+.main {
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.6rem;
+  color: #00ffb3;
+  text-shadow: 0 0 20px rgba(0, 255, 150, 0.4);
+  margin-bottom: 1rem;
+}
+
+.description {
+  color: #b0ffe0;
+  font-size: 1.1rem;
+  margin-bottom: 5rem;
+}
+
+.timelineSection {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+
+.stepsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.vineStep {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text h2 {
+  font-size: 1.5rem;
+  color: #00ffc6;
+  margin-bottom: 0.6rem;
+}
+
+.text p {
+  font-size: 1rem;
+  color: #bfffe4;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .step {
+    flex-direction: column;
+    text-align: center;
+  }
+}

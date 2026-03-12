@@ -1,0 +1,197 @@
+/* -------------------------------
+   HERO SECTION SETUP
+--------------------------------*/
+
+
+/* -------------------------------
+   BACKGROUND IMAGES
+--------------------------------*/
+
+.heroimg {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 15px;
+  transition: transform 0.9s ease, opacity 0.9s ease;
+}
+
+/* Positioned images like modern hero sections */
+.img1 { top: 18%; left: 5%; width: 220px; height: 360px; }
+.img2 { top: 16%; right: 10%; width: 270px; height: 300px; }
+.img3 { bottom: 8%; left: 10%; width: 310px; height: 240px; }
+.img4 { bottom: 0%; right: 0%; width: 500px; height: 340px; }
+
+/* Slight parallax push on hero load */
+.pageHero:not(.zoomed) .heroimg {
+  transform: scale(1.05);
+  
+}
+
+
+/* -------------------------------
+   TITLE ANIMATION
+--------------------------------*/
+.heroContent {
+  
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  color: #111111;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-top: 180px;
+  overflow: visible; /* allow words to slide in/out */
+  height: 4rem;      /* let height adjust */
+  position: relative;
+  
+}
+
+.heroTitle span {
+  position: absolute;   /* stack them on top of each other */
+  width: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translateY(120%);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.heroTitle span.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Subtitle */
+.heroSubtitle {
+  font-size: 4rem;
+  color: rgb(31, 30, 30);
+  margin-top: 0.7rem;
+  margin-bottom: 2rem;
+  opacity: 0.85;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+}
+
+
+
+/* -------------------------------
+   BUTTON
+--------------------------------*/
+.heroButton {
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: #6c8954;
+  color: #fff;
+  border-radius: 60px;
+  border: none;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: transform 0.4s ease, background 0.4s ease;
+}
+
+.heroButton:hover {
+  background: #36452a;
+  transform: scale(1.05);
+}
+
+/* ============================
+   MODAL OVERLAY (Glass Effect)
+============================ */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding: 2rem;
+  width: 100%;
+ 
+}
+
+/* ============================
+   MODAL CONTAINER WITH INNER DASHED BORDER
+============================ */
+.modalDialog {
+  position: relative;
+  width: 700px;
+  height : 900px;
+  background: #f0ead2;
+  border-radius: 20px;
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+
+  /* Inner dashed border */
+  box-sizing: border-box;
+}
+
+.modalInner {
+  width: 100%;
+  padding: 2rem;
+  border: 2px dashed #201f1f;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+}
+
+/* ============================
+   CLOSE BUTTON
+============================ */
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #000000;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.closeButton:hover {
+  transform: scale(1.2);
+  opacity: 0.7;
+}
+
+/* ============================
+   IMAGE PREVIEW
+============================ */
+.previewImage {
+  width: 500px;
+  height: 500px;
+  margin-top: 4rem;
+  object-fit: cover;
+  
+  transition: transform 0.3s ease;
+}
+
+/* ============================
+   TEXT BELOW IMAGE
+============================ */
+.uploadText {
+  margin-top: 3rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #111;
+  text-align: center;
+}
+
+.uploadSubText {
+  font-size: 0.95rem;
+  color: #555;
+  text-align: center;
+}

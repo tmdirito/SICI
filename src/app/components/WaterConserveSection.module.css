@@ -1,0 +1,101 @@
+.section {
+  padding: 60px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+}
+
+.heading {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 50px;
+  font-weight: 300;
+  color: #000000;
+}
+
+/* Layout */
+.newsLayout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* ===== MAIN BIG STICKY ===== */
+.mainNews {
+  flex: 2;
+  position: relative;
+  background: #ffffff; /* sticky yellow */
+  padding: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transform: rotate(-2deg);
+  transition: transform 0.3s ease;
+}
+
+.mainNews:hover {
+  transform: rotate(0deg) scale(1.03);
+}
+
+.mainNews img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+.overlay {
+  padding-top: 15px;
+  color: #222;
+}
+
+.overlay h3 {
+  margin: 0 0 10px 0;
+}
+
+.overlay p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* ===== SIDE STICKY NOTES ===== */
+.sideNews {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.smallCard {
+  background: #e9e9e9; /* light blue sticky */
+  padding: 12px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease;
+}
+
+/* random slight rotations */
+.smallCard:nth-child(1) {
+  transform: rotate(3deg);
+}
+.smallCard:nth-child(2) {
+  transform: rotate(-4deg);
+}
+.smallCard:nth-child(3) {
+  transform: rotate(2deg);
+}
+
+.smallCard:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+
+.smallCard img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.smallOverlay {
+  font-size: 0.9rem;
+  color: #222;
+  font-weight: 500;
+}

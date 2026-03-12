@@ -1,0 +1,287 @@
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5rem;
+  
+  
+   
+  }
+  
+  /* --- The new "glass card" style for your main content --- */
+   
+  /* --- Typography --- */
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+  }
+  
+  .description {
+    color: var(--secondary-text);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* --- Button Styles (Green Primary) --- */
+  .button {
+    appearance: none;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .button:disabled {
+    background-color: var(--secondary-text);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* --- Glass effect for identified animal cards --- */
+  .resultCard {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    text-align: left;
+  }
+  
+  .resultCard h3 {
+    margin-bottom: 8px;
+  }
+  
+  .error {
+    color: #fca5a5; /* A lighter red for dark backgrounds */
+  }
+  
+  .input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.2); /* Darker transparent input */
+    color: var(--foreground);
+    font-family: inherit;
+    font-size: 16px;
+  }
+  
+  .toggleText {
+    margin-top: 1rem;
+    font-size: 14px;
+    color: var(--secondary-text);
+  }
+  
+  .toggleText a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .toggleText a:hover {
+    text-decoration: underline;
+  }
+  
+  /* --- Soft, transparent red for logout button --- */
+  .logoutButton {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .deleteButton {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    
+  }
+  
+  .deleteButton:hover{
+    background-color: rgba(239, 68, 68, 0.4);
+    color: white;
+    border-color: rgba(239, 68, 68, 0.7);
+  }
+  
+  .logoutButton:hover {
+    background-color: rgba(239, 68, 68, 0.4);
+    color: white;
+    border-color: rgba(239, 68, 68, 0.7);
+  }
+  
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--card-border);
+    margin-left: -40px;
+  }
+  
+  /* Add these new classes to the end of your file */
+  
+  .passwordContainer {
+    position: relative;
+    width: 100%;
+  }
+  
+  /* This targets the input field specifically when it's inside the new container */
+  .passwordContainer .input {
+    padding-right: 70px; /* Adds space inside the input field for the button */
+  }
+  
+  .passwordToggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--secondary-text);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px; /* Makes the button easier to click */
+  }
+  
+  /* Editing our landing page from here*/
+  /* Full landing page container */
+  .landing {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Background video */
+  .heroVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  
+  /* Overlay container */
+  .heroOverlay {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    color: white;
+    pointer-events: auto;
+    animation: fadeIn 1s ease forwards;
+  }
+  
+  /* Title animation */
+  .landingTitle {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: emerge 1s forwards 0.5s;
+  }
+  
+  /* Buttons container */
+  .landingButtons {
+    display: flex;
+    gap: 40px;
+    opacity: 0;
+    animation: emerge 1s forwards 1s;
+  }
+  
+  /* Shared button style */
+  .landingBtn {
+    padding: 16px 50px;
+    font-size: 1.1rem;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 500;
+  }
+  
+  /* Animals Button */
+  .animalsBtn {
+    background-color: #000;
+    color: white;
+  }
+  
+  .animalsBtn:hover {
+    background-color: #222;
+    transform: translateY(-4px);
+  }
+  
+  /* Plants Button */
+  .plantsBtn {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+  
+  .plantsBtn:hover {
+    background-color: white;
+    color: #000;
+    transform: translateY(-4px);
+  }
+  
+  /* Text emerge animation */
+  @keyframes emerge {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Full overlay fade-in */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  
+  
+  
+  
