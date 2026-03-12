@@ -72,6 +72,9 @@ export default function NavBar() {
       <Link href="/feedback" className={linkStyle} onClick={closeMenu}>
         Feedback
       </Link>
+      <Link href="/area" className={linkStyle} onClick={closeMenu}>
+        ID Tracker
+      </Link>
     </>
   );
 

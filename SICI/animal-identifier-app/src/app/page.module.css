@@ -25,6 +25,10 @@
   text-align: center;
 }
 
+.wideMain {
+  max-width: 1200px; /* Overrides the 560px restriction */
+}
+
 /* --- Typography --- */
 .title {
   font-size: 28px;
@@ -189,4 +193,42 @@
   font-weight: 600;
   font-size: 14px;
   padding: 8px; /* Makes the button easier to click */
+}
+
+.cardGrid {
+  display: grid;
+  /* This automatically fits as many 250px cards as possible in a row */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+/* --- Fixed Active State (No triangle, normal card look) --- */
+.areaAnimalActive {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: left;
+  min-height: 180px; /* Keeps height consistent with inactive cards */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Pushes the delete button to the bottom */
+}
+
+/* --- Inactive State (Triangle background) --- */
+.areaAnimalInactive {
+  background-image: url('/triangle.png');
+  background-size: contain; 
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 180px; /* Slightly taller to look good in a grid */
+  padding: 16px;
+  border: 1px dashed var(--card-border); /* Optional: adds a nice dashed border for undiscovered items */
+  border-radius: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Pushes the "Undiscovered" text to the bottom */
 }
