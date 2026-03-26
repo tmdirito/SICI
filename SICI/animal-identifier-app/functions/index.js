@@ -102,9 +102,9 @@ export const processImageForAI = onObjectFinalized({
         
         console.log(`Successfully analyzed and saved result for user ${userId}.`);
 
-        // 7. Cleanup
-        await file.delete();
-        console.log(`Cleaned up temporary file: ${filePath}`);
+        // // 7. Cleanup
+        // await file.delete();
+        // console.log(`Cleaned up temporary file: ${filePath}`);
 
         return null;
 

@@ -2,36 +2,78 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
-import { firestore } from '../lib/firebase';
+import { collection, query, orderBy, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
+import { ref, getDownloadURL } from 'firebase/storage'; // 1. ADDED STORAGE IMPORTS
+import { firestore, storage } from '../lib/firebase'; // 2. ADDED 'storage' HERE
 import { useAuth } from '../../context/AuthContext';
 import styles from '../page.module.css';
 import Header from '../components/Header';
-import {doc, deleteDoc } from 'firebase/firestore';
+
+// 3. ADDED THE FIREBASE IMAGE HELPER COMPONENT
+function FirebaseImage({ path, altText, className }) {
+  const [url, setUrl] = useState(null);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    if (!path) return;
+    const fetchUrl = async () => {
+      try {
+        const downloadUrl = await getDownloadURL(ref(storage, path));
+        setUrl(downloadUrl);
+      } catch (error) {
+        console.warn("Could not load image from Storage:", path);
+        setHasError(true); 
+      }
+    };
+    fetchUrl();
+  }, [path]);
+
+  if (hasError || !url) {
+    return (
+      <div 
+        className={className} 
+        style={{ 
+          backgroundColor: '#eaeaea', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          color: '#888',
+          fontSize: '0.9rem',
+          height: '220px', // Matches your CSS
+          borderRadius: '8px',
+          marginBottom: '1rem'
+        }}
+      >
+        {hasError ? 'Image Unavailable' : 'Loading...'}
+      </div>
+    );
+  }
+
+  return <img src={url} alt={altText} className={className} />;
+}
+
+
 export default function HistoryPage() {
   const { currentUser } = useAuth();
   const router = useRouter();
   const [animals, setAnimals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDeleting, setIsDeleting] = useState(false); // Renamed for clarity
-  // Page protector: redirect if not logged in
+  const [isDeleting, setIsDeleting] = useState(false); 
 
-   const handleDelete = async (animalID) => {
-      if (!currentUser) return; // Make sure user is still logged in
+  const handleDelete = async (animalID) => {
+      if (!currentUser) return; 
 
-        setIsDeleting(true); // Disable buttons
+        setIsDeleting(true); 
         try {
       const docRef = doc(firestore, 'users', currentUser.uid, 'animals', animalID);
-      
       await deleteDoc(docRef);
-
-      
       } catch (error) {
         console.error("Error deleting document: ", error);
       } finally {
-        setIsDeleting(false); // Re-enable buttons
+        setIsDeleting(false); 
       }
     }
+    
   useEffect(() => { 
     if (!currentUser) {
       router.push('/login');
@@ -40,7 +82,7 @@ export default function HistoryPage() {
 
   // Fetch animal history from Firestore
   useEffect(() => {
-    if (!currentUser) return; // Don't run if no user is logged in
+    if (!currentUser) return; 
 
     const userId = currentUser.uid;
     const animalsCollection = collection(firestore, 'users', userId, 'animals');
@@ -52,7 +94,6 @@ export default function HistoryPage() {
         return {
           id: doc.id,
           ...data,
-          // Convert Firestore timestamp to a readable string
           createdAt: data.createdAt ? data.createdAt.toDate().toLocaleString() : 'Date not available'
         };
       });
@@ -60,9 +101,7 @@ export default function HistoryPage() {
       setIsLoading(false);
     });
 
-   
-
-    return () => unsubscribe(); // Cleanup listener on unmount
+    return () => unsubscribe(); 
   }, [currentUser]);
 
   if (isLoading) {
@@ -85,6 +124,16 @@ export default function HistoryPage() {
           ) : (
             animals.map((animal) => (
               <div key={animal.id} className={styles.resultCard}>
+                
+                {/* 4. ADDED THE IMAGE TO THE HISTORY CARD */}
+                {animal.imagePath && (
+                  <FirebaseImage 
+                    path={animal.imagePath} 
+                    altText={animal.commonName} 
+                    className={styles.cardImage} 
+                  />
+                )}
+
                 <h3>{animal.commonName}</h3>
                 <p><strong>Scientific Name:</strong> {animal.scientificName}</p>
                 <p><strong>Conservation Status:</strong> {animal.conservationStatus}</p>
