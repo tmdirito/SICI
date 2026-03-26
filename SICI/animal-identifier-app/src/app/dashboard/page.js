@@ -1,46 +1,230 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '../../context/AuthContext';
-import UploadForm from '../components/UploadForm';
-import styles from '../page.module.css';
+import { useState, useEffect } from 'react';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { storage, firestore } from '../lib/firebase'; // Adjust path if needed
+import { useAuth } from '../../context/AuthContext'; // Adjust path if needed
 import Header from '../components/Header';
-export default function DashboardPage() {
-  const { currentUser, logout } = useAuth();
-  const router = useRouter();
+import { useRouter } from 'next/navigation';
+import styles from '../components/UploadForm.module.css';
 
-  // This effect handles redirecting unauthenticated users.
+function FirebaseImage({ path, altText, className }) {
+  const [url, setUrl] = useState(null);
+
   useEffect(() => {
-    // We only want to redirect if the auth check is complete AND there's no user.
-    // The useAuth hook provides a `loading` state we can add.
-    // For now, let's assume if currentUser is null after the initial check, we redirect.
-    if (!currentUser) {
-      router.push('/login');
+    if (!path) return;
+    const fetchUrl = async () => {
+      try {
+        const downloadUrl = await getDownloadURL(ref(storage, path));
+        setUrl(downloadUrl);
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+    fetchUrl();
+  }, [path]);
+
+  // Shows a blank placeholder while the URL is fetching
+  if (!url) return <div className={className} style={{ backgroundColor: '#eaeaea', height: '200px' }}></div>;
+
+  return <img src={url} alt={altText} className={className} />;
+}
+
+export default function UploadForm() {
+  const [activeWord, setActiveWord] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const words = ['Discover', 'Identify', 'Explore', 'Capture', 'Understand', 'Connect'];
+  const colors = ['#606c38', '#bc6c25', '#84a59d', '#b08968', '#bc6c25', '#84a59d'];
+
+  const [file, setFile] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false); 
+  const [error, setError] = useState('');
+  const [animals, setAnimals] = useState([]);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [lastAnimalId, setLastAnimalId] = useState(null); 
+  const [uploadMessage, setUploadMessage] = useState("Upload a picture to begin.");
+
+  const { currentUser } = useAuth();
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  // Typewriter / Word Carousel Effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveWord(prev => (prev + 1) % words.length);
+    }, 2000); 
+    return () => clearInterval(interval);
+  }, [words.length]);
+
+  // Firestore Real-Time Listener
+  useEffect(() => {
+    if (!currentUser) return; 
+
+    const userId = currentUser.uid;
+    const animalsCollection = collection(firestore, 'users', userId, 'animals'); 
+    const q = query(animalsCollection, orderBy('createdAt', 'desc'));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const animalsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setAnimals(animalsData);
+
+      if (isProcessing && animalsData.length > 0 && animalsData[0].id !== lastAnimalId) {
+        setIsProcessing(false);
+        setLastAnimalId(animalsData[0].id);
+        setUploadMessage("Analysis complete. Result added to history.");
+        setFile(null); 
+        setImagePreview(null);
+      } else if (animalsData.length > 0 && lastAnimalId === null) {
+        setLastAnimalId(animalsData[0].id);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [currentUser, isProcessing, lastAnimalId]);
+
+  // File Handling
+  const handleFileChange = async (e) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    setImagePreview(URL.createObjectURL(selectedFile));
+    setError('');
+    setUploadMessage(`Selected: ${selectedFile.name}. Uploading...`);
+    
+    closeModal();
+    await startUpload(selectedFile);
+  };
+
+  // Firebase Upload
+  const startUpload = async (selectedFile) => {
+    if (!selectedFile || !currentUser) return;
+
+    setIsProcessing(true);
+    setError('');
+    setUploadMessage("Uploading file and starting AI analysis...");
+
+    try {
+      const userId = currentUser.uid;
+      const fileExtension = selectedFile.name.split('.').pop();
+      const filePath = `userUploads/${userId}/${Date.now()}.${fileExtension}`; 
+      const storageRef = ref(storage, filePath);
+      
+      await uploadBytes(storageRef, selectedFile);
+      setUploadMessage("AI analysis running in the background. This may take a moment...");
+      
+    } catch (err) {
+      console.error("Upload failed:", err);
+      setError("Upload failed. Check your network.");
+      setIsProcessing(false);
+      setUploadMessage("Upload failed.");
     }
-  }, [currentUser, router]);
+  };
 
-  // If currentUser is null, it means we are either logged out or still loading.
-  // We show a loading message to prevent the UploadForm from trying to run its query
-  // with a null user ID. This is the key fix.
-  if (!currentUser) {
-    return <p>Loading user data...</p>;
-  }
-
-  // Only when we are sure currentUser exists, we render the page.
   return (
     <>
-    <Header/>
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <div className={styles.header}>
-          <span>Welcome, {currentUser.email}</span>
-          <button onClick={() => logout().then(() => router.push('/'))} className={styles.logoutButton}>
-            Logout
+    <Header />
+
+
+
+    
+    <div className={styles.pageContainer}>
+      
+      {/* HERO SECTION */}
+      <div className={`${styles.pageHero} ${isModalOpen ? styles.zoomed : ''}`}>
+        <img src="/images/slide1.jpg" className={`${styles.heroimg} ${styles.img1}`} alt="Nature 1" />
+        <img src="/images/slide7.jpg" className={`${styles.heroimg} ${styles.img2}`} alt="Nature 2" />
+        <img src="/images/slide4.jpg" className={`${styles.heroimg} ${styles.img3}`} alt="Nature 3" />
+        <img src="/images/slide3.jpg" className={`${styles.heroimg} ${styles.img4}`} alt="Nature 4" />
+
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>
+            {words.map((word, i) => (
+              <span
+                key={i}
+                className={i === activeWord ? styles.active : styles.hiddenWord}
+                style={{ color: colors[i] }} 
+              >
+                {word}
+              </span>
+            ))}
+          </h1>
+
+          <p className={styles.heroSubtitle}>World Around You!</p>
+          <p className={styles.heroDescription}>Turn your photos into knowledge.<br/>Instantly recognize every plant and animal you encounter.</p>
+
+          <button 
+            className={styles.heroButton} 
+            onClick={openModal}
+            disabled={isProcessing}
+            style={{ opacity: isProcessing ? 0.7 : 1 }}
+          >
+            {isProcessing ? 'Analyzing...' : 'Identify'}
           </button>
+          
+          <p className={styles.uploadStatusMessage}>{uploadMessage}</p>
+          {error && <p className={styles.error}>{error}</p>}
         </div>
-        <UploadForm />    
-      </main>
+
+        {/* MODAL */}
+        {isModalOpen && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modalDialog}>
+              <button className={styles.closeButton} onClick={closeModal}>&times;</button>
+              <div className={styles.modalInner} onClick={() => document.getElementById('file-upload').click()}>
+                {imagePreview ? (
+                  <img src={imagePreview} alt="Preview" className={styles.previewImage} />
+                ) : (
+                  <img src="/images/drag.webp" alt="Upload Placeholder" className={styles.previewImage} />
+                )}
+                <p className={styles.uploadText}>Drop or Click to Upload</p>
+                <p className={styles.uploadSubText}>Browse to choose a file (jpg, png, gif)</p>
+                <input
+                  id="file-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* RESULTS SECTION */}
+      <div className={styles.resultsSection}>
+        <hr className={styles.divider} />
+        <h2 className={styles.resultsTitle}>Your Identified Species</h2>
+        {animals.length === 0 && <p className={styles.emptyState}>No species identified yet.</p>}
+        
+        <div className={styles.resultsGrid}>
+          {animals.map((animal) => (
+            <div key={animal.id} className={styles.resultCard}>
+              
+              {/* Add this image tag! Make sure 'imageUrl' matches what you save in Firestore */}
+              {animal.imagePath && (
+                <FirebaseImage 
+                  path={animal.imagePath} 
+                  altText={animal.commonName} 
+                  className={styles.cardImage} 
+                />
+              )}
+
+              <h3 className={styles.cardTitle}>{animal.commonName}</h3>
+              <p><strong>Scientific Name:</strong> {animal.scientificName}</p>
+              <p><strong>Conservation Status:</strong> {animal.conservationStatus}</p>
+              <p className={styles.cardDesc}>{animal.description}</p>
+              <p className={styles.cardDate}>
+                <em>Identified on: {animal.createdAt ? animal.createdAt.toDate().toLocaleString() : 'Date not available'}</em>
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
     </>
   );

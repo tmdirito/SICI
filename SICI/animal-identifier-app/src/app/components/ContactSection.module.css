@@ -1,0 +1,118 @@
+.contactSection {
+    
+    padding: 90px 60px;
+  }
+  
+  .contactContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 120px;
+    align-items: flex-start;
+  }
+  
+  /* LEFT */
+  .contactLeft {
+    flex: 1;
+  }
+  
+  .contactLeft h2 {
+    font-size: 2.6rem;
+    font-weight: 300;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color:#000;
+  }
+  
+  .contactLeft p {
+    font-size: 1rem;
+    color: #555;
+    max-width: 420px;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* RIGHT */
+  .contactRight {
+    flex: 1;
+  }
+  
+  .contactForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+  }
+  
+  /* Name row */
+  .nameRow {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nameRow input {
+    flex: 1;
+  }
+  
+  /* Inputs */
+  .contactForm input,
+  .contactForm textarea {
+    padding: 14px 16px;
+    border: 1px solid #141414;
+    border-radius: 26px;
+    font-size: 0.95rem;
+    font-weight: 300;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0ead2;
+  }
+  
+  .contactForm input:focus,
+  .contactForm textarea:focus {
+    border-color: #000;
+  }
+  
+  /* Button */
+  .contactForm button {
+    margin-top: 10px;
+    width: fit-content;
+    padding: 12px 28px;
+    border-radius: 30px;
+    background: #97a97c;
+    color: white;
+    border: none;
+    font-weight: 300;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .contactForm button:hover {
+    background: #111;
+    transform: translateY(-2px);
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .formGroup label {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #222;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .formGroup label span {
+    font-weight: 300;
+    color: #777;
+  }
+  
+  .sectionDivider {
+    width: 530px;           /* half-length line */
+    height: 0.9px;           /* slim line */
+    background-color: #000; /* black */
+    margin-bottom: 100px;   /* space before section content */
+    margin-left: 420px;
+  }

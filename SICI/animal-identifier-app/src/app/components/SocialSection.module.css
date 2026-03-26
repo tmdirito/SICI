@@ -6,21 +6,11 @@
   }
   
   .heading {
-    margin-top:20px;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 7rem;
     font-size: 2.5rem;
-    font-weight: 300;
-    color: #000000;
-    font-family: "Roboto", sans-serif;
-  }
-  .line {
-    width: 900px;          /* length of the line */
-    height: 1px;          /* thickness of the line */
-    background-color: #000000; /* any color you like, Indigo for pro look */
-    margin: 80px 20px;  /* center line & add bottom spacing */
-    border-radius: 1px;   /* slight rounding for a modern look */
-
+    font-weight: 700;
+    color: #ffffff;
   }
   
   .stepsWrapper {
@@ -33,9 +23,9 @@
   .lineSegment {
     position: absolute;
     left: 1.5rem; /* center of circle */
-    width: 1.5px;
+    width: 3px;
     height: 0;
-    background: linear-gradient(to bottom, #000000, #000000);
+    background: linear-gradient(to bottom, #fefefe, #ffffff);
     border-radius: 3px;
     transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1;
@@ -56,12 +46,12 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: #97a97c;
-    color: rgb(0, 0, 0);
+    background: #00ff88;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 300;
+    font-weight: 700;
     font-size: 1.2rem;
     opacity: 0;
     transform: scale(0);
@@ -92,16 +82,14 @@
   .text h3 {
     margin: 0 0 0.7rem 0;
     font-size: 1.6rem;
-    font-weight: 300;
-    color:#000000;
-    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    color:#ffffff;
   }
   
   .text p {
     margin: 0;
     font-size: 1rem;
-    color:#414141;
+    color:#ffffff;
     line-height: 1.5;
-    font-family: "Poppins", sans-serif;
   }
 

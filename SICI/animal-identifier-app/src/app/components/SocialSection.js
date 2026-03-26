@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import styles from "./StepsSection.module.css";
+import styles from "./SocialSection.module.css";
 
 export default function StepsSection() {
   const steps = [
@@ -29,8 +29,7 @@ export default function StepsSection() {
 
   return (
     <section ref={sectionRef} className={styles.stepsSection}>
-      <h2 className={styles.heading}>STEPS TO USE ECO-DEX</h2>
-      <div className={styles.line}></div>
+      <h2 className={styles.heading}>Steps to Use EcoDex</h2>
       <div className={styles.stepsWrapper}>
         {steps.slice(0, -1).map((_, index) => (
           <div
