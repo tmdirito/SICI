@@ -1,15 +1,15 @@
 /* --- 1. Import the new font --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap');
 /* --- 2. Define the new color palette --- */
 :root {
-  --background: linear-gradient(135deg, #000000, #03240a);
+  --background: #f0ead2; 
   --foreground: #ffffff; /* Changed to white for better contrast */
   --card-bg: rgba(255, 255, 255, 0.1); /* Semi-transparent white for glass effect */
   --card-border: rgba(255, 255, 255, 0.2); /* Softer border for glass effect */
   --primary: #22c55e; /* A vibrant, modern green */
   --primary-hover: #16a34a;
-  --secondary-text: #d1d5db; /* Light gray for secondary text */
+  --secondary-text: #000000; /* Light gray for secondary text */
 
 }
 
@@ -51,4 +51,12 @@ a {
 .animate-shimmer {
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #000000;
+
 }
