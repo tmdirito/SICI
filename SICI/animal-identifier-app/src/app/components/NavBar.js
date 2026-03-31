@@ -73,7 +73,7 @@ export default function NavBar() {
         Feedback
       </Link>
       <Link href="/area" className={linkStyle} onClick={closeMenu}>
-        ID Tracker
+        Collection
       </Link>
     </>
   );
