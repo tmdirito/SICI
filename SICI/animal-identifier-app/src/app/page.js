@@ -52,32 +52,18 @@ export default function LandingPage() {
         <div className={styles.termsContent}>
           <p>
             Welcome to ECO-dex! Please read the following terms carefully.  
-            By using this app, you agree to our privacy policies and terms of service.
           </p>
           <p>
-            . Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <p>
-            . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          </p>
-          <p>
-            . Welcome to ECO-dex! Please read the following terms carefully.  
-            By using this app, you agree to our privacy policies and terms of service.
-          </p>
-          <p>
-            . Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <p>
-            . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            By creating an account with EcoDex, you agree to the following terms:
+Safety and Liability Waiver: EcoDex and its creators are NOT responsible for any injury, harm, property damage, or legal violations that occur while using this app. You are solely responsible for your own safety. Do not approach dangerous wildlife, trespass on private property, or put yourself in hazardous situations to acquire images.
+Animal Welfare: Always maintain a safe and respectful distance from animals. Do not disturb nests, dens, or natural habitats.
+Data Usage: Your uploaded images may be processed by AI to identify species and improve our conservation database.
           </p>
           
         </div>
         <label className={styles.checkboxLabel}>
           <input type="checkbox" checked={agreed} onChange={handleCheckbox} />
-          I agree to the terms and conditions
-        </label>
+ I agree to the Terms and Conditions and acknowledge the wildlife safety guidelines        </label>
         {/* Discover Button (appears only if agreed) */}
       {agreed && (
           <Link href="/animals">
