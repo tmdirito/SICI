@@ -240,3 +240,192 @@
   flex-direction: column;
   justify-content: flex-end; /* Pushes the "Undiscovered" text to the bottom */
 }
+
+/* --- Container --- */
+.landing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  gap: 1.5rem;
+  padding: 2rem;
+  padding-top: 100px; /* Offset for header */
+  box-sizing: border-box;
+}
+
+/* --- Typography --- */
+.title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: #36452a;
+}
+
+.typewriter {
+  display: inline;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #6c8954;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.titleheading2 {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #666;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+/* --- Media --- */
+.heroGif {
+  width: 250px;
+  max-width: 80%;
+}
+
+/* --- The Dialog/Card --- */
+.dialog {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(253, 253, 253, 0.95);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.dialog h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #36452a;
+  text-align: center;
+}
+
+/* --- Form Elements --- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.passwordContainer {
+  position: relative;
+  width: 100%;
+}
+
+.passwordContainer .input {
+  padding-right: 70px;
+}
+
+.passwordToggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* --- Terms Content --- */
+.termsContent {
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #555;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.termsContent p {
+  margin-bottom: 0.5rem;
+}
+
+.checkboxContainer,
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #36452a;
+  cursor: pointer;
+}
+
+/* --- Buttons --- */
+.discoverBtn {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 50px;
+  background-color: #6c8954;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.discoverBtn:hover:not(:disabled) {
+  background-color: #36452a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.discoverBtn:disabled {
+  background-color: #a5bba1;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.toggleText {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.toggleText a {
+  color: #6c8954;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.toggleText a:hover {
+  text-decoration: underline;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .title { font-size: 2.5rem; }
+  .typewriter { font-size: 1.8rem; }
+  .titleheading2 { font-size: 1rem; padding: 0 1rem; }
+  .dialog { padding: 1.5rem; }
+}
