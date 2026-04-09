@@ -1,58 +1,60 @@
-/* --- Dashboard Specific Styles --- */
-.uploadArea {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-  width: 100%;
-}
+/* Full-page container */
 
-.dropZone {
-  width: 100%;
-  height: 180px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-  border: 3px dashed var(--card-border);
-  border-radius: 12px;
-  background-color: rgba(0, 0, 0, 0.1);
-  color: var(--secondary-text);
-  transition: all 0.2s ease-in-out;
-}
-
-.dropZone:hover {
-  border-color: var(--primary);
-  background-color: rgba(34, 197, 94, 0.1); 
-}
-
-.previewContainer {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.previewImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.8;
-}
-
-.imageName {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  
+  /* Main content wrapper */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    overflow-y: auto; /* Scroll if content is too tall */
+  }
+  
+  /* Header with welcome + logout button */
+  .header {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  /* Welcome text */
+  .header span {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  /* Logout button */
+  .logoutButton {
+    background-color: #e53935;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .logoutButton:hover {
+    background-color: #b71c1c;
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 900px) {
+    .header {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .logoutButton {
+      width: 100%;
+    }
+  }

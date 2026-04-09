@@ -1,262 +1,334 @@
-/* --- Page Container --- */
+/* ============================
+   CONTAINER (Fits in Dashboard)
+============================ */
 .pageContainer {
+  width: 100%;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  min-height: 100vh;
-  padding-top: 100px; /* Add this! Adjust the number to match your header height */ 
+  gap: 2rem;
+  margin: 0 auto;
 }
 
-.cardImage {
-  width: 100%;
-  height: 220px; /* Forces all images to be the same height */
-  object-fit: cover; /* Crops the image nicely so it doesn't squish or stretch */
-  border-radius: 8px; /* Rounds the corners to match your card */
-  margin-bottom: 1rem;
-}
-
-/* --- Hero Section --- */
+/* ============================
+   HERO SECTION SETUP
+============================ */
 .pageHero {
   position: relative;
   width: 100%;
-  height: 70vh;
-  min-height: 500px;
+  min-height: 600px; /* Gives the scattered images room to breathe */
+  border-radius: 20px;
+  background-color: transparent; /* Let the dashboard background show */
   display: flex;
-  align-items: center;
   justify-content: center;
-  overflow: hidden;
-  transition: transform 0.4s ease-in-out;
+  align-items: center;
+  overflow: hidden; /* Keeps images from spilling out */
 }
 
-.zoomed {
-  transform: scale(1.05); /* Slight zoom when modal opens */
+/* Hide the dark overlay since your text is dark now */
+.heroOverlay {
+  display: none; 
 }
 
-/* Background Images Setup */
+/* ============================
+   BACKGROUND IMAGES (Scattered)
+============================ */
 .heroimg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-  opacity: 0;
-  z-index: -1;
-  animation: fade 16s infinite;
+  border-radius: 15px;
+  transition: transform 0.9s ease, opacity 0.9s ease;
+  z-index: 1;
 }
 
-.img1 { animation-delay: 0s; }
-.img2 { animation-delay: 4s; }
-.img3 { animation-delay: 8s; }
-.img4 { animation-delay: 12s; }
+/* Positioned images like modern hero sections */
+.img1 { top: 10%; left: 5%; width: 220px; height: 360px; }
+.img2 { top: 10%; right: 5%; width: 270px; height: 300px; }
+.img3 { bottom: 5%; left: 10%; width: 310px; height: 240px; }
+.img4 { bottom: 0%; right: 0%; width: 450px; height: 300px; }
 
-@keyframes fade {
-  0%, 100% { opacity: 0; }
-  10%, 25% { opacity: 1; }
-  35% { opacity: 0; }
+/* Slight parallax push on hero load */
+.pageHero:not(.zoomed) .heroimg {
+  transform: scale(1.05);
 }
 
-/* --- Hero Content --- */
+/* ============================
+   TITLE ANIMATION
+============================ */
 .heroContent {
+  position: relative;
+  z-index: 3;
   text-align: center;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 3rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  width: 90%;
+  font-family: 'Montserrat', sans-serif;
+  color: #111111;
+  padding: 2rem;
+  background: rgba(240, 234, 210, 0.7); /* Optional: slight blur box behind text to ensure readability */
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
 }
 
 .heroTitle {
   font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  height: 60px; /* Prevents layout shift during word change */
+  font-weight: 700;
+  margin-top: 20px;
+  overflow: visible; 
+  height: 4rem;      
   position: relative;
 }
 
-.active {
-  display: inline-block;
+.heroTitle span {
+  position: absolute;   
+  width: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translateY(120%);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.heroTitle span.active {
   opacity: 1;
-  transition: opacity 0.5s ease-in;
+  transform: translateY(0);
 }
 
-.hiddenWord {
-  display: none;
-}
-
+/* Subtitle */
 .heroSubtitle {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #36452a;
+  font-size: 3rem;
+  color: rgb(31, 30, 30);
+  margin-top: 2rem;
   margin-bottom: 1rem;
+  opacity: 0.85;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
 }
 
-.heroDescription {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 2rem;
-  line-height: 1.5;
-}
-
+/* ============================
+   BUTTON
+============================ */
 .heroButton {
-  background-color: #6c8954;
-  color: white;
-  border: none;
-  padding: 15px 40px;
+  padding: 1rem 2.5rem;
   font-size: 1.2rem;
   font-weight: bold;
-  border-radius: 50px;
+  background: #6c8954;
+  color: #fff;
+  border-radius: 60px;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(108, 137, 84, 0.4);
+  margin-top: 30px;
+  transition: transform 0.4s ease, background 0.4s ease;
 }
 
 .heroButton:hover {
-  background-color: #36452a;
-  transform: translateY(-2px);
+  background: #36452a;
+  transform: scale(1.05);
 }
 
 .uploadStatusMessage {
-  margin-top: 1.5rem;
-  font-weight: 600;
-  color: #36452a;
-}
-
-.error {
-  color: #d62828;
   margin-top: 1rem;
-  font-weight: bold;
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
 }
 
-/* --- Modal --- */
+/* ============================
+   MODAL OVERLAY (Glass Effect)
+============================ */
 .modalOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 100;
+  padding: 2rem;
+  width: 100vw;
+  height: 100vh;
 }
 
+/* ============================
+   MODAL CONTAINER
+============================ */
 .modalDialog {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  width: 90%;
-  max-width: 500px;
   position: relative;
+  width: 100%;
+  max-width: 700px; /* Changed to max-width for responsiveness */
+  height: 90vh; /* Changed to vh so it doesn't break off the screen */
+  max-height: 800px;
+  background: #f0ead2;
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+.modalInner {
+  width: 100%;
+  padding: 2rem;
+  border: 2px dashed #201f1f;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 100%;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background 0.2s;
+}
+
+.modalInner:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ============================
+   CLOSE BUTTON
+============================ */
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #000000;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  transform: scale(1.2);
+  opacity: 0.7;
+}
+
+/* ============================
+   IMAGE PREVIEW
+============================ */
+.previewImage {
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* ============================
+   TEXT BELOW IMAGE
+============================ */
+.uploadText {
+  margin-top: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #111;
   text-align: center;
 }
 
-.closeButton {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  cursor: pointer;
-  color: #888;
-}
-
-.closeButton:hover { color: #333; }
-
-.modalInner {
-  border: 2px dashed #ccc;
-  border-radius: 12px;
-  padding: 2rem;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-}
-
-.modalInner:hover { border-color: #6c8954; }
-
-.previewImage {
-  max-width: 100%;
-  height: 200px;
-  object-fit: contain;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-}
-
-.uploadText {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
-}
-
 .uploadSubText {
-  color: #777;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  color: #555;
+  text-align: center;
 }
 
-/* --- Results Section --- */
+/* ============================
+   RESULTS GRID (Important!)
+============================ */
 .resultsSection {
-  padding: 4rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
   width: 100%;
+  margin-top: 2rem;
 }
 
 .divider {
-  border: none;
-  border-top: 2px solid #eaeaea;
+  border: 0;
+  height: 1px;
+  background: #ccc;
   margin-bottom: 2rem;
 }
 
 .resultsTitle {
-  font-size: 2rem;
-  color: #36452a;
-  margin-bottom: 2rem;
-  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 1.5rem;
 }
 
 .emptyState {
-  text-align: center;
-  color: #888;
-  font-size: 1.1rem;
+  color: #666;
+  font-style: italic;
 }
 
 .resultsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .resultCard {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  border: 1px solid #eaeaea;
-  transition: transform 0.2s ease;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
 }
 
 .resultCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.cardImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.cardInfo {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .cardTitle {
-  color: #6c8954;
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+
+.cardInfo p {
+  margin: 0;
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .cardDesc {
-  margin-top: 10px;
-  color: #555;
-  line-height: 1.4;
+  margin-top: 0.5rem !important;
 }
 
 .cardDate {
-  margin-top: 1rem;
-  font-size: 0.8rem;
-  color: #999;
+  margin-top: 1rem !important;
+  font-size: 0.85rem !important;
+  color: #777 !important;
+}
+
+/* ============================
+   RESPONSIVE MOBILE FIXES
+============================ */
+@media (max-width: 900px) {
+  /* Hide the scattered images on small phones so it doesn't overlap text */
+  .heroimg { opacity: 0.2; } 
+  .heroTitle { font-size: 2.2rem; }
+  .heroSubtitle { font-size: 1.8rem; }
+  .heroContent { background: rgba(240, 234, 210, 0.9); }
+  .resultsGrid { grid-template-columns: 1fr; }
 }
