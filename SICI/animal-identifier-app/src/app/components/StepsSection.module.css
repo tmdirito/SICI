@@ -1,107 +1,124 @@
 .stepsSection {
-    padding: 5rem 1rem;
-    position: relative;
-    max-width: 900px;
-    margin: auto;
-  }
-  
+  padding: 5rem 1rem;
+  position: relative;
+  max-width: 900px;
+  margin: auto;
+}
+
+.heading {
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: #000000;
+  font-family: "Roboto", sans-serif;
+}
+
+.line {
+  width: 100%;           /* Fixes hardcoded 900px */
+  max-width: 900px;
+  height: 1px;          
+  background-color: #000000; 
+  margin: 60px auto;     /* Centers automatically */
+  border-radius: 1px;   
+}
+
+.stepsWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.lineSegment {
+  position: absolute;
+  left: 1.5rem; 
+  width: 1.5px;
+  height: 0;
+  background: linear-gradient(to bottom, #000000, #000000);
+  border-radius: 3px;
+  transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.segmentVisible {
+  height: 100px; 
+}
+
+.stepContainer {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 5rem;
+  position: relative;
+  width: 100%; /* Ensures it stays within bounds */
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  min-width: 50px; /* Prevents circle from squishing */
+  border-radius: 50%;
+  background: #97a97c;
+  color: rgb(0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+  font-size: 1.2rem;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.showCircle {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.text {
+  margin-left: 3rem; /* Reduced from 4rem for better mobile fit */
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 700px;
+}
+
+.showText {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.text h3 {
+  margin: 0 0 0.7rem 0;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color:#000000;
+  font-family: "Montserrat", sans-serif;
+}
+
+.text p {
+  margin: 0;
+  font-size: 1rem;
+  color:#414141;
+  line-height: 1.5;
+  font-family: "Poppins", sans-serif;
+}
+
+/* --- MOBILE FIXES --- */
+@media (max-width: 768px) {
   .heading {
-    margin-top:20px;
-    text-align: center;
-    margin-bottom: 1rem;
-    font-size: 2.5rem;
-    font-weight: 300;
-    color: #000000;
-    font-family: "Roboto", sans-serif;
+    font-size: 2rem;
   }
-  .line {
-    width: 900px;          /* length of the line */
-    height: 1px;          /* thickness of the line */
-    background-color: #000000; /* any color you like, Indigo for pro look */
-    margin: 80px 20px;  /* center line & add bottom spacing */
-    border-radius: 1px;   /* slight rounding for a modern look */
-
-  }
-  
-  .stepsWrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .lineSegment {
-    position: absolute;
-    left: 1.5rem; /* center of circle */
-    width: 1.5px;
-    height: 0;
-    background: linear-gradient(to bottom, #000000, #000000);
-    border-radius: 3px;
-    transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1;
-  }
-  
-  .segmentVisible {
-    height: 100px; /* adjust based on spacing */
-  }
-  
   .stepContainer {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 5rem;
-    position: relative;
+    margin-bottom: 3rem;
   }
-  
-  .circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #97a97c;
-    color: rgb(0, 0, 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 300;
-    font-size: 1.2rem;
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 2;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  }
-  
-  .showCircle {
-    opacity: 1;
-    transform: scale(1);
-  }
-  
   .text {
-    margin-left: 4rem;
-    opacity: 0;
-    transform: translateX(-60px);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    max-width: 700px;
-   
+    margin-left: 1.5rem; /* Tighter gap on phones */
   }
-  
-  .showText {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  
   .text h3 {
-    margin: 0 0 0.7rem 0;
-    font-size: 1.6rem;
-    font-weight: 300;
-    color:#000000;
-    font-family: "Montserrat", sans-serif;
+    font-size: 1.3rem;
   }
-  
-  .text p {
-    margin: 0;
-    font-size: 1rem;
-    color:#414141;
-    line-height: 1.5;
-    font-family: "Poppins", sans-serif;
-  }
-
+}
