@@ -2,6 +2,9 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+  width: 100vw;
+  max-width: 100%;
 }
 
 .main {
@@ -117,6 +120,7 @@
   text-decoration: none;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  text-align: center; /* Ensures text stays centered if buttons stretch */
 }
 
 .button {
@@ -142,33 +146,66 @@
   color: #03240a; 
 }
 
-/* --- Mobile Fixes --- */
+/* ============================
+   MOBILE FIXES
+============================ */
 @media (max-width: 768px) {
   .header {
     padding: 1rem;
     gap: 1rem;
     justify-content: space-between;
+    flex-wrap: wrap; /* Prevents overflow if there are many nav links */
   }
+  
   .hero {
-    padding: 110px 16px 40px; 
+    padding: 120px 16px 40px; 
   }
+  
   .title {
-    font-size: 32px;
+    font-size: 36px; /* Slightly smaller for tablets */
   }
+  
   .description {
     font-size: 16px;
   }
+  
   .section {
-    padding: 60px 16px;
+    padding: 50px 16px; /* Reduced vertical padding */
   }
+  
   .sectionTitle {
     font-size: 28px;
+    margin-bottom: 2rem;
   }
+  
   .ctaContainer {
     flex-direction: column;
     width: 100%;
+    gap: 0.8rem;
   }
+  
   .ctaContainer .button, .ctaContainer .buttonSecondary {
     width: 100%;
+  }
+
+  /* Force grids into a single column to prevent horizontal scrolling */
+  .stepsGrid, .featuresGrid {
+    grid-template-columns: 1fr; 
+    gap: 1.5rem;
+  }
+}
+
+/* --- EXTRA SMALL MOBILE SCREENS --- */
+@media (max-width: 480px) {
+  .title {
+    font-size: 28px; /* Tighter for smaller phones */
+  }
+  
+  .sectionTitle {
+    font-size: 24px;
+  }
+  
+  .stepCard, .featureCard {
+    padding: 16px; /* Slightly tighter padding inside cards */
   }
 }
