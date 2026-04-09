@@ -6,6 +6,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { storage, firestore } from '../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
+import Header from '../components/Header'; // <-- Add this import
 
 // 1. ADDED BACK: Helper to fetch Firebase images for the results cards
 function FirebaseImage({ path, altText, className }) {
@@ -124,6 +125,8 @@ export default function UploadForm() {
 
   return (
     // 3. ADDED BACK: The pageContainer wrapper
+    <> {/* <-- Add this opening bracket */}
+      <Header /> {/* <-- Add your normal header here */}
     <div className={styles.pageContainer}>
 
       {/* BANNER SECTION */}
@@ -228,5 +231,6 @@ export default function UploadForm() {
       </div>
 
     </div>
+    </>
   );
 }

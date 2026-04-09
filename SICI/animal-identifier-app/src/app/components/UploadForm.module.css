@@ -332,3 +332,15 @@
   .heroContent { background: rgba(240, 234, 210, 0.9); }
   .resultsGrid { grid-template-columns: 1fr; }
 }
+/* ============================
+   CONTAINER (Fits in Dashboard)
+============================ */
+.pageContainer {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 0 auto;
+  padding-top: 100px; /* <-- Add this so it doesn't hide under the header! */
+}
