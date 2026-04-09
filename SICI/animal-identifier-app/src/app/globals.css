@@ -1,16 +1,16 @@
 /* --- 1. Import the new font --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap');
+
 /* --- 2. Define the new color palette --- */
 :root {
   --background: #f0ead2; 
-  --foreground: #ffffff; /* Changed to white for better contrast */
-  --card-bg: rgba(255, 255, 255, 0.1); /* Semi-transparent white for glass effect */
-  --card-border: rgba(255, 255, 255, 0.2); /* Softer border for glass effect */
-  --primary: #22c55e; /* A vibrant, modern green */
+  --foreground: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.1); 
+  --card-border: rgba(255, 255, 255, 0.2); 
+  --primary: #22c55e; 
   --primary-hover: #16a34a;
-  --secondary-text: #000000; /* Light gray for secondary text */
-
+  --secondary-text: #000000; 
 }
 
 * {
@@ -39,13 +39,10 @@ a {
   text-decoration: none;
   transition: color 0.2s ease-in-out;
 }
+
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .animate-shimmer {
@@ -58,5 +55,4 @@ a {
   padding: 20px;
   font-size: 0.9rem;
   color: #000000;
-
 }

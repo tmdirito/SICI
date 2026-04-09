@@ -1,4 +1,3 @@
-/* --- Landing Page Container --- */
 .landing {
   display: flex;
   flex-direction: column;
@@ -6,12 +5,10 @@
   align-items: center;
   height: auto;
   gap: 2rem;
- 
   padding: 2rem;
   box-sizing: border-box;
 }
 
-/* --- Title --- */
 .title {
   font-size: 4rem;
   font-weight: 700;
@@ -22,31 +19,24 @@
 
 .typewriter {
   display: inline;
-
   white-space: nowrap;
   overflow: hidden;
-  
   color:#6c8954
 }
 
-/* Typewriter caret blinking */
 @keyframes blink-caret {
   from, to { border-color: transparent; }
   50% { border-color: black; }
 }
 
-/* --- GIF Styling --- */
 .heroGif {
   width: 300px;
   max-width: 80%;
-
-  
 }
 
-/* --- Dialog Box --- */
 .dialog {
   width: 100%;
-  width: 800px;
+  max-width: 800px; /* Fixed: changed from width to max-width */
   height: auto;
   background: rgba(253, 253, 253, 0.95);
   border-radius: 12px;
@@ -57,16 +47,13 @@
   gap: 1rem;
 }
 
-.dialog h2
-{
+.dialog h2 {
   font-size: 1.5rem;
   font-weight: 700;
   color: #36452a;
   text-align: center;
 }
 
-
-/* Terms Content Scroll */
 .termsContent {
   max-height: 400px;
   overflow-y: auto;
@@ -75,17 +62,15 @@
   color: #555;
 }
 
-/* Checkbox Label */
 .checkboxLabel {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-weight: 500;
   margin-top: 0.5rem;
-  color:#36452a
+  color:#36452a;
 }
 
-/* Discover Button */
 .discoverBtn {
   margin-top: 0.1rem;
   padding: 12px 20px;
@@ -97,6 +82,7 @@
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%; /* Better for mobile */
 }
 
 .discoverBtn:hover {
@@ -105,43 +91,29 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* --- Responsive --- */
-@media (max-width: 1024px) {
-  .title {
-    font-size: 2.5rem;
-  }
-
-  .heroGif {
-    max-width: 70%;
-  }
-
-  .dialog {
-    max-width: 90%;
-  }
-}
-
-@media (max-width: 600px) {
-  .title {
-    font-size: 2rem;
-  }
-
-  .heroGif {
-    max-width: 90%;
-  }
-
-  .dialog {
-    max-width: 100%;
-    padding: 1rem;
-  }
-}
-
-.titleheading2
-{
+.titleheading2 {
   font-size: 1.2rem;
   font-weight: 200;
   color: #8e8e8e;
   text-align: center;
   font-family: "Roboto", sans-serif;
-  margin-left: 120px;
-  margin-right: 120px;
+  max-width: 800px; /* Fixed: Removed 120px margins that break mobile */
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  .title { font-size: 2.5rem; }
+  .heroGif { max-width: 70%; }
+  .dialog { max-width: 90%; }
+}
+
+@media (max-width: 600px) {
+  .title { font-size: 2rem; }
+  .heroGif { max-width: 90%; }
+  .dialog { 
+    max-width: 100%; 
+    padding: 1rem; 
+  }
 }
