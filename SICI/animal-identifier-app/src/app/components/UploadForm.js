@@ -174,17 +174,23 @@ export default function UploadForm() {
           <div className={styles.modalOverlay}>
             <div className={styles.modalDialog}>
               <button className={styles.closeButton} onClick={closeModal}>&times;</button>
+              
               <div className={styles.modalInner} onClick={() => document.getElementById('file-upload').click()}>
+                
+                {/* IMAGE PREVIEW OR PLACEHOLDER */}
                 {imagePreview ? (
                   <img src={imagePreview} alt="Preview" className={styles.previewImage} />
                 ) : (
-                  <div className={styles.dropZone}>
-                    <div>
-                      <p className={styles.uploadText}>Drop or Click to Upload</p>
-                      <p className={styles.uploadSubText}>Browse to choose a file (jpg, png)</p>
-                    </div>
-                  </div>
+                  <img 
+                    src="/images/drag.webp"  
+                    alt="Upload Placeholder" 
+                    className={styles.previewImage} 
+                  />
                 )}
+
+                <p className={styles.uploadText}>Drop or Click to Upload</p>
+                <p className={styles.uploadSubText}>Browse to choose a file (jpg, png)</p>
+                
                 <input
                   id="file-upload"
                   type="file"
@@ -193,6 +199,7 @@ export default function UploadForm() {
                   style={{ display: 'none' }}
                 />
               </div>
+
             </div>
           </div>
         )}

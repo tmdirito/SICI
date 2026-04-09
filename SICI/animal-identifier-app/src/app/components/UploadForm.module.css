@@ -153,30 +153,28 @@
 .modalDialog {
   position: relative;
   width: 100%;
-  max-width: 700px; /* Changed to max-width for responsiveness */
-  height: 90vh; /* Changed to vh so it doesn't break off the screen */
-  max-height: 800px;
+  max-width: 500px; /* Slightly narrower to match the shorter height */
+  height: auto;     
   background: #f0ead2;
   border-radius: 20px;
-  padding: 2rem;
+  padding: 1rem;  /* Tighter outer padding */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.5rem;    /* Tighter gap */
   box-sizing: border-box;
 }
 
 .modalInner {
   width: 100%;
-  padding: 2rem;
+  padding: 1.5rem 1rem; /* Tighter inner padding */
   border: 2px dashed #201f1f;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  height: 100%;
+  gap: 0.5rem; /* Closer elements */
   cursor: pointer;
   background: rgba(255, 255, 255, 0.2);
   transition: background 0.2s;
@@ -187,11 +185,39 @@
 }
 
 /* ============================
+   IMAGE PREVIEW
+============================ */
+.previewImage {
+  width: 100%;
+  max-width: 200px; /* Shrunk width */
+  height: 180px;    /* Shrunk height significantly */
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* ============================
+   TEXT BELOW IMAGE
+============================ */
+.uploadText {
+  margin-top: 0.5rem; /* Reduced from 1rem */
+  font-size: 1.1rem;  /* Slightly smaller to fit the new proportions */
+  font-weight: 600;
+  color: #111;
+  text-align: center;
+}
+
+.uploadSubText {
+  margin: 0;          /* Removed default margins */
+  font-size: 0.85rem; /* Slightly smaller */
+  color: #555;
+  text-align: center;
+}
+/* ============================
    CLOSE BUTTON
 ============================ */
 .closeButton {
   position: absolute;
-  top: 12px;
+  top: 80px;
   right: 20px;
   font-size: 2rem;
   background: transparent;
