@@ -1,0 +1,456 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+.wildlife-container * {
+  box-sizing: border-box;
+}
+
+.wildlife-container {
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f2f3f1;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Header Section */
+.wildlife-header {
+  height: 90px;
+  background-color: #600d0d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 60px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.natgeo-box {
+  width: 90px;
+  height: 90px;
+}
+
+.natgeo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+.natgeo-text {
+  color: #e31111;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 40px;
+}
+
+.header-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: opacity 0.2s;
+}
+
+.header-nav a:hover {
+  opacity: 0.7;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.donate-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  margin-right: 40px;
+  transition: background 0.2s;
+}
+
+.donate-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-icon {
+  width: 90px;
+  height: 100%;
+  background-color: #ff6a1f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.menu-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #111;
+  border-radius: 50%;
+}
+
+/* Main Section */
+.wildlife-main {
+  flex: 1;
+  background-color: #ccbfae;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 80px 8% 120px 8%;
+  overflow: visible; /* To allow cheetah to overflow into footer */
+}
+
+/* Left Content */
+.main-left {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  max-width: 380px;
+  margin-top: 20px;
+}
+
+.save-text {
+  font-size: 40px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.wildlife-title {
+  font-size: 110px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.1;
+  white-space: nowrap;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+}
+
+.text-black {
+  color: #1a1816;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.desc-text {
+  font-size: 16px;
+  color: #2b2b2b;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  font-weight: 400;
+}
+
+.learn-more-btn {
+  background-color: #1a1816;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 16px 14px 28px;
+  font-size: 15px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  width: fit-content;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+
+.learn-more-btn:hover {
+  opacity: 0.9;
+}
+
+.arrow-circle {
+  width: 24px;
+  height: 24px;
+  background-color: #ff6a1f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.hand-arrow-layer {
+  position: absolute;
+  bottom: -90px;
+  left: 100px;
+  width: 140px;
+  height: 140px;
+  opacity: 0.7;
+}
+
+/* Center Hero */
+.main-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+  
+  
+}
+
+.center-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Right Content */
+.main-right {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  max-width: 320px;
+  margin-top: 40px;
+}
+
+.worlds-text {
+  font-size: 38px;
+  font-weight: 300;
+  color: #2b2b2b;
+  margin: 0;
+  margin-bottom: -5px;
+}
+
+.nature-text {
+  font-size: 42px;
+  font-weight: 800;
+  color: #1a1816;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.danger-text {
+  font-size: 38px;
+  font-weight: 300;
+  color: #1a1816;
+  margin: 0;
+  margin-bottom: 25px;
+}
+
+.right-divider {
+  width: 120px;
+  height: 1.5px;
+  background-color: #555;
+  margin-bottom: 30px;
+}
+
+.right-desc {
+  font-size: 15px;
+  color: #2b2b2b;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* Portraits */
+.animal-portraits {
+  position: relative;
+  width: 250px;
+  height: 140px;
+  margin-top: 60px;
+}
+
+.portrait-backdrop {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  background-color: #7a7672;
+  border-radius: 50%;
+  border: 2px solid #1a1816;
+  top: 5px;
+  z-index: 1;
+}
+
+.backdrop-left { left: 5px; }
+.backdrop-right { right: 5px; }
+
+.portrait-frame {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 4px solid #ccbfae;
+  overflow: hidden;
+  top: 15px;
+}
+
+.frame-left {
+  left: 15px;
+  z-index: 2;
+}
+
+.frame-right {
+  right: 15px;
+  z-index: 3;
+}
+
+.portrait-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Cheetah Image Overlay */
+.cheetah-layer {
+  position: absolute;
+  left: 0;
+  bottom: -40px; /* Adjust to overlap footer slightly */
+  width: 380px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.cheetah-img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+}
+
+/* Footer Section */
+.wildlife-footer {
+  background-color: #1a1816;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 80px 30px 420px; /* Added left padding to make room for cheetah */
+  position: relative;
+  z-index: 5;
+  gap: 60px;
+}
+
+.footer-left {
+  flex: 1;
+  max-width: 500px;
+}
+
+.footer-desc {
+  color: #a09d9a;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.read-more-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 50px;
+  font-family: inherit;
+}
+
+.footer-divider {
+  width: 1px;
+  height: 90px;
+  background-color: #333;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 250px;
+}
+
+.footer-join {
+  color: #a09d9a;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.twitter-icon {
+  width: 20px;
+  height: 20px;
+  background-color: #1DA1F2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.handle-btn {
+  background: transparent;
+  border: 1px solid #ffcc00;
+  color: #fff;
+  border-radius: 30px;
+  padding: 12px 30px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.handle-btn:hover {
+  background: rgba(255, 204, 0, 0.1);
+}
+
+/* Responsive Scaling Info (Just for basic handling) */
+@media (max-width: 1200px) {
+  .wildlife-title {
+    font-size: 80px;
+  }
+  .main-center {
+    width: 400px;
+    height: 400px;
+  }
+  .cheetah-layer {
+    width: 300px;
+  }
+  .wildlife-footer {
+    padding-left: 320px;
+  }
+}

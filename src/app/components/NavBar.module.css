@@ -1,0 +1,142 @@
+/* --- Base Styles --- */
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* Pushes content to right, or space-between if logo added later */
+  align-items: center;
+  position: relative; /* Ensure relative positioning for context */
+}
+
+/* --- Desktop View Container --- */
+.desktopLinks {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.navLinks, .authLinks {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* --- Shared Link Styling (Glassmorphism) --- */
+.linkStyle {
+  background-color: none;
+  border: 1px solid #ffffff;
+  padding: 8px 18px; 
+  border-radius: 55px;
+  text-decoration: none;
+  font-weight: 500;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+  
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.linkStyle:hover {
+  background-color: none;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  
+}
+
+/* Status Text Styles */
+.desktopAuthStatus {
+  font-size: 0.875rem; /* text-sm */
+  margin-right: 1rem;
+  color: white;
+}
+
+.authStatus {
+  color: #ddd; /* Slightly lighter for mobile contrast */
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* --- Hamburger Button --- */
+.hamburger {
+  display: none; /* Hidden by default on desktop */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: white;
+  z-index: 1001; /* Above the mobile menu */
+  margin-left: 1rem;
+}
+
+/* --- Mobile Menu Overlay --- */
+.mobileMenu {
+  position: fixed; 
+  top: 0;
+  right: 0;
+  width: 80vw; /* Covers 80% of width */
+  max-width: 300px;
+  height: 100vh;
+  
+  /* Dark Green Glass Background */
+  background: rgba(12, 40, 22, 0.98); 
+  backdrop-filter: blur(10px);
+  
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  padding: 80px 24px 40px; /* Top padding clears the close button area */
+  
+  /* Animation Props */
+  transform: translateX(100%); /* Start hidden to the right */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+}
+
+/* State when menu is open */
+.menuOpen {
+  transform: translateX(0);
+}
+
+.mobileLinks, .mobileAuth {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* --- Responsive Breakpoint (1024px) --- */
+@media (max-width: 1024px) {
+  /* Hide the desktop row */
+  .desktopLinks {
+    display: none;
+  }
+  
+  /* Show the hamburger */
+  .hamburger {
+    display: block;
+  }
+  
+  /* Make links stretch full width in mobile menu */
+  .linkStyle {
+    width: 100%;
+    text-align: center;
+    display: block;
+    box-sizing: border-box;
+  }
+}
+
+.buttonStyle {
+  background: #97a978;
+  text-decoration: none;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  padding: 8px 18px; 
+  border-radius: 55px;
+ 
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+}

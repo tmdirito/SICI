@@ -1,0 +1,105 @@
+.featuresSectionFeat {
+  padding: 80px 20px;
+}
+
+.containerFeat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.leftFeat {
+  flex: 1 1 400px;
+}
+
+.rightFeat {
+  flex: 1 1 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headingFeat {
+
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: #000000;
+  font-family: "Roboto", sans-serif;
+}
+
+.featureListFeat {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.featureItemFeat {
+  cursor: pointer;
+}
+
+.featureHeaderFeat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 300;
+  font-size: 1.2rem;
+  padding: 10px 0;
+  color: #000000;
+  font-family: "Montserrat", sans-serif;
+}
+
+.toggleIconFeat {
+  font-size: 1.5rem;
+  
+  color: #000000; /* Indigo accent */
+  
+}
+
+.featureDescFeat {
+  margin-top: 8px;
+  font-weight: 300;
+  color: #000000;
+  font-family: "Montserrat", sans-serif;
+}
+
+.featureHeaderFeat h3 {
+  font-family: 'Montserrat', sans-serif; /* change font */
+  font-weight: 300;                       /* make it bold */
+  font-size: 1.6rem;                      /* adjust size */
+  color: #000000;                         /* make it indigo or any color */
+}
+
+
+
+.dividerFeat {
+  height: 1px;
+  background-color: #000000;
+  margin: 10px 0;
+}
+
+.sideImageFeat {
+  max-width: 100%;
+
+  object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .containerFeat {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .leftFeat, .rightFeat {
+    flex: 1 1 100%;
+  }
+
+  .headingFeat {
+    text-align: center;
+  }
+}

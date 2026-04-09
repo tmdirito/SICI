@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 0 6%;
+  position: relative;
+}
+
+.info {
+  width: 35%;
+  color: #000000;
+  margin-top: 300px;
+}
+
+.info h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background: #000000;
+  margin-bottom: 20px;
+}
+
+.description {
+  margin-top: 15px;
+  line-height: 1.6;
+  color: #444;
+  font-family:"Roboto", sans-serif;
+}
+
+
