@@ -139,18 +139,21 @@
 
 /* This is the magic wrapper that traps the 3D globe! */
 .canvasWrapper {
-  width: 500px;         /* Standard desktop size */
-  height: 500px;        
-  max-width: 90vw;      /* On phones, shrink to 90% of screen width */
-  max-height: 90vw;     /* Keep height equal to width so it stays a perfect circle */
-  position: relative;   /* Required for the Canvas to anchor properly */
-  margin: 0 auto;       /* Centers the globe */
+  width: 100%;           /* Take up the available screen space... */
+  max-width: 500px;      /* ...but never get bigger than 500px */
+  aspect-ratio: 1 / 1;   /* THE FIX: Forces it to stay a perfect square ALWAYS */
   
-  /* Optional: Add these if you want a clean, circular glass-box look behind the globe */
+  position: relative;    /* Anchors the 3D Canvas */
+  margin: 0 auto;        /* Centers it on the page */
+  display: flex;         /* Keeps the inner canvas perfectly centered */
+  justify-content: center;
+  align-items: center;
+
   border-radius: 50%;
-  background: #0a1128; /* Space-like background behind the earth */
+  background: #0a1128; 
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  border: 2px solid #e0e0e0; 
 }
 
 /* --- MOBILE FIXES --- */

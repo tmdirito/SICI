@@ -100,20 +100,26 @@ export default function HabitatSection() {
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "3rem" }}>
-      {/* Circular 3D Model Container */}
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "3rem", padding: "0 1rem" }}>
+      
+      {/* Circular 3D Model Container - FIXED FOR MOBILE */}
       <div
         style={{
-          width: "600px",
-          height: "600px",
+          width: "100%",          /* Take up available space */
+          maxWidth: "500px",      /* But never get bigger than 500px */
+          aspectRatio: "1 / 1",   /* Forces it to ALWAYS be a perfect square/circle */
           borderRadius: "50%",
           overflow: "hidden",
           border: "4px solid #00ffb3",
           boxShadow: "0 0 30px rgba(0,255,179,0.4)",
           position: "relative",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
         }}
       >
-        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+        {/* I moved the camera back to Z:6 so it isn't too zoomed in on mobile! */}
+        <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
           <ambientLight intensity={0.6} />
           <directionalLight position={[5, 5, 5]} intensity={1.2} />
           <directionalLight position={[-5, 5, -5]} intensity={0.8} />
@@ -138,24 +144,26 @@ export default function HabitatSection() {
         }}
       ></div>
 
-      {/* Table Section */}
+      {/* Table Section - FIXED FOR MOBILE */}
       <div
         style={{
           background: "rgba(0, 20, 15, 0.9)",
           borderRadius: "12px",
-          padding: "1.5rem 2rem",
+          padding: "1.5rem 1rem", /* Tighter padding for phones */
           color: "#e3fff5",
           boxShadow: "0 0 20px rgba(0,255,179,0.2)",
-          width: "80%",
+          width: "100%",
           maxWidth: "900px",
           backdropFilter: "blur(10px)",
+          overflowX: "auto", /* IMPORTANT: Let the table scroll sideways on phones */
         }}
       >
         <h2 style={{ textAlign: "center", color: "#00ffb3", marginBottom: "1rem" }}>
           Endangered Species Data
         </h2>
 
-        <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+        {/* Added minWidth so the table columns don't squish together on mobile */}
+        <table style={{ width: "100%", minWidth: "600px", borderCollapse: "collapse", textAlign: "left" }}>
           <thead>
             <tr style={{ borderBottom: "2px solid #00ffb3" }}>
               <th style={{ padding: "10px" }}>Species</th>
