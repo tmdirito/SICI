@@ -122,13 +122,40 @@
   color: #555;
 }
 
+.habitatSection {
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heading {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  color: #000;
+}
+
+/* This is the magic wrapper that traps the 3D globe! */
+.canvasWrapper {
+  width: 500px;         /* Standard desktop size */
+  height: 500px;        
+  max-width: 90vw;      /* On phones, shrink to 90% of screen width */
+  max-height: 90vw;     /* Keep height equal to width so it stays a perfect circle */
+  position: relative;   /* Required for the Canvas to anchor properly */
+  margin: 0 auto;       /* Centers the globe */
+  
+  /* Optional: Add these if you want a clean, circular glass-box look behind the globe */
+  border-radius: 50%;
+  background: #0a1128; /* Space-like background behind the earth */
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
 /* --- MOBILE FIXES --- */
 @media (max-width: 768px) {
-  .scientific-table-container {
-    width: 95%;
-    padding: 1rem;
-  }
-  .scientific-table-container h2 {
-    font-size: 1.3rem;
+  .heading {
+    font-size: 2rem;
   }
 }
