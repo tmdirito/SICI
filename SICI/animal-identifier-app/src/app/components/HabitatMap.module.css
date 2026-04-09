@@ -12,6 +12,8 @@
 .circular-model-container {
   width: 420px;
   height: 420px;
+  max-width: 90vw; /* Scales down on small screens */
+  max-height: 90vw; /* Keeps it a perfect circle */
   border-radius: 50%;
   overflow: hidden;
   background: #fff;
@@ -39,6 +41,7 @@
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
   padding: 1.5rem;
   border: 1px solid #e6e6e6;
+  overflow-x: auto; /* IMPORTANT: Allows sideways scrolling on mobile! */
 }
 
 .scientific-table-container h2 {
@@ -50,9 +53,9 @@
   letter-spacing: 0.3px;
 }
 
-/* ✅ Scoped table styles for CSS Modules */
 .scientific-table-container table {
   width: 100%;
+  min-width: 600px; /* Forces scrolling instead of breaking layout */
   border-collapse: collapse;
   font-size: 0.95rem;
 }
@@ -117,4 +120,15 @@
 .tooltip-text {
   font-size: 0.85rem;
   color: #555;
+}
+
+/* --- MOBILE FIXES --- */
+@media (max-width: 768px) {
+  .scientific-table-container {
+    width: 95%;
+    padding: 1rem;
+  }
+  .scientific-table-container h2 {
+    font-size: 1.3rem;
+  }
 }
