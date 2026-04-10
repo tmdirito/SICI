@@ -63,9 +63,6 @@ export default function NavBar() {
       <Link href="/history" className={linkStyle} onClick={closeMenu}>
         History
       </Link>
-      <Link href="/tutorial" className={linkStyle} onClick={closeMenu}>
-        Tutorial
-      </Link>
       <Link href="/about" className={linkStyle} onClick={closeMenu}>
         Info
       </Link>
