@@ -61,16 +61,23 @@ export default function HistoryPage() {
   const [isDeleting, setIsDeleting] = useState(false); 
 
   const handleDelete = async (animalID) => {
-      if (!currentUser) return; 
-
-        setIsDeleting(true); 
+      if (!currentUser) return; // Make sure user is still logged in
+        // 1. ADD THE CONFIRMATION POPUP
+        const confirmDelete = window.confirm("Are you sure you want to delete this discovery?");
+    
+    // 2. STOP IF THEY CLICK CANCEL
+        if (!confirmDelete) return;
+        setIsDeleting(true); // Disable buttons
         try {
       const docRef = doc(firestore, 'users', currentUser.uid, 'animals', animalID);
+      
       await deleteDoc(docRef);
+
+      
       } catch (error) {
         console.error("Error deleting document: ", error);
       } finally {
-        setIsDeleting(false); 
+        setIsDeleting(false); // Re-enable buttons
       }
     }
     
