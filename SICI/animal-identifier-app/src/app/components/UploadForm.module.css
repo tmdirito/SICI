@@ -141,7 +141,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 1001; /* <-- Increased to 1001 to sit ABOVE the header */
   padding: 2rem;
   width: 100vw;
   height: 100vh;
@@ -217,7 +217,7 @@
 ============================ */
 .closeButton {
   position: absolute;
-  top: 80px;
+  top: 15px; /* <-- Pulled up so it sits cleanly in the top right corner */
   right: 20px;
   font-size: 2rem;
   background: transparent;

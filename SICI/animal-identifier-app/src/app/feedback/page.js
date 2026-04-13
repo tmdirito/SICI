@@ -11,7 +11,7 @@ export default function ExpertFeedbackPage() {
       <Header />
       <div className={styles.page}>
         <main className={styles.main}>
-          <h1 className={styles.title}>Expert Feedback</h1>
+          <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>Expert Feedback</h1>
           <p style={{ marginBottom: '2rem', textAlign: 'center', lineHeight: '1.6', color: 'var(--secondary-text)' }}>
             Notice an inaccuracy or have suggestions for our database? We value your expertise! 
             Please submit your corrections and research feedback using our dedicated form.

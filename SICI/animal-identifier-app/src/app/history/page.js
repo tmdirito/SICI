@@ -108,19 +108,23 @@ export default function HistoryPage() {
     return <p>Loading history...</p>;
   }
 
-  return (
+return (
     <>
     <Header />
     <div className={styles.page}>
       <main className={styles.main}>
-        <h1 className={styles.title}>Your Identification History</h1>
+        {/* ADDED: style={{ color: 'var(--secondary-text)' }} to fix the title color */}
+        <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>Your Identification History</h1>
         <p className={styles.description}>
           A log of all the animals/plants you've discovered.
         </p>
 
         <div className={styles.resultsContainer} style={{marginTop: '2rem', width: '100%'}}>
           {animals.length === 0 ? (
-            <p>No animals identified yet. Go to "Identify Species" to start!</p>
+            /* ADDED: inline styling to make the empty state text dark and centered */
+            <p style={{ color: 'var(--secondary-text)', textAlign: 'center', padding: '1rem 0' }}>
+              No animals identified yet. Go to "Identify Species" to start!
+            </p>
           ) : (
             animals.map((animal) => (
               <div key={animal.id} className={styles.resultCard}>

@@ -32,8 +32,9 @@ const WildlifeLanding = () => {
           <h2 className={styles["save-text"]}>Discover</h2>
 
           <h1 className={styles["wildlife-title"]}>
-            <span className={styles["text-black"]}>Flora & Fa</span>
-            <span className={styles["text-white"]}>una</span>
+            <span className={styles["text-black"]}>Flora </span>
+            <span className={styles["text-green"]}>& </span>
+            <span className={styles["text-white"]}>Fauna</span>
           </h1>
 
           <p className={styles["desc-text"]}>

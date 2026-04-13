@@ -7,13 +7,16 @@ export default function AboutPage(){
       <Header/>
         <div className={styles.page}>
         <main className={styles.main}>
-        <h1 className={styles.title}>About</h1>
+        {/* ADDED: style to make the title dark */}
+        <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>About</h1>
         <p className={styles.description}>
           This is a project created by a group of seniors at the University of Northern Colorado. Passionate about animals
           and the environment, our goal is to help educate people on the natural world around them using modern technology
           and resources all in one spot. 
         </p>
-        <h1 className={styles.title}>Water Usage</h1>
+        
+        {/* ADDED: style to make the title dark */}
+        <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>Water Usage</h1>
 
         <p className={styles.description}>
          We recognize that AI models use a significant amount of water that negatively impacts the environment and persons

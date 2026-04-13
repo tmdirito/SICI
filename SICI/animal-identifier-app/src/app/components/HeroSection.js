@@ -1,38 +1,23 @@
-"use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./HeroSection.module.css";
 
 export default function HeroSection() {
-  const videos = [
-    "/videos/nature-love.mp4",
-  ];
-
-  const [video, setVideo] = useState(null);
-
-  useEffect(() => {
-    // Select the video only after the component mounts on the client
-    const random = videos[Math.floor(Math.random() * videos.length)];
-    setVideo(random);
-  }, []);
+  // Since there is only one video, we can define it directly
+  const videoSrc = "/videos/nature-love.mp4";
 
   return (
     <section className={styles.heroSection}>
-      {/* Only render the video tag if a video source is selected */}
-      {video && (
-        <video
-          key={video} // Forces React to re-render the element when source changes
-          autoPlay
-          loop
-          muted
-          playsInline
-          className={styles.backgroundVideo}
-        >
-          {/* Move src directly to the source tag, or use src on video tag */}
-          <source src={video} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto" /* Tells the browser to download this ASAP */
+        className={styles.backgroundVideo}
+      >
+        <source src={videoSrc} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
       <div className={styles.overlay}></div>
 
