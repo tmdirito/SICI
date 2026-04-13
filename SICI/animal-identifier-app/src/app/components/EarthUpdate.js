@@ -10,6 +10,9 @@ export default function HabitatMap1() {
   const [texture, setTexture] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [line, setLine] = useState(null);
+  
+  // NEW: State for responsive globe size
+  const [globeSize, setGlobeSize] = useState({ width: 800, height: 800 });
 
   const species = [
     {
@@ -17,8 +20,7 @@ export default function HabitatMap1() {
       status: "Critically Endangered",
       habitat: "Russia & China",
       population: "120–130",
-      description:
-        "One of the rarest big cats in the world, surviving in harsh cold climates and threatened by habitat loss.",
+      description: "One of the rarest big cats in the world, surviving in harsh cold climates and threatened by habitat loss.",
       lat: 45,
       lng: 135
     },
@@ -27,8 +29,7 @@ export default function HabitatMap1() {
       status: "Critically Endangered",
       habitat: "Gulf of California",
       population: "≈20",
-      description:
-        "The rarest marine mammal on Earth, primarily threatened by illegal fishing nets.",
+      description: "The rarest marine mammal on Earth, primarily threatened by illegal fishing nets.",
       lat: 31,
       lng: -114
     },
@@ -37,12 +38,30 @@ export default function HabitatMap1() {
       status: "Critically Endangered",
       habitat: "Southern Africa",
       population: "5,500",
-      description:
-        "A partially recovered species still facing major poaching threats.",
+      description: "A partially recovered species still facing major poaching threats.",
       lat: -15,
       lng: 25
     }
   ];
+
+  // NEW: Listen for window resize to adjust globe dimensions
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth <= 768) {
+        setGlobeSize({ width: screenWidth - 40, height: screenWidth - 40 });
+      } else if (screenWidth <= 1024) {
+        setGlobeSize({ width: 500, height: 500 });
+      } else {
+        setGlobeSize({ width: 800, height: 800 });
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Set initial size
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Flip texture (fix upside down globe)
   useEffect(() => {
@@ -88,7 +107,12 @@ export default function HabitatMap1() {
       2000
     );
 
-    setTimeout(updateLine, 2100);
+    // Hide the tracking line on mobile to prevent layout breaking
+    if (window.innerWidth > 1024) {
+      setTimeout(updateLine, 2100);
+    } else {
+      setLine(null);
+    }
   }, [selectedIndex]);
 
   const updateLine = () => {
@@ -128,12 +152,12 @@ export default function HabitatMap1() {
         <p className={styles.description}>{selected.description}</p>
       </div>
 
-      {/* RIGHT GLOBE */}
+      {/* RIGHT GLOBE - Using dynamic sizing */}
       <div ref={globeContainerRef} className={styles.globeContainer}>
         <Globe
           ref={globeRef}
-          width={800}
-          height={800}
+          width={globeSize.width}
+          height={globeSize.height}
           globeImageUrl={texture}
           backgroundColor="rgba(0,0,0,0)"
           labelsData={species}
@@ -144,7 +168,6 @@ export default function HabitatMap1() {
           labelDotRadius={0.7}
           labelColor={() => "#ffffff"}
           labelAltitude={0.02}
-         
           enableZoom={false}
           enablePan={false}
           enableRotate={false}

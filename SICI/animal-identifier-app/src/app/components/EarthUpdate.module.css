@@ -155,6 +155,20 @@
   color: #555;
 }
 
+.globeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .svgLine {
+    display: none; /* Hide the connector line on mobile/tablet */
+  }
+}
+
 /* --- MOBILE FIXES --- */
 @media (max-width: 1024px) {
   .wrapper {
