@@ -119,24 +119,27 @@ return (
     <>
     <Header />
     <div className={styles.page}>
-      <main className={styles.main}>
-        {/* ADDED: style={{ color: 'var(--secondary-text)' }} to fix the title color */}
+      {/* 1. Added wideMain to allow the page to stretch on desktop */}
+      <main className={`${styles.main} ${styles.wideMain}`}>
         <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>Your Identification History</h1>
         <p className={styles.description}>
           A log of all the animals/plants you've discovered.
         </p>
 
-        <div className={styles.resultsContainer} style={{marginTop: '2rem', width: '100%'}}>
+        {/* 2. Changed to cardGrid to apply the side-by-side horizontal layout */}
+        <div className={styles.cardGrid} style={{marginTop: '2rem', width: '100%'}}>
           {animals.length === 0 ? (
-            /* ADDED: inline styling to make the empty state text dark and centered */
-            <p style={{ color: 'var(--secondary-text)', textAlign: 'center', padding: '1rem 0' }}>
+            <p style={{ color: 'var(--secondary-text)', textAlign: 'center', padding: '1rem 0', gridColumn: '1 / -1' }}>
               No animals identified yet. Go to "Identify Species" to start!
             </p>
           ) : (
             animals.map((animal) => (
-              <div key={animal.id} className={styles.resultCard}>
+              <div 
+                key={animal.id} 
+                className={styles.resultCard} 
+                style={{ display: 'flex', flexDirection: 'column' }} /* Ensures cards stretch uniformly */
+              >
                 
-                {/* 4. ADDED THE IMAGE TO THE HISTORY CARD */}
                 {animal.imagePath && (
                   <FirebaseImage 
                     path={animal.imagePath} 
@@ -149,10 +152,13 @@ return (
                 <p><strong>Scientific Name:</strong> {animal.scientificName}</p>
                 <p><strong>Conservation Status:</strong> {animal.conservationStatus}</p>
                 <p style={{marginTop: '8px', color: 'var(--secondary-text)'}}>{animal.description}</p>
-                <p style={{marginTop: '1rem', fontSize: '0.8rem', color: 'gray'}}>
-                  <em>Identified on: {animal.createdAt}</em>
-                </p>
-                  <div style={{ textAlign: 'right' }}>
+                
+                {/* Pushes the date and delete button to the bottom if cards are different heights */}
+                <div style={{ marginTop: 'auto' }}>
+                  <p style={{marginTop: '1rem', fontSize: '0.8rem', color: 'gray'}}>
+                    <em>Identified on: {animal.createdAt}</em>
+                  </p>
+                  <div style={{ textAlign: 'right', marginTop: '10px' }}>
                     <button
                       onClick={() => handleDelete(animal.id)}
                       disabled={isDeleting}
@@ -161,6 +167,8 @@ return (
                       {isDeleting ? 'Deleting...' : 'Delete'}
                     </button>
                   </div>
+                </div>
+
               </div>
             ))
           )}
