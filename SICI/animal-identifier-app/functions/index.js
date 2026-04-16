@@ -5,6 +5,7 @@
 
 // --- 1. Modular Imports ---
 import { onObjectFinalized } from "firebase-functions/v2/storage"; 
+import { onDocumentCreated } from "firebase-functions/v2/firestore"; 
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
@@ -15,10 +16,10 @@ initializeApp();
 const db = getFirestore();
 const storage = getStorage();
 
-// --- 3. FINALIZED Storage Trigger ---
+// --- 3. FINALIZED Storage Trigger (For Uploading Images) ---
 export const processImageForAI = onObjectFinalized({ 
     memory: "2GiB",        
-    cpu: 1,                // FIXED: Must be a number (1), not a string
+    cpu: 1,                
     timeoutSeconds: 300    
 }, async (event) => {
     
@@ -50,7 +51,7 @@ export const processImageForAI = onObjectFinalized({
             },
         };
 
-        // 3. Prompt (Strict JSON instruction)
+        // 3. Prompt (Strict JSON instruction for IMAGES)
         const prompt = `
         Analyze the image and identify the main subject. The subject will be either an animal or a plant.
         
@@ -66,17 +67,21 @@ export const processImageForAI = onObjectFinalized({
         }
         `;
         
-        // 4. Call the Gemini AI API
-        // Using the 2.5 model as you requested.
-        const model = "gemini-2.5-flash-image"; 
-
+        // 4. Call the Gemini AI API (Using explicit strict structure for the new SDK)
         const response = await ai.models.generateContent({
-            model: model,
-            contents: [{ role: "user", parts: [{ text: prompt }, imagePart] }]
-            // Note: 'generationConfig' removed to prevent 400 Errors with this specific model
+            model: "gemini-2.5-flash",
+            contents: [
+                {
+                    role: "user",
+                    parts: [
+                        { text: prompt },
+                        imagePart 
+                    ]
+                }
+            ]
         });
 
-        const aiResultPart = response.candidates[0].content.parts[0].text;
+        const aiResultPart = response.text;
         
         // 5. ROBUST JSON PARSING
         const startIndex = aiResultPart.indexOf('{');
@@ -102,14 +107,77 @@ export const processImageForAI = onObjectFinalized({
         
         console.log(`Successfully analyzed and saved result for user ${userId}.`);
 
-        // // 7. Cleanup
-        // await file.delete();
-        // console.log(`Cleaned up temporary file: ${filePath}`);
-
         return null;
 
     } catch (error) {
         console.error(`❌ AI processing failed for ${filePath}:`, error);
+        return null;
+    }
+});
+
+
+// --- 4. Firestore Trigger for Local Wildlife Requests (For the Area/Collection Page) ---
+// --- Updated Firestore Trigger for Local Wildlife Requests ---
+export const processLocationRequest = onDocumentCreated({
+    document: "users/{userId}/locationRequests/{requestId}",
+    memory: "1GiB",
+    timeoutSeconds: 120
+}, async (event) => {
+    const snap = event.data;
+    if (!snap) return null;
+    
+    const { userId, requestId } = event.params; // Get IDs from the URL params
+    const requestData = snap.data();
+
+    if (requestData.status !== 'pending') {
+        return null; 
+    }
+
+    try {
+        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_KEY });
+
+        const prompt = `You are a wildlife expert creating a checklist of exactly 5 wild animals native to ${requestData.location}. 
+        The user has already discovered these animals: ${requestData.alreadyFound}.
+        
+        CRITICAL INSTRUCTIONS: 
+        1. If any of the 'already discovered' animals are native to ${requestData.location}, you MUST include them in your list of 5.
+        2. Fill the remaining spots (up to exactly 5 total) with common native animals they have not discovered yet.
+        
+        Return ONLY a raw JSON array of strings representing the common names. 
+        Example: ["Bison", "Red Fox", "Raccoon", "Mule Deer", "Black Bear"]`;
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt
+        });
+
+        const aiResultText = response.text;
+        const startIndex = aiResultText.indexOf('[');
+        const endIndex = aiResultText.lastIndexOf(']');
+        const animalsList = JSON.parse(aiResultText.substring(startIndex, endIndex + 1).trim());
+
+        // 1. Update the original request document
+        await snap.ref.update({
+            animals: animalsList,
+            status: 'completed',
+            processedAt: FieldValue.serverTimestamp()
+        });
+
+        // 2. NEW: Save this as a permanent "Area" in the user's collection
+        // This makes it easy to load "My Saved Locations" later
+        await db.collection("users").doc(userId).collection("areas").add({
+            locationName: requestData.location,
+            animalsSuggested: animalsList,
+            createdAt: FieldValue.serverTimestamp(),
+            requestId: requestId
+        });
+
+        console.log(`Successfully saved area and animals for ${requestData.location}`);
+        return null;
+
+    } catch (error) {
+        console.error("❌ Error processing Gemini request:", error);
+        await snap.ref.update({ status: 'error', errorMessage: error.message });
         return null;
     }
 });
