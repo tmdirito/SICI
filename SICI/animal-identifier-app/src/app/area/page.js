@@ -170,10 +170,11 @@ export default function AreaPage() {
   const router = useRouter();
 
   // 1. PERSISTENCE: Check if user already has a saved location on mount
-  useEffect(() => {
-    if (!currentUser) return;
+useEffect(() => {
+  if (!currentUser) return;
 
-    const fetchSavedLocation = async () => {
+  const fetchSavedLocation = async () => {
+    try {
       const locRef = collection(firestore, 'users', currentUser.uid, 'activeLocation');
       const q = query(locRef, limit(1));
       const querySnapshot = await getDocs(q);
@@ -182,15 +183,20 @@ export default function AreaPage() {
         const savedData = querySnapshot.docs[0].data();
         setActiveLocation(savedData.name);
         setGeminiAnimals(savedData.animals || []);
-        setStep('card'); // Go straight to the card if they have one saved
+        setStep('card'); // Go to the card if data exists
       } else {
-        setStep('input'); // No location found, show input
+        // CRITICAL FIX: If no location is found, move to 'input' so the user can type one
+        setStep('input'); 
       }
-    };
+    } catch (err) {
+      console.error("Error fetching saved location:", err);
+      // Fallback to input on error so the page doesn't stay stuck
+      setStep('input');
+    }
+  };
 
-    fetchSavedLocation();
-  }, [currentUser]);
-
+  fetchSavedLocation();
+}, [currentUser]);
   // 2. Fetch user's found animals (Your existing listener)
   useEffect(() => {
     if (!currentUser) return;
