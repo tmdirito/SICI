@@ -2,15 +2,80 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, query, orderBy, onSnapshot, addDoc, doc, setDoc, limit, getDocs } from 'firebase/firestore';
-import { firestore, storage } from '../lib/firebase';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { firestore } from '../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../components/Header';
 import styles from '../page.module.css';
+import Link from 'next/link';
 import { ref, getDownloadURL } from 'firebase/storage';
+import { storage } from '../lib/firebase'; 
 
-// --- Helper component to load Firebase images ---
-function FirebaseImage({ path, altText, className, style }) {
+// 1. Dictionary of common animals by Zoogeographic Region
+const zoogeographicAnimals = {
+  Nearctic: [
+    "Eastern Gray Squirrel", 
+    "American Robin", 
+    "Raccoon", 
+    "White-tailed Deer",
+    "Mallard Duck"
+  ],
+  Neotropical: [
+    "Green Iguana", 
+    "Great-tailed Grackle", 
+    "Capybara", 
+    "White-nosed Coati",
+    "Rufous-collared Sparrow"
+  ],
+  Palearctic: [
+    "Red Fox", 
+    "European Robin", 
+    "Eurasian Magpie", 
+    "Common Wood Pigeon",
+    "European Hedgehog"
+  ],
+  Afrotropical: [
+    "Agama Lizard", 
+    "Vervet Monkey", 
+    "Pied Crow", 
+    "Helmeted Guineafowl",
+    "Sacred Ibis"
+  ],
+  Indomalayan: [
+    "Common Myna", 
+    "Rhesus Macaque", 
+    "Indian Palm Squirrel", 
+    "House Crow",
+    "Asian Toad"
+  ],
+  Australasian: [
+    "Australian Magpie", 
+    "Rainbow Lorikeet", 
+    "Common Brushtail Possum", 
+    "Laughing Kookaburra",
+    "Eastern Grey Kangaroo"
+  ],
+  Unknown: [
+    "Feral Pigeon", 
+    "House Sparrow", 
+    "Brown Rat", 
+    "Stray Cat" 
+  ] 
+};
+
+function getZoogeographicRegion(lat, lon) {
+  if (lon < -30) {
+    return lat > 20 ? "Nearctic" : "Neotropical";
+  } else if (lon >= -30 && lon < 60) {
+    return lat > 20 ? "Palearctic" : "Afrotropical";
+  } else {
+    if (lat > 30) return "Palearctic";
+    if (lat > -10) return "Indomalayan";
+    return "Australasian";
+  }
+}
+
+function FirebaseImage({ path, altText, className }) {
   const [url, setUrl] = useState(null);
   const [hasError, setHasError] = useState(false);
 
@@ -36,8 +101,7 @@ function FirebaseImage({ path, altText, className, style }) {
           backgroundColor: '#eaeaea', display: 'flex', alignItems: 'center', 
           justifyContent: 'center', color: '#888', fontSize: '0.9rem',
           height: '150px', 
-          borderRadius: '8px', marginBottom: '1rem', width: '100%',
-          ...style
+          borderRadius: '8px', marginBottom: '1rem', width: '100%'
         }}
       >
         {hasError ? 'Image Unavailable' : 'Loading...'}
@@ -45,59 +109,19 @@ function FirebaseImage({ path, altText, className, style }) {
     );
   }
 
-  return <img src={url} alt={altText} className={className} style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem', objectFit: 'cover', height: '150px', ...style }} />;
+  return <img src={url} alt={altText} className={className} style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem', objectFit: 'cover', height: '150px' }} />;
 }
 
-// --- NEW: The Clickable Location Card Component ---
-function LocationCard({ locationName, onClick }) {
-  return (
-    <div
-      onClick={onClick}
-      style={{
-        cursor: 'pointer',
-        border: '3px solid #6c8954',
-        borderRadius: '24px',
-        overflow: 'hidden',
-        width: '100%',
-        maxWidth: '400px',
-        margin: '2rem auto',
-        minHeight: '400px',
-        backgroundImage: 'url(/triangle2.png)', // Uses your triangle image!
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxShadow: '0 12px 24px rgba(0,0,0,0.15)',
-        transition: 'transform 0.2s',
-      }}
-      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
-      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-    >
-      <div style={{
-        backgroundColor: 'rgba(255,255,255,0.95)',
-        padding: '1.5rem 3rem',
-        borderRadius: '12px',
-        textAlign: 'center',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-      }}>
-        <h2 style={{ color: '#918f8f', margin: 0, fontSize: '2rem' }}>{locationName}</h2>
-        <p style={{ color: '#6c8954', marginTop: '10px', fontWeight: 'bold' }}>Click to discover wildlife!</p>
-      </div>
-    </div>
-  );
-}
-
-// --- UPDATED: The Animal Card Component ---
+// 2. The Card Component
 function AnimalCard({ animalName, discoveredData, onDelete, isDeleting, index = 0 }) {
   const isActive = !!discoveredData;
+  const useTriangle2 = !isActive && index % 2 !== 0;
 
   return (
     <div 
       className={isActive ? styles.areaAnimalActive : styles.areaAnimalInactive}
       style={{ 
-        border: isActive ? '2px solid #6c8954' : '2px dashed #ccc',
+        border: isActive ? '2px solid #4CAF50' : 'none',
         borderRadius: '24px',
         overflow: 'hidden',
         transition: 'all 0.3s ease-in-out',
@@ -105,49 +129,50 @@ function AnimalCard({ animalName, discoveredData, onDelete, isDeleting, index = 
         flexDirection: 'column',
         height: '100%', 
         minHeight: '280px', 
-        backgroundColor: isActive ? 'white' : '#f4f4f4' // White if found, light gray if unfound
+        backgroundImage: useTriangle2 ? 'url(/triangle2.png)' : undefined,
+        backgroundSize: useTriangle2 ? '100% 100%' : undefined,
+        backgroundPosition: useTriangle2 ? 'center' : undefined,
+        backgroundRepeat: useTriangle2 ? 'no-repeat' : undefined
       }} 
     >
       {isActive ? (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '1.5rem', alignItems: 'center', textAlign: 'center' }}>
-          {/* THE STICKER (Found) */}
-          <div style={{
-            width: '120px', height: '120px', borderRadius: '50%', padding: '6px',
-            backgroundColor: 'white', boxShadow: '0 6px 12px rgba(0,0,0,0.15)',
-            transform: index % 2 === 0 ? 'rotate(-4deg)' : 'rotate(4deg)', 
-            marginBottom: '1.5rem', display: 'flex', alignItems: 'center',
-            justifyContent: 'center', overflow: 'hidden'
-          }}>
-            {discoveredData.imagePath && (
-              <FirebaseImage 
-                path={discoveredData.imagePath} 
-                altText={discoveredData.commonName} 
-                style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', margin: 0 }}
-              />
-            )}
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '100%' }}>
-            <h3 style={{ fontSize: '1.3rem', color: '#111' }}>{discoveredData.commonName}</h3>
-            <p style={{marginTop: '0.5rem', fontSize: '0.8rem', color: '#555'}}>
-              <em>Identified on: <br/> {discoveredData.createdAt}</em>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '1rem' }}>
+          {discoveredData.imagePath && (
+            <FirebaseImage 
+              path={discoveredData.imagePath} 
+              altText={discoveredData.commonName} 
+            />
+          )}
+          <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+            <h3>{discoveredData.commonName}</h3>
+            <p style={{marginTop: '0.5rem', fontSize: '0.8rem', color: 'gray'}}>
+              <em>Identified on: {discoveredData.createdAt}</em>
             </p>
+            <div style={{ textAlign: 'right', marginTop: 'auto' }}>
+              <button
+                onClick={() => onDelete(discoveredData.id)}
+                disabled={isDeleting}
+                className={styles.deleteButton}
+              >
+                {isDeleting ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
           </div>
         </div>
       ) : (
         <div style={{ 
-          padding: '3rem 1.5rem', display: 'flex', flexDirection: 'column',
-          alignItems: 'center', textAlign: 'center', justifyContent: 'center', height: '100%'
+          marginTop: useTriangle2 ? '0' : 'auto', 
+          marginBottom: useTriangle2 ? 'auto' : '0',
+          paddingBottom: '3rem',
+          paddingTop: '3rem',
+          paddingLeft: '1.5rem',
+          paddingRight: '1.5rem',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
         }}>
-          {/* GRAY QUESTION MARK (Unfound) */}
-          <div style={{
-            width: '100px', height: '100px', marginBottom: '1.5rem',
-            display: 'flex', alignItems: 'center', justifyContent: 'center'
-          }}>
-            {/* Make sure you add a question-mark.png to your public folder! */}
-            <img src="/question-mark.png" alt="Unknown" style={{ width: '80%', opacity: 0.3 }} />
-          </div>
-          <h3 style={{ color: '#555' }}>{animalName}</h3>
-          <p style={{ fontSize: '0.85rem', color: '#888', margin: 0, marginTop: '5px' }}>
+          <h3 style={{ color: 'white', textAlign: 'center' }}>{animalName}</h3>
+          <p style={{ fontSize: '0.8rem', color: 'white', margin: 0 }}>
             <em>Undiscovered</em>
           </p>
         </div>
@@ -156,50 +181,49 @@ function AnimalCard({ animalName, discoveredData, onDelete, isDeleting, index = 
   );
 }
 
-// --- Main Page Component ---
+// 3. Main page component
 export default function AreaPage() {
-  const [step, setStep] = useState('loading'); // Start in loading state
-  const [locationInput, setLocationInput] = useState('');
-  const [activeLocation, setActiveLocation] = useState('');
-  
-  const [userAnimals, setUserAnimals] = useState([]);
-  const [geminiAnimals, setGeminiAnimals] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [animals, setAnimals] = useState([]);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [localAnimals, setLocalAnimals] = useState([]);
+  const [regionName, setRegionName] = useState("Loading...");
+  const [geoError, setGeoError] = useState("");
 
   const { currentUser } = useAuth();
-  const router = useRouter();
+  const router = useRouter(); 
 
-  // 1. PERSISTENCE: Check if user already has a saved location on mount
-useEffect(() => {
-  if (!currentUser) return;
-
-  const fetchSavedLocation = async () => {
-    try {
-      const locRef = collection(firestore, 'users', currentUser.uid, 'activeLocation');
-      const q = query(locRef, limit(1));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        const savedData = querySnapshot.docs[0].data();
-        setActiveLocation(savedData.name);
-        setGeminiAnimals(savedData.animals || []);
-        setStep('card'); // Go to the card if data exists
-      } else {
-        // CRITICAL FIX: If no location is found, move to 'input' so the user can type one
-        setStep('input'); 
-      }
-    } catch (err) {
-      console.error("Error fetching saved location:", err);
-      // Fallback to input on error so the page doesn't stay stuck
-      setStep('input');
-    }
+  const handleDelete = async (id) => {
+    console.log("Delete clicked for ID:", id);
+    // TODO: Add your Firestore deleteDoc logic here
   };
 
-  fetchSavedLocation();
-}, [currentUser]);
-  // 2. Fetch user's found animals (Your existing listener)
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const region = getZoogeographicRegion(latitude, longitude);
+          
+          setRegionName(region);
+          setLocalAnimals(zoogeographicAnimals[region]);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          setGeoError("Location access denied. Showing default region.");
+          setRegionName("Nearctic"); 
+          setLocalAnimals(zoogeographicAnimals["Nearctic"]);
+        }
+      );
+    } else {
+      setGeoError("Geolocation not supported by this browser.");
+      setRegionName("Nearctic");
+      setLocalAnimals(zoogeographicAnimals["Nearctic"]);
+    }
+  }, []);
+
   useEffect(() => {
     if (!currentUser) return;
+
     const userId = currentUser.uid;
     const animalsCollection = collection(firestore, 'users', userId, 'animals');
     const q = query(animalsCollection, orderBy('createdAt', 'desc'));
@@ -213,152 +237,64 @@ useEffect(() => {
           createdAt: data.createdAt ? data.createdAt.toDate().toLocaleString() : 'Date not available'
         };
       });
-      setUserAnimals(animalsData); 
+      setAnimals(animalsData); 
     });
+
     return () => unsubscribe();
   }, [currentUser]);
-
-  // 3. STEP 1: Save Location to Firestore and move to Card
-  const handleLocationSubmit = async (e) => {
-    e.preventDefault();
-    if (!locationInput.trim() || !currentUser) return;
-
-    const locName = locationInput.trim();
-    setActiveLocation(locName);
-    
-    // Save this as the "active" location in Firestore
-    try {
-      await setDoc(doc(firestore, 'users', currentUser.uid, 'activeLocation', 'current'), {
-        name: locName,
-        updatedAt: new Date(),
-        animals: [] // Reset animals for the new location
-      });
-      setStep('card');
-    } catch (err) {
-      console.error("Error saving location:", err);
-    }
-  };
-
-  // 4. STEP 2: Trigger Gemini and SAVE the results to the location document
-  const handleCardClick = async () => {
-    setStep('grid'); 
-    setIsLoading(true);
-
-    try {
-      const foundAnimalNames = userAnimals.map(a => a.commonName).filter(Boolean).join(', ');
-
-      const requestRef = await addDoc(collection(firestore, 'users', currentUser.uid, 'locationRequests'), {
-        location: activeLocation,
-        alreadyFound: foundAnimalNames,
-        status: 'pending',
-        createdAt: new Date()
-      });
-
-      const unsubscribe = onSnapshot(doc(firestore, 'users', currentUser.uid, 'locationRequests', requestRef.id), async (docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          
-          if (data.status === 'completed' && data.animals) {
-            setGeminiAnimals(data.animals);
-            
-            // SAVE the generated animals to the persistent location doc
-            await setDoc(doc(firestore, 'users', currentUser.uid, 'activeLocation', 'current'), {
-              name: activeLocation,
-              animals: data.animals,
-              updatedAt: new Date()
-            }, { merge: true });
-
-            setIsLoading(false);
-            unsubscribe();
-          } 
-          else if (data.status === 'error') {
-            setGeminiAnimals(["Mule Deer", "Bison", "Red Fox", "Raccoon", "Monarch Butterfly"]);
-            setIsLoading(false);
-            unsubscribe();
-          }
-        }
-      });
-
-    } catch (error) {
-      console.error("Failed to request:", error.message);
-      setIsLoading(false);
-    }
-  };
-
-  // --- Render Logic ---
-  if (step === 'loading') return <div className={styles.page} style={{textAlign: 'center', padding: '5rem'}}>Loading your adventure...</div>;
 
   return (
     <>
       <Header />
       <div className={styles.page}>
         <main className={`${styles.main} ${styles.wideMain}`}>
-          <h1 className={styles.title} style={{color: "var(--secondary-text)", textAlign: 'center'}}>
-            Explore Local Wildlife
+          
+          <h1 className={styles.title}>
+            Animals In Your Area {regionName !== "Loading..." && `(${regionName})`}
           </h1>
-
-          {/* STEP 1: INPUT */}
-          {step === 'input' && (
-            <form onSubmit={handleLocationSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '2rem' }}>
-              <input 
-                type="text" 
-                placeholder="Enter a City, Park, or Trail..." 
-                value={locationInput}
-                onChange={(e) => setLocationInput(e.target.value)}
-                style={{ padding: '1rem', fontSize: '1.2rem', width: '100%', maxWidth: '400px', borderRadius: '8px', border: '1px solid #ccc', marginBottom: '1rem' }}
-              />
-              <button type="submit" className={styles.button}>Generate Location Card</button>
-            </form>
+          
+          {geoError && (
+            <p style={{ color: 'orange', textAlign: 'center', marginBottom: '1rem' }}>
+              {geoError}
+            </p>
           )}
 
-          {/* STEP 2: PERSISTENT CARD */}
-          {step === 'card' && (
-            <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-              <p style={{ color: "var(--secondary-text)" }}>Your Active Adventure:</p>
-              <LocationCard locationName={activeLocation} onClick={handleCardClick} />
-              <button onClick={() => setStep('input')} className={styles.button} style={{ backgroundColor: 'transparent', color: '#6c8954', border: '1px solid #6c8954', marginTop: '1rem' }}>
-                Change Location
-              </button>
-            </div>
-          )}
+          <div className={styles.cardGrid}>
+            {localAnimals.length > 0 ? (
+              localAnimals.map((animalName, index) => {
+                const discoveredAnimal = animals.find((a) => {
+                  if (!a.commonName) return false; 
+                  
+                  let dbName = a.commonName.toLowerCase().replace(/[^a-z]/g, '');
+                  let targetName = animalName.toLowerCase().replace(/[^a-z]/g, '');
 
-          {/* STEP 3: ANIMAL GRID (Loading or Results) */}
-          {step === 'grid' && (
-            <div style={{ marginTop: '2rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                <h2 style={{ color: "var(--secondary-text)", margin: 0 }}>Wildlife in {activeLocation}</h2>
-                <button onClick={() => setStep('card')} className={styles.button} style={{ padding: '0.5rem 1rem' }}>Back to Card</button>
-              </div>
+                  dbName = dbName.replace(/(.)\1+/g, '$1');
+                  targetName = targetName.replace(/(.)\1+/g, '$1');
 
-              {isLoading ? (
-                <div style={{ textAlign: 'center', padding: '3rem' }}>
-                  <p style={{ fontSize: '1.2rem', color: "var(--secondary-text)" }}>Gemini is scanning {activeLocation} for wildlife...</p>
-                </div>
-              ) : (
-                <div className={styles.cardGrid}>
-                  {geminiAnimals.map((animalName, index) => {
-                    // Check if Gemini's suggested animal exists in the user's found list
-                    const discoveredAnimal = userAnimals.find((a) => {
-                      if (!a.commonName) return false; 
-                      let dbName = a.commonName.toLowerCase().replace(/[^a-z]/g, '');
-                      let targetName = animalName.toLowerCase().replace(/[^a-z]/g, '');
-                      return dbName.includes(targetName) || targetName.includes(dbName);
-                    });
+                  return dbName.includes(targetName) || targetName.includes(dbName);
+                });
 
-                    return (
-                      <AnimalCard 
-                        key={index} 
-                        animalName={animalName} 
-                        discoveredData={discoveredAnimal}
-                        index={index}
-                      />
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
+                return (
+                  <AnimalCard 
+                    key={discoveredAnimal ? discoveredAnimal.id : index} 
+                    animalName={animalName} 
+                    discoveredData={discoveredAnimal}
+                    onDelete={handleDelete}
+                    isDeleting={isDeleting}
+                    index={index}
+                  />
+                );
+              })
+            ) : (
+              <p style={{ textAlign: 'center', width: '100%' }}>Calculating your region...</p>
+            )}
+          </div>
 
+          <div style={{ marginTop: '2rem' }}>
+            <Link href="/">
+              <button className={styles.button}>Back to Scanner</button>
+            </Link>
+          </div>
         </main>
       </div>
     </>
