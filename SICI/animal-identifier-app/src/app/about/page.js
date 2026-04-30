@@ -20,8 +20,8 @@ export default function AboutPage(){
 
         <p className={styles.description}>
          We recognize that AI models use a significant amount of water that negatively impacts the environment and persons
-         without regular access to clean water. That is why the Eco-Dex will be donating half of the ad revenue given to clean 
-         water projects. More information about that can be found at fakelink.com
+         without regular access to clean water. That is why the Eco-Dex will be donating a percentage of the ad revenue given to clean 
+         water projects.
         </p>
         </main>
         </div>
