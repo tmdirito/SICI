@@ -98,10 +98,10 @@ function FirebaseImage({ path, altText, className }) {
       <div 
         className={className} 
         style={{ 
-          backgroundColor: '#eaeaea', display: 'flex', alignItems: 'center', 
-          justifyContent: 'center', color: '#888', fontSize: '0.9rem',
-          height: '150px', 
-          borderRadius: '8px', marginBottom: '1rem', width: '100%'
+          backgroundColor: 'rgba(12, 40, 22, 0.5)', display: 'flex', alignItems: 'center', 
+          justifyContent: 'center', color: '#fff', fontSize: '0.9rem',
+          height: '160px', 
+          borderRadius: '12px', width: '100%'
         }}
       >
         {hasError ? 'Image Unavailable' : 'Loading...'}
@@ -109,70 +109,84 @@ function FirebaseImage({ path, altText, className }) {
     );
   }
 
-  return <img src={url} alt={altText} className={className} style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem', objectFit: 'cover', height: '150px' }} />;
+  // Removed marginBottom so we can control the gradient perfectly
+  return <img src={url} alt={altText} className={className} style={{ width: '100%', borderRadius: '12px', objectFit: 'cover', height: '160px' }} />;
 }
 
 // 2. The Card Component
-function AnimalCard({ animalName, discoveredData, onDelete, isDeleting, index = 0 }) {
+function AnimalCard({ animalName, discoveredData }) {
   const isActive = !!discoveredData;
-  const useTriangle2 = !isActive && index % 2 !== 0;
 
   return (
     <div 
-      className={isActive ? styles.areaAnimalActive : styles.areaAnimalInactive}
+      className={`${isActive ? styles.areaAnimalActive : styles.areaAnimalInactive} glow-card`}
       style={{ 
-        border: isActive ? '2px solid #4CAF50' : 'none',
+        border: 'none',
         borderRadius: '24px',
         overflow: 'hidden',
-        transition: 'all 0.3s ease-in-out',
         display: 'flex',
         flexDirection: 'column',
-        height: '100%', 
-        minHeight: '280px', 
-        backgroundImage: useTriangle2 ? 'url(/triangle2.png)' : undefined,
-        backgroundSize: useTriangle2 ? '100% 100%' : undefined,
-        backgroundPosition: useTriangle2 ? 'center' : undefined,
-        backgroundRepeat: useTriangle2 ? 'no-repeat' : undefined
+        height: '320px', 
+        padding: 0, // <-- THIS IS THE FIX: Overrides the 16px padding from your CSS file!
+        backgroundImage: isActive ? undefined : 'url(/triangle.png)',
+        backgroundSize: isActive ? undefined : '100% 100%',
+        backgroundPosition: isActive ? undefined : 'center',
+        backgroundRepeat: isActive ? undefined : 'no-repeat',
+        backgroundColor: isActive ? '#f0f4e3' : '#EDE8D0',
+        backgroundBlendMode: isActive ? undefined : 'multiply'
       }} 
     >
       {isActive ? (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '1rem' }}>
-          {discoveredData.imagePath && (
-            <FirebaseImage 
-              path={discoveredData.imagePath} 
-              altText={discoveredData.commonName} 
-            />
-          )}
-          <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-            <h3>{discoveredData.commonName}</h3>
-            <p style={{marginTop: '0.5rem', fontSize: '0.8rem', color: 'gray'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          
+          <div style={{ padding: '1rem 1rem 0 1rem' }}>
+            {discoveredData.imagePath && (
+              <FirebaseImage 
+                path={discoveredData.imagePath} 
+                altText={discoveredData.commonName} 
+              />
+            )}
+          </div>
+          
+          {/* Active Card Text Container with Gradient */}
+          <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            flexGrow: 1,
+            justifyContent: 'flex-end',
+            padding: '2rem 1.5rem 1.5rem 1.5rem', 
+            background: 'linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%)',
+            borderBottomLeftRadius: '24px',
+            borderBottomRightRadius: '24px'
+          }}>
+            <h3 style={{ color: 'white', margin: 0, textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+              {discoveredData.commonName}
+            </h3>
+            <p style={{marginTop: '0.5rem', fontSize: '0.8rem', color: '#e0e0e0'}}>
               <em>Identified on: {discoveredData.createdAt}</em>
             </p>
-            <div style={{ textAlign: 'right', marginTop: 'auto' }}>
-              <button
-                onClick={() => onDelete(discoveredData.id)}
-                disabled={isDeleting}
-                className={styles.deleteButton}
-              >
-                {isDeleting ? 'Deleting...' : 'Delete'}
-              </button>
-            </div>
           </div>
+
         </div>
       ) : (
+        /* Inactive Card Text Container with Gradient */
         <div style={{ 
-          marginTop: useTriangle2 ? '0' : 'auto', 
-          marginBottom: useTriangle2 ? 'auto' : '0',
-          paddingBottom: '3rem',
-          paddingTop: '3rem',
+          marginTop: 'auto', 
+          marginBottom: '0',
+          paddingBottom: '1.5rem',
+          paddingTop: '4rem',
           paddingLeft: '1.5rem',
           paddingRight: '1.5rem',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          width: '100%',
+          background: 'linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%)',
+          borderBottomLeftRadius: '24px',
+          borderBottomRightRadius: '24px'
         }}>
-          <h3 style={{ color: 'white', textAlign: 'center' }}>{animalName}</h3>
-          <p style={{ fontSize: '0.8rem', color: 'white', margin: 0 }}>
+          <h3 style={{ color: 'white', textAlign: 'center', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{animalName}</h3>
+          <p style={{ fontSize: '0.8rem', color: '#e0e0e0', margin: 0 }}>
             <em>Undiscovered</em>
           </p>
         </div>
@@ -184,18 +198,12 @@ function AnimalCard({ animalName, discoveredData, onDelete, isDeleting, index = 
 // 3. Main page component
 export default function AreaPage() {
   const [animals, setAnimals] = useState([]);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [localAnimals, setLocalAnimals] = useState([]);
   const [regionName, setRegionName] = useState("Loading...");
   const [geoError, setGeoError] = useState("");
 
   const { currentUser } = useAuth();
   const router = useRouter(); 
-
-  const handleDelete = async (id) => {
-    console.log("Delete clicked for ID:", id);
-    // TODO: Add your Firestore deleteDoc logic here
-  };
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -246,12 +254,42 @@ export default function AreaPage() {
   return (
     <>
       <Header />
+      
+      <style>{`
+        .region-banner {
+          background-color: #859c84;
+          color: #ffffff;
+          padding: 24px 20px;
+          margin: 2rem auto 1.5rem auto;
+          border-radius: 16px;
+          text-align: center;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          width: 100%;
+          max-width: 1200px;
+          box-sizing: border-box;
+          font-weight: 600;
+          font-size: 2.2rem;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+          .region-banner {
+            font-size: 1.5rem;
+            padding: 16px 15px;
+            margin-top: 1rem;
+            border-radius: 12px;
+          }
+        }
+      `}</style>
+
       <div className={styles.page}>
+        
+        {/* The new responsive banner */}
+        <h1 className="region-banner">
+          Animals In Your Area {regionName !== "Loading..." && `(${regionName})`}
+        </h1>
+
         <main className={`${styles.main} ${styles.wideMain}`}>
-          
-          <h1 className={styles.title}>
-            Animals In Your Area {regionName !== "Loading..." && `(${regionName})`}
-          </h1>
           
           {geoError && (
             <p style={{ color: 'orange', textAlign: 'center', marginBottom: '1rem' }}>
@@ -279,9 +317,6 @@ export default function AreaPage() {
                     key={discoveredAnimal ? discoveredAnimal.id : index} 
                     animalName={animalName} 
                     discoveredData={discoveredAnimal}
-                    onDelete={handleDelete}
-                    isDeleting={isDeleting}
-                    index={index}
                   />
                 );
               })
@@ -289,12 +324,7 @@ export default function AreaPage() {
               <p style={{ textAlign: 'center', width: '100%' }}>Calculating your region...</p>
             )}
           </div>
-
-          <div style={{ marginTop: '2rem' }}>
-            <Link href="/">
-              <button className={styles.button}>Back to Scanner</button>
-            </Link>
-          </div>
+          
         </main>
       </div>
     </>
