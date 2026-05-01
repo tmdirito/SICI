@@ -1,132 +1,105 @@
-.featuresSection {
-  padding: 5rem 10rem;
+.featuresSectionFeat {
+  padding: 80px 20px;
+}
+
+.containerFeat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
   max-width: 1200px;
-  margin: auto;
-  position: relative;
+  margin: 0 auto;
+  gap: 40px;
 }
 
-.heading {
-  text-align: center;
+.leftFeat {
+  flex: 1 1 400px;
+}
+
+.rightFeat {
+  flex: 1 1 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headingFeat {
+
+  margin-bottom: 40px;
   font-size: 2.5rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 5rem;
+  font-weight: 300;
+  color: #000000;
+  font-family: "Roboto", sans-serif;
 }
 
-.featuresWrapper {
+.featureListFeat {
   display: flex;
   flex-direction: column;
-  gap: 6rem;
-  width: 100%;
-  position: relative;
+  gap: 20px;
+
 }
 
-/* Feature card */
-.featureCard {
+.featureItemFeat {
+  cursor: pointer;
+}
+
+.featureHeaderFeat {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  width: 700px;
-  position: relative;
-  min-height: 150px;
+  font-weight: 300;
+  font-size: 1.2rem;
+  padding: 10px 0;
+  color: #000000;
+  font-family: "Montserrat", sans-serif;
 }
 
-/* IMAGE STARTS CENTER */
-.imageWrapper {
-  position: absolute;
-  left: 0;                
-  width: 200px;
-  height: 200px;
-  transform: translateX(50vw); 
-  transition: transform 1.5s ease; 
-  z-index: 2;
+.toggleIconFeat {
+  font-size: 1.5rem;
+  
+  color: #000000; /* Indigo accent */
+  
 }
 
-/* IMAGE MOVES FULLY LEFT */
-.moveLeft {
-  transform: translateX(0); 
+.featureDescFeat {
+  margin-top: 8px;
+  font-weight: 300;
+  color: #000000;
+  font-family: "Montserrat", sans-serif;
 }
 
-/* Add a subtle border */
-.featureImage {
-  width: 180px; /* Merged duplicate rule */
-  height: 180px; /* Merged duplicate rule */
-  border-radius: 50%;
+.featureHeaderFeat h3 {
+  font-family: 'Montserrat', sans-serif; /* change font */
+  font-weight: 300;                       /* make it bold */
+  font-size: 1.6rem;                      /* adjust size */
+  color: #000000;                         /* make it indigo or any color */
+}
+
+
+
+.dividerFeat {
+  height: 1px;
+  background-color: #000000;
+  margin: 10px 0;
+}
+
+.sideImageFeat {
+  max-width: 100%;
+
   object-fit: cover;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-  border: 3px solid rgba(255,255,255,0.3); 
-  transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
-  z-index: 1;
 }
 
-/* Hover effect */
-.featureImage:hover {
-  transform: scale(1.1) rotate(-1deg); 
-  border-color: #e1e9e5; 
-  box-shadow: 0 15px 30px rgba(243, 244, 244, 0.35); 
-}
+/* Responsive */
+@media (max-width: 900px) {
+  .containerFeat {
+    flex-direction: column;
+    align-items: center;
+  }
 
-/* TEXT APPEARS AFTER IMAGE MOVES LEFT */
-.text {
-  max-width: 500px;
-  opacity: 0;
-  transform: translateY(0);   
-  text-align: left;
-  margin-left: 220px;        
-  transition: opacity 0.8s ease 0s;
-}
+  .leftFeat, .rightFeat {
+    flex: 1 1 100%;
+  }
 
-.showText {
-  opacity: 1;
-}
-
-.text h3 {
-  font-size: 1.8rem;
-  color: #8d8c8c;
-  margin-bottom: 0.5rem;
-}
-.text p {
-  font-size: 1rem;
-  color: #222222;
-  line-height: 1.6;
-}
-
-/* --- MOBILE FIXES --- */
-@media(max-width: 1024px) {
-  .featuresSection {
-    padding: 4rem 2rem; /* Shrink the 10rem padding */
-  }
-  .featureCard {
-    width: 100%; /* Remove hardcoded 700px width */
-  }
-}
-
-@media(max-width: 768px) {
-  .heading {
-    font-size: 2rem;
-    margin-bottom: 3rem;
-  }
-  .featuresSection {
-    padding: 3rem 1rem;
-  }
-  .featuresWrapper {
-    gap: 3rem; /* Tighter gap between features */
-  }
-  .featureCard { 
-    flex-direction: column; 
-    text-align: center; 
-    min-height: auto; 
-  }
-  .imageWrapper { 
-    position: relative; 
-    left: 0; 
-    transform: translateX(0) !important; /* Stop the sliding animation on mobile */
-    margin-bottom: 1rem; 
-    width: auto;
-    height: auto;
-  }
-  .text { 
-    margin-left: 0; 
-    text-align: center; 
-    opacity: 1; /* Keep text always visible on mobile */
+  .headingFeat {
+    text-align: center;
   }
 }

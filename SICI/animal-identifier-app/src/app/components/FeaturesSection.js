@@ -1,78 +1,73 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import styles from "./FeaturesSection.module.css";
+import { useState } from 'react';
+import Image from 'next/image';
+import styles from './FeaturesSection.module.css';
 
 const features = [
   {
-    title: "Powered by Gemini",
-    desc: "Leveraging Google's latest generative AI for fast and accurate results.",
-    img: "/images/gemini2.avif",
+    titleFeat: "Powered by Gemini",
+    descFeat: "Leveraging Google's latest generative AI for fast and accurate results.",
   },
   {
-    title: "Conservation Insights",
-    desc: "Learn about protecting wildlife and the conservation status of different species.",
-    img: "/images/leopard2.webp",
+    titleFeat: "Conservation Insights",
+    descFeat: "Learn about protecting wildlife and the conservation status of different species.",
   },
   {
-    title: "Personal History",
-    desc: "Keep a log of all the animals you've identified in your personal dashboard.",
-    img: "/images/collage.jpg",
+    titleFeat: "Personal History",
+    descFeat: "Keep a log of all the animals you've identified in your personal dashboard.",
   },
 ];
 
 export default function FeaturesSection() {
-  const sectionRef = useRef(null);
-  const [animatedOnce, setAnimatedOnce] = useState(false); // tracks if animation ran
+  const [openIndex, setOpenIndex] = useState(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !animatedOnce) {
-            setAnimatedOnce(true); // trigger animation only once
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => sectionRef.current && observer.unobserve(sectionRef.current);
-  }, [animatedOnce]);
+  const toggleFeature = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   return (
-    <section ref={sectionRef} className={styles.featuresSection}>
-      <h2 className={styles.heading}>Features</h2>
-      <div className={styles.featuresWrapper}>
-        {features.map((feature, index) => (
-          <div key={index} className={styles.featureCard}>
-            {/* Image starts center, moves left */}
-            <div
-              className={`${styles.imageWrapper} ${
-                animatedOnce ? styles.moveLeft : ""
-              }`}
-              style={{ transitionDelay: `${index * 0.5}s` }}
-            >
-              <div className={styles.decorativeCircle}></div>
-              <img
-                src={feature.img}
-                alt={feature.title}
-                className={styles.featureImage}
-              />
-            </div>
+    <section className={styles.featuresSectionFeat}>
+      <div className={styles.containerFeat}>
+        {/* Left side: Title + List */}
+        <div className={styles.leftFeat}>
+          <h2 className={styles.headingFeat}>FEATURES</h2>
 
-            {/* Text stays centered, appears after image finishes */}
-            <div
-              className={`${styles.text} ${animatedOnce ? styles.showText : ""}`}
-              style={{ transitionDelay: `${1.5 + index * 0.5}s` }}
-            >
-              <h3>{feature.title}</h3>
-              <p>{feature.desc}</p>
-            </div>
+          <div className={styles.featureListFeat}>
+            {features.map((feature, index) => (
+              <div key={index} className={styles.featureItemFeat}>
+                <div
+                  className={styles.featureHeaderFeat}
+                  onClick={() => toggleFeature(index)}
+                >
+                  <h3>{feature.titleFeat}</h3>
+                  <span className={styles.toggleIconFeat}>
+                    {openIndex === index ? '-' : '+'}
+                  </span>
+                </div>
+
+                {openIndex === index && (
+                  <p className={styles.featureDescFeat}>{feature.descFeat}</p>
+                )}
+
+                {index !== features.length - 1 && <div className={styles.dividerFeat}></div>}
+              </div>
+            ))}
           </div>
-        ))}
-        
+        </div>
+
+        {/* Right side: Single Image */}
+        <div className={styles.rightFeat}>
+       
+
+        <Image
+  src="/images/leopard2.webp"
+  alt="Features Illustration"
+  width={500}       // MUST specify width
+  height={600}      // MUST specify height
+  className={styles.sideImageFeat}
+/>
+        </div>
       </div>
     </section>
   );
