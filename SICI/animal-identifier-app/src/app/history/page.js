@@ -36,7 +36,7 @@ function FirebaseImage({ path, altText, className }) {
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center',
-          color: '#888',
+          color: 'black', /* Changed to black */
           fontSize: '0.9rem',
           height: '220px', 
           borderRadius: '8px',
@@ -60,11 +60,11 @@ export default function HistoryPage() {
   const [isDeleting, setIsDeleting] = useState(false); 
 
   const handleDelete = async (animalID) => {
-      if (!currentUser) return; // Make sure user is still logged in
+      if (!currentUser) return; 
         const confirmDelete = window.confirm("Are you sure you want to delete this discovery?");
     
         if (!confirmDelete) return;
-        setIsDeleting(true); // Disable buttons
+        setIsDeleting(true); 
         try {
       const docRef = doc(firestore, 'users', currentUser.uid, 'animals', animalID);
       
@@ -74,7 +74,7 @@ export default function HistoryPage() {
       } catch (error) {
         console.error("Error deleting document: ", error);
       } finally {
-        setIsDeleting(false); // Re-enable buttons
+        setIsDeleting(false); 
       }
     }
     
@@ -109,22 +109,22 @@ export default function HistoryPage() {
   }, [currentUser]);
 
   if (isLoading) {
-    return <p>Loading history...</p>;
+    return <p style={{ color: 'black' }}>Loading history...</p>; /* Added black color to loading text */
   }
 
 return (
     <>
     <Header />
-    <div className={styles.page}>
+    <div className={styles.page} style={{ color: 'black' }}> {/* Forces black text globally for this container */}
       <main className={`${styles.main} ${styles.wideMain}`}>
-        <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>Your Identification History</h1>
-        <p className={styles.description}>
+        <h1 className={styles.title} style={{ color: 'black' }}>Your Identification History</h1>
+        <p className={styles.description} style={{ color: 'black' }}>
           A log of all the animals/plants you've discovered.
         </p>
 
         <div className={styles.cardGrid} style={{marginTop: '2rem', width: '100%'}}>
           {animals.length === 0 ? (
-            <p style={{ color: 'var(--secondary-text)', textAlign: 'center', padding: '1rem 0', gridColumn: '1 / -1' }}>
+            <p style={{ color: 'black', textAlign: 'center', padding: '1rem 0', gridColumn: '1 / -1' }}>
               No animals identified yet. Go to "Identify Species" to start!
             </p>
           ) : (
@@ -132,7 +132,7 @@ return (
               <div 
                 key={animal.id} 
                 className={styles.resultCard} 
-                style={{ display: 'flex', flexDirection: 'column' }} /* Ensures cards stretch uniformly */
+                style={{ display: 'flex', flexDirection: 'column', color: 'black' }} 
               >
                 
                 {animal.imagePath && (
@@ -146,11 +146,10 @@ return (
                 <h3>{animal.commonName}</h3>
                 <p><strong>Scientific Name:</strong> {animal.scientificName}</p>
                 <p><strong>Conservation Status:</strong> {animal.conservationStatus}</p>
-                <p style={{marginTop: '8px', color: 'var(--secondary-text)'}}>{animal.description}</p>
+                <p style={{marginTop: '8px', color: 'black'}}>{animal.description}</p>
                 
-                {/* Pushes the date and delete button to the bottom if cards are different heights */}
                 <div style={{ marginTop: 'auto' }}>
-                  <p style={{marginTop: '1rem', fontSize: '0.8rem', color: 'gray'}}>
+                  <p style={{marginTop: '1rem', fontSize: '0.8rem', color: 'black'}}>
                     <em>Identified on: {animal.createdAt}</em>
                   </p>
                   <div style={{ textAlign: 'right', marginTop: '10px' }}>
@@ -158,6 +157,7 @@ return (
                       onClick={() => handleDelete(animal.id)}
                       disabled={isDeleting}
                       className={styles.deleteButton}
+                      style={{ color: 'black' }} /* Added to ensure button text is also black */
                       >
                       {isDeleting ? 'Deleting...' : 'Delete'}
                     </button>
