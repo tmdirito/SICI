@@ -7,18 +7,16 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #ffffff; /* text color */
+  color: #ffffff; 
 
   /* Background image */
-  background-image: url('/images/mission.jpg'); /* replace with your image path */
-  background-size: cover;    /* cover whole section */
+  background-image: url('/images/mission.jpg'); 
+  background-size: cover;   
   background-position: center;
   background-repeat: no-repeat;
 
-  /* Dark overlay for readability */
-  /* Using linear-gradient on top of image */
   background: linear-gradient(
-      rgba(0, 0, 0, 0.5),   /* black overlay with 50% opacity */
+      rgba(0, 0, 0, 0.5),  
       rgba(0, 0, 0, 0.5)
     ),
     url('/images/mission.jpg');

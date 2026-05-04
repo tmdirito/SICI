@@ -19,7 +19,6 @@
   min-height: 350px; /* Base height */
 }
 
-/* Flip state */
 .card.flipped {
   transform: rotateY(180deg);
 }
@@ -162,7 +161,7 @@
 }
 
 .insightBox:hover .detail {
-  opacity: 1; /* Better than display:block for transitions */
+  opacity: 1; 
 }
 
 .backBtn {
@@ -182,7 +181,6 @@
   background-color: #464646;
 }
 
-/* --- MOBILE FIXES --- */
 @media (max-width: 768px) {
   .section {
     margin: 40px auto;

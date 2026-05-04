@@ -8,10 +8,9 @@ import { useRouter } from 'next/navigation';
 import { app } from '../lib/firebase';
 import { createFirestoreUser } from '../lib/firestore-service';
 import Header from '../components/Header';
-import styles from '../page.module.css'; // Notice we are using a new local CSS file!
+import styles from '../page.module.css'; 
 
 export default function SignUpPage() {
-  // --- Auth & Form States ---
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +20,6 @@ export default function SignUpPage() {
   const router = useRouter();
   const auth = getAuth(app);
 
-  // --- Landing Page States ---
   const [ecoText, setEcoText] = useState("");
   const fullText = "Where Every Species Tells a Story";
 
@@ -68,7 +66,6 @@ export default function SignUpPage() {
       <Header />
       <div className={styles.landing}>
         
-        {/* --- Top Branding Section --- */}
         <Image
           src="/eco-dex dark.png"
           alt="Eco-Dex Logo"
@@ -89,12 +86,10 @@ export default function SignUpPage() {
           className={styles.heroGif} 
         />
 
-        {/* --- The Sign Up / Terms Dialog --- */}
         <div className={styles.dialog}>
           <h2>Create Your Account</h2>
           
           <form onSubmit={handleSignUp} className={styles.form}>
-            {/* Account Info */}
             <input 
               type="email" 
               value={email} 

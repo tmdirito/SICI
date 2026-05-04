@@ -213,17 +213,15 @@
   animation: sparkling-border 3s linear infinite;
   box-shadow: 0 0 15px rgba(168, 85, 247, 0.6); 
   
-  /* NEW: Add a smooth transition for when the border resizes */
   transition: all 0.3s ease; 
 }
 
-/* NEW: Expands the sparkling border when you hover over the button */
 .learn-more-btn:hover::before {
   top: -7px;
   left: -7px;
   right: -7px;
   bottom: -7px;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.8); /* Makes the glow slightly brighter too! */
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.8); 
 }
 
 .learn-more-btn::after {
@@ -262,11 +260,10 @@
   transform: rotate(-120deg);  
 }
 
-/* Center Hero (The Island) - Now perfectly centered with absolute positioning */
-/* Update this block */
+
 .main-center {
   position: absolute; 
-  top: 53%; /* <-- Increased from 45% to lower the island */
+  top: 53%; 
   left: 55%; 
   transform: translate(-50%, -50%); 
   width: 380px; 
@@ -392,7 +389,6 @@
   object-fit: cover;
 }
 
-/* Cheetah/Deer Image Overlay (Shrunk and repositioned) */
 .cheetah-layer {
   position: absolute;
   left: 3%; /* Keeps it from flying off small monitors */
@@ -506,9 +502,7 @@
   background: rgba(255, 204, 0, 0.1);
 }
 
-/* ============================
-   RESPONSIVE MOBILE FIXES
-============================ */
+
 @media (max-width: 1400px) {
   .header-left {
     margin-left: 0; 

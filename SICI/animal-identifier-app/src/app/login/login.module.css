@@ -148,7 +148,6 @@
   to { opacity: 1; transform: translateY(0);}
 }
 
-/* --- Mobile Fixes --- */
 @media (max-width: 480px) {
   .main {
     padding: 24px 16px;

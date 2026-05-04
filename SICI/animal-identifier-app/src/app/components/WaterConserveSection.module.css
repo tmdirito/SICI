@@ -19,7 +19,6 @@
   align-items: flex-start;
 }
 
-/* ===== MAIN BIG STICKY ===== */
 .mainNews {
   flex: 2;
   position: relative;
@@ -55,7 +54,6 @@
   font-size: 0.95rem;
 }
 
-/* ===== SIDE STICKY NOTES ===== */
 .sideNews {
   flex: 1;
   display: flex;
@@ -99,7 +97,6 @@
   font-weight: 500;
 }
 
-/* --- MOBILE FIXES --- */
 @media (max-width: 900px) {
   .section {
     padding: 40px 20px;
@@ -126,7 +123,7 @@
 
 @media (max-width: 600px) {
   .sideNews {
-    flex-direction: column; /* Back to stacking on tiny phones */
+    flex-direction: column;
   }
   .smallCard {
     min-width: 100%;

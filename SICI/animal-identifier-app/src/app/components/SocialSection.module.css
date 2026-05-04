@@ -75,7 +75,6 @@
 .whatsapp svg { color: #000000; }
 .facebook svg { color: #000000; }
 
-/* --- MOBILE FIXES --- */
 @media (max-width: 768px) {
   .heading {
     font-size: 2rem;
@@ -91,10 +90,10 @@
     font-size: 1rem;
   }
   .lineSegment {
-    left: 1.2rem; /* Adjusted to match smaller circle center */
+    left: 1.2rem; 
   }
   .text {
-    margin-left: 1.5rem; /* Tighter gap on phones */
+    margin-left: 1.5rem; 
   }
   .text h3 {
     font-size: 1.3rem;

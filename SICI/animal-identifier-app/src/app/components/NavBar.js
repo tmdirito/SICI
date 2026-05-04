@@ -89,21 +89,20 @@ export default function NavBar() {
         </div>
       </div>
       
-      {/* --- 2. Hamburger Button --- */}
-      {/* Hidden via CSS on screens larger than 1024px */}
+    
       <button 
         className={styles.hamburger} 
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
       >
         {isOpen ? (
-          // Close Icon (X)
+          
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         ) : (
-          // Menu Icon (Hamburger)
+          
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -112,16 +111,14 @@ export default function NavBar() {
         )}
       </button>
 
-      {/* --- 3. Mobile Slide-out Menu --- */}
+     
       {/* Always rendered, but styled to slide in/out based on 'isOpen' state */}
       <div className={`${styles.mobileMenu} ${isOpen ? styles.menuOpen : ''}`}>
         
-        {/* Top: Nav Links */}
         <div className={styles.mobileLinks}>
           {renderNavLinks()}
         </div>
 
-        {/* Bottom: Auth Links */}
         <div className={styles.mobileAuth}>
           {renderAuthButtons(true)}
         </div>

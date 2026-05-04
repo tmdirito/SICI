@@ -137,15 +137,14 @@
   color: #000;
 }
 
-/* This is the magic wrapper that traps the 3D globe! */
 .canvasWrapper {
-  width: 100%;           /* Take up the available screen space... */
-  max-width: 500px;      /* ...but never get bigger than 500px */
-  aspect-ratio: 1 / 1;   /* THE FIX: Forces it to stay a perfect square ALWAYS */
+  width: 100%;          
+  max-width: 500px;     
+  aspect-ratio: 1 / 1;   
   
-  position: relative;    /* Anchors the 3D Canvas */
-  margin: 0 auto;        /* Centers it on the page */
-  display: flex;         /* Keeps the inner canvas perfectly centered */
+  position: relative;   
+  margin: 0 auto;     
+  display: flex;        
   justify-content: center;
   align-items: center;
 
@@ -156,7 +155,6 @@
   border: 2px solid #e0e0e0; 
 }
 
-/* --- MOBILE FIXES --- */
 @media (max-width: 768px) {
   .heading {
     font-size: 2rem;

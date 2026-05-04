@@ -56,15 +56,14 @@ export default function FeaturesSection() {
           </div>
         </div>
 
-        {/* Right side: Single Image */}
         <div className={styles.rightFeat}>
        
 
         <Image
   src="/images/leopard2.webp"
   alt="Features Illustration"
-  width={500}       // MUST specify width
-  height={600}      // MUST specify height
+  width={500}       
+  height={600}      
   className={styles.sideImageFeat}
 />
         </div>

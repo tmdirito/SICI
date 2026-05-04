@@ -16,11 +16,11 @@
 }
 
 .line {
-  width: 100%;           /* Fixes hardcoded 900px */
+  width: 100%;
   max-width: 900px;
   height: 1px;          
   background-color: #000000; 
-  margin: 60px auto;     /* Centers automatically */
+  margin: 60px auto;
   border-radius: 1px;   
 }
 
@@ -107,7 +107,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* --- MOBILE FIXES --- */
 @media (max-width: 768px) {
   .heading {
     font-size: 2rem;
@@ -116,7 +115,7 @@
     margin-bottom: 3rem;
   }
   .text {
-    margin-left: 1.5rem; /* Tighter gap on phones */
+    margin-left: 1.5rem;
   }
   .text h3 {
     font-size: 1.3rem;

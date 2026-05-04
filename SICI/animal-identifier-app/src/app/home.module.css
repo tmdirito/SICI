@@ -147,9 +147,7 @@
   color: #03240a; 
 }
 
-/* ============================
-   MOBILE FIXES
-============================ */
+
 @media (max-width: 768px) {
   .header {
     padding: 1rem;

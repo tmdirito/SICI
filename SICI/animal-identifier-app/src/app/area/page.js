@@ -109,7 +109,6 @@ function FirebaseImage({ path, altText, className }) {
     );
   }
 
-  // Removed marginBottom so we can control the gradient perfectly
   return <img src={url} alt={altText} className={className} style={{ width: '100%', borderRadius: '12px', objectFit: 'cover', height: '160px' }} />;
 }
 
@@ -127,7 +126,7 @@ function AnimalCard({ animalName, discoveredData }) {
         display: 'flex',
         flexDirection: 'column',
         height: '320px', 
-        padding: 0, // <-- THIS IS THE FIX: Overrides the 16px padding from your CSS file!
+        padding: 0, 
         backgroundImage: isActive ? undefined : 'url(/triangle.png)',
         backgroundSize: isActive ? undefined : '100% 100%',
         backgroundPosition: isActive ? undefined : 'center',

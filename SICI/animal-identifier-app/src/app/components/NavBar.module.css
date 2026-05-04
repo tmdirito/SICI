@@ -1,13 +1,11 @@
-/* --- Base Styles --- */
 .nav {
   width: 100%;
   display: flex;
-  justify-content: flex-end; /* Pushes content to right, or space-between if logo added later */
+  justify-content: flex-end; 
   align-items: center;
-  position: relative; /* Ensure relative positioning for context */
+  position: relative; 
 }
 
-/* --- Desktop View Container --- */
 .desktopLinks {
   display: flex;
   justify-content: space-between; 
@@ -22,7 +20,6 @@
   gap: 1rem;
 }
 
-/* --- Shared Link Styling (Glassmorphism) --- */
 .linkStyle {
   background-color: rgba(255, 255, 255, 0.1); 
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -45,20 +42,18 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Status Text Styles */
 .desktopAuthStatus {
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.875rem; 
   margin-right: 1rem;
   color: white;
 }
 
 .authStatus {
-  color: #ddd; /* Slightly lighter for mobile contrast */
+  color: #ddd; 
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
 }
 
-/* --- Hamburger Button --- */
 .hamburger {
   display: none; /* Hidden by default on desktop */
   background: transparent;
@@ -70,7 +65,6 @@
   margin-left: 1rem;
 }
 
-/* --- Mobile Menu Overlay --- */
 .mobileMenu {
   position: fixed; 
   top: 0;
@@ -108,19 +102,16 @@
   align-items: center;
 }
 
-/* --- Responsive Breakpoint (1024px) --- */
 @media (max-width: 1024px) {
   /* Hide the desktop row */
   .desktopLinks {
     display: none;
   }
   
-  /* Show the hamburger */
   .hamburger {
     display: block;
   }
   
-  /* Make links stretch full width in mobile menu */
   .linkStyle {
     width: 100%;
     text-align: center;

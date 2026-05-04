@@ -20,12 +20,11 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // <-- NEW: Loading state for UX
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider(); // Initialize Google Provider
 
-  // --- 1. HANDLE EMAIL/PASSWORD LOGIN ---
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
@@ -33,7 +32,6 @@ export default function LoginPage() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       
-      // OPTIONAL: Ensure user profile exists (AuthContext already calls this on state change, but safer here)
       await createFirestoreUser(userCredential.user);
       
       router.push('/dashboard'); // Redirect to dashboard or home on success
@@ -49,7 +47,6 @@ export default function LoginPage() {
     }
   };
   
-  // --- 2. HANDLE GOOGLE LOGIN (OAuth) ---
   const handleGoogleLogin = async () => {
     setError('');
     setLoading(true);
@@ -81,13 +78,12 @@ export default function LoginPage() {
         {/* New Google Sign-In Button */}
         <button 
           onClick={handleGoogleLogin} 
-          className={loginStyles.googleBtn} // Use the custom styled class
+          className={loginStyles.googleBtn}
           disabled={loading}
         >
           {loading ? 'Signing In...' : 'Sign In with Google'}
         </button>
 
-        {/* Divider */}
         <p className={loginStyles.divider}>OR</p>
 
         <form onSubmit={handleLogin} className={styles.form}>

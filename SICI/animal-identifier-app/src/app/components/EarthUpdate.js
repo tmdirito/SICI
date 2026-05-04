@@ -11,7 +11,6 @@ export default function HabitatMap1() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [line, setLine] = useState(null);
   
-  // NEW: State for responsive globe size
   const [globeSize, setGlobeSize] = useState({ width: 800, height: 800 });
 
   const species = [

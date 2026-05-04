@@ -7,7 +7,6 @@ export default function AboutPage(){
       <Header/>
         <div className={styles.page}>
         <main className={styles.main}>
-        {/* ADDED: style to make the title dark */}
         <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>About</h1>
         <p className={styles.description}>
           This is a project created by a group of seniors at the University of Northern Colorado. Passionate about animals
@@ -15,13 +14,17 @@ export default function AboutPage(){
           and resources all in one spot. 
         </p>
         
-        {/* ADDED: style to make the title dark */}
         <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>Water Usage</h1>
 
         <p className={styles.description}>
          We recognize that AI models use a significant amount of water that negatively impacts the environment and persons
          without regular access to clean water. That is why the Eco-Dex will be donating a percentage of the ad revenue given to clean 
          water projects.
+        </p>
+        <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>Repository</h1>
+
+        <p className={styles.description}>
+         <a href="https://github.com/tmdirito/SICI"> https://github.com/tmdirito/SICI </a>
         </p>
         </main>
         </div>

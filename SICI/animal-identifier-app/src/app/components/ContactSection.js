@@ -7,7 +7,6 @@ export default function ContactSection() {
       <div className={styles.sectionDivider}></div>
 
       <div className={styles.contactContainer}>
-        {/* LEFT SIDE */}
         <div className={styles.contactLeft}>
           <h2>Contact Us</h2>
           <p>
@@ -16,7 +15,6 @@ export default function ContactSection() {
           </p>
         </div>
 
-        {/* RIGHT SIDE */}
         <div className={styles.contactRight}>
           <form className={styles.contactForm}>
             <div className={styles.formGroup}>

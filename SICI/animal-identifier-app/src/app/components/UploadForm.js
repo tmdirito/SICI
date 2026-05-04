@@ -6,9 +6,8 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { storage, firestore } from '../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
-import Header from '../components/Header'; // <-- Add this import
+import Header from '../components/Header'; 
 
-// 1. ADDED BACK: Helper to fetch Firebase images for the results cards
 function FirebaseImage({ path, altText, className }) {
   const [url, setUrl] = useState(null);
 
@@ -79,7 +78,6 @@ export default function UploadForm() {
     return () => unsubscribe();
   }, [currentUser, isProcessing, lastAnimalId]);
 
-  // --- File handling ---
   const handleFileChange = async (e) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
@@ -89,10 +87,8 @@ export default function UploadForm() {
     setError('');
     setUploadMessage(`Selected: ${selectedFile.name}. Uploading...`);
     
-    // 2. ADDED BACK: Close modal immediately on selection so user sees status
     closeModal();
 
-    // Immediately start upload
     await startUpload(selectedFile);
   };
 
@@ -124,14 +120,11 @@ export default function UploadForm() {
   };
 
   return (
-    // 3. ADDED BACK: The pageContainer wrapper
-    <> {/* <-- Add this opening bracket */}
-      <Header /> {/* <-- Add your normal header here */}
+    <> 
+      <Header /> 
     <div className={styles.pageContainer}>
 
-      {/* BANNER SECTION */}
       <div className={`${styles.pageHero} ${isModalOpen ? styles.zoomed : ''}`}>
-        {/* BACKGROUND IMAGES */}
         <img src="/images/slide1.jpg" className={`${styles.heroimg} ${styles.img1}`} alt="" />
         <img src="/images/slide7.jpg" className={`${styles.heroimg} ${styles.img2}`} alt="" />
         <img src="/images/slide4.jpg" className={`${styles.heroimg} ${styles.img3}`} alt="" />
@@ -139,7 +132,6 @@ export default function UploadForm() {
         
         <div className={styles.heroOverlay}></div>
 
-        {/* CENTER HERO CONTENT */}
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             {words.map((word, i) => (
@@ -169,7 +161,6 @@ export default function UploadForm() {
           {error && <p className={styles.error}>{error}</p>}
         </div>
 
-        {/* MODAL */}
         {isModalOpen && (
           <div className={styles.modalOverlay}>
             <div className={styles.modalDialog}>
@@ -177,7 +168,6 @@ export default function UploadForm() {
               
               <div className={styles.modalInner} onClick={() => document.getElementById('file-upload').click()}>
                 
-                {/* IMAGE PREVIEW OR PLACEHOLDER */}
                 {imagePreview ? (
                   <img src={imagePreview} alt="Preview" className={styles.previewImage} />
                 ) : (
@@ -205,7 +195,6 @@ export default function UploadForm() {
         )}
       </div>
 
-      {/* 4. ADDED BACK: RESULTS SECTION */}
       <div className={styles.resultsSection}>
         <hr className={styles.divider} />
         <h2 className={styles.resultsTitle}>Your Identified Species</h2>

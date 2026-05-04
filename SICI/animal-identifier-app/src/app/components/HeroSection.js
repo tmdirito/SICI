@@ -2,7 +2,6 @@ import Link from "next/link";
 import styles from "./HeroSection.module.css";
 
 export default function HeroSection() {
-  // Since there is only one video, we can define it directly
   const videoSrc = "/videos/nature-love.mp4";
 
   return (
@@ -12,7 +11,7 @@ export default function HeroSection() {
         loop
         muted
         playsInline
-        preload="auto" /* Tells the browser to download this ASAP */
+        preload="auto" 
         className={styles.backgroundVideo}
       >
         <source src={videoSrc} type="video/mp4" />

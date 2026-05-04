@@ -56,7 +56,7 @@
 .toggleIconFeat {
   font-size: 1.5rem;
   
-  color: #000000; /* Indigo accent */
+  color: #000000;
   
 }
 
@@ -68,10 +68,10 @@
 }
 
 .featureHeaderFeat h3 {
-  font-family: 'Montserrat', sans-serif; /* change font */
-  font-weight: 300;                       /* make it bold */
-  font-size: 1.6rem;                      /* adjust size */
-  color: #000000;                         /* make it indigo or any color */
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 1.6rem;
+  color: #000000;
 }
 
 
@@ -88,7 +88,6 @@
   object-fit: cover;
 }
 
-/* Responsive */
 @media (max-width: 900px) {
   .containerFeat {
     flex-direction: column;

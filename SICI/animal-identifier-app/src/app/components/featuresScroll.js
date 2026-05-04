@@ -43,7 +43,6 @@ export default function FeaturesSection() {
       <div className={styles.featuresWrapper}>
         {features.map((feature, index) => (
           <div key={index} className={styles.featureCard}>
-            {/* IMAGE CENTER → LEFT */}
             <div
               className={`${styles.imageWrapper} ${
                 visible ? styles.moveLeft : ""
@@ -58,7 +57,6 @@ export default function FeaturesSection() {
               />
             </div>
 
-            {/* TEXT CENTERED UNDER FEATURES, appears after image slides */}
             <div
               className={`${styles.text} ${visible ? styles.showText : ""}`}
               style={{ transitionDelay: `${1.5 + index * 0.5}s` }}

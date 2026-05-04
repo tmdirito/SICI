@@ -3,13 +3,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, query, orderBy, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
-import { ref, getDownloadURL } from 'firebase/storage'; // 1. ADDED STORAGE IMPORTS
-import { firestore, storage } from '../lib/firebase'; // 2. ADDED 'storage' HERE
+import { ref, getDownloadURL } from 'firebase/storage'; 
+import { firestore, storage } from '../lib/firebase'; 
 import { useAuth } from '../../context/AuthContext';
 import styles from '../page.module.css';
 import Header from '../components/Header';
 
-// 3. ADDED THE FIREBASE IMAGE HELPER COMPONENT
 function FirebaseImage({ path, altText, className }) {
   const [url, setUrl] = useState(null);
   const [hasError, setHasError] = useState(false);
@@ -39,7 +38,7 @@ function FirebaseImage({ path, altText, className }) {
           justifyContent: 'center',
           color: '#888',
           fontSize: '0.9rem',
-          height: '220px', // Matches your CSS
+          height: '220px', 
           borderRadius: '8px',
           marginBottom: '1rem'
         }}
@@ -62,10 +61,8 @@ export default function HistoryPage() {
 
   const handleDelete = async (animalID) => {
       if (!currentUser) return; // Make sure user is still logged in
-        // 1. ADD THE CONFIRMATION POPUP
         const confirmDelete = window.confirm("Are you sure you want to delete this discovery?");
     
-    // 2. STOP IF THEY CLICK CANCEL
         if (!confirmDelete) return;
         setIsDeleting(true); // Disable buttons
         try {
@@ -119,14 +116,12 @@ return (
     <>
     <Header />
     <div className={styles.page}>
-      {/* 1. Added wideMain to allow the page to stretch on desktop */}
       <main className={`${styles.main} ${styles.wideMain}`}>
         <h1 className={styles.title} style={{ color: 'var(--secondary-text)' }}>Your Identification History</h1>
         <p className={styles.description}>
           A log of all the animals/plants you've discovered.
         </p>
 
-        {/* 2. Changed to cardGrid to apply the side-by-side horizontal layout */}
         <div className={styles.cardGrid} style={{marginTop: '2rem', width: '100%'}}>
           {animals.length === 0 ? (
             <p style={{ color: 'var(--secondary-text)', textAlign: 'center', padding: '1rem 0', gridColumn: '1 / -1' }}>

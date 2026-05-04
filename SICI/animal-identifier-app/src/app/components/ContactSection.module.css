@@ -10,7 +10,6 @@
   align-items: flex-start;
 }
 
-/* LEFT */
 .contactLeft {
   flex: 1;
 }
@@ -30,10 +29,9 @@
   font-family: 'Roboto', sans-serif;
 }
 
-/* RIGHT */
 .contactRight {
   flex: 1;
-  width: 100%; /* Ensure form takes full width when stacked */
+  width: 100%;
 }
 
 .contactForm {
@@ -42,7 +40,6 @@
   gap: 20px;
 }
 
-/* Name row */
 .nameRow {
   display: flex;
   gap: 20px;
@@ -52,7 +49,6 @@
   flex: 1;
 }
 
-/* Inputs */
 .contactForm input,
 .contactForm textarea {
   padding: 14px 16px;
@@ -63,7 +59,7 @@
   outline: none;
   font-family: 'Roboto', sans-serif;
   background-color: #f0ead2;
-  width: 100%; /* Fixes inputs breaking containers */
+  width: 100%; 
   box-sizing: border-box;
 }
 
@@ -72,7 +68,6 @@
   border-color: #000;
 }
 
-/* Button */
 .contactForm button {
   margin-top: 10px;
   width: fit-content;
@@ -118,18 +113,17 @@
   margin-left: 420px;
 }
 
-/* --- MOBILE FIXES --- */
 @media (max-width: 1024px) {
   .contactSection {
     padding: 60px 30px;
   }
   .contactContainer {
-    flex-direction: column; /* Stack left and right sides */
+    flex-direction: column; 
     gap: 40px;
   }
   .sectionDivider {
-    width: 80%; /* Remove hardcoded 530px */
-    margin-left: auto; /* Center it */
+    width: 80%; 
+    margin-left: auto; 
     margin-right: auto;
     margin-bottom: 60px;
   }
@@ -143,10 +137,10 @@
     font-size: 2rem;
   }
   .nameRow {
-    flex-direction: column; /* Stack first name / last name */
+    flex-direction: column;
     gap: 20px;
   }
   .contactForm button {
-    width: 100%; /* Full width button on phones */
+    width: 100%; 
   }
 }

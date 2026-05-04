@@ -1,6 +1,4 @@
-/* ============================
-   CONTAINER (Fits in Dashboard)
-============================ */
+
 .pageContainer {
   width: 100%;
   max-width: 1200px;
@@ -10,9 +8,7 @@
   margin: 0 auto;
 }
 
-/* ============================
-   HERO SECTION SETUP
-============================ */
+
 .pageHero {
   position: relative;
   width: 100%;
@@ -25,14 +21,11 @@
   overflow: hidden; /* Keeps images from spilling out */
 }
 
-/* Hide the dark overlay since your text is dark now */
 .heroOverlay {
   display: none; 
 }
 
-/* ============================
-   BACKGROUND IMAGES (Scattered)
-============================ */
+
 .heroimg {
   position: absolute;
   object-fit: cover;
@@ -47,14 +40,11 @@
 .img3 { bottom: 5%; left: 10%; width: 310px; height: 240px; }
 .img4 { bottom: 0%; right: 0%; width: 450px; height: 300px; }
 
-/* Slight parallax push on hero load */
 .pageHero:not(.zoomed) .heroimg {
   transform: scale(1.05);
 }
 
-/* ============================
-   TITLE ANIMATION
-============================ */
+
 .heroContent {
   position: relative;
   z-index: 3;
@@ -102,9 +92,7 @@
   font-family: 'Roboto', sans-serif;
 }
 
-/* ============================
-   BUTTON
-============================ */
+
 .heroButton {
   padding: 1rem 2.5rem;
   font-size: 1.2rem;
@@ -130,9 +118,6 @@
   font-weight: 500;
 }
 
-/* ============================
-   MODAL OVERLAY (Glass Effect)
-============================ */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -141,40 +126,38 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1001; /* <-- Increased to 1001 to sit ABOVE the header */
+  z-index: 1001; 
   padding: 2rem;
   width: 100vw;
   height: 100vh;
 }
 
-/* ============================
-   MODAL CONTAINER
-============================ */
+
 .modalDialog {
   position: relative;
   width: 100%;
-  max-width: 500px; /* Slightly narrower to match the shorter height */
+  max-width: 500px; 
   height: auto;     
   background: #f0ead2;
   border-radius: 20px;
-  padding: 1rem;  /* Tighter outer padding */
+  padding: 1rem;  
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;    /* Tighter gap */
+  gap: 0.5rem;    
   box-sizing: border-box;
 }
 
 .modalInner {
   width: 100%;
-  padding: 1.5rem 1rem; /* Tighter inner padding */
+  padding: 1.5rem 1rem; 
   border: 2px dashed #201f1f;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem; /* Closer elements */
+  gap: 0.5rem; 
   cursor: pointer;
   background: rgba(255, 255, 255, 0.2);
   transition: background 0.2s;
@@ -184,40 +167,34 @@
   background: rgba(255, 255, 255, 0.4);
 }
 
-/* ============================
-   IMAGE PREVIEW
-============================ */
+
 .previewImage {
   width: 100%;
-  max-width: 200px; /* Shrunk width */
-  height: 180px;    /* Shrunk height significantly */
+  max-width: 200px; 
+  height: 180px;    
   object-fit: contain;
   transition: transform 0.3s ease;
 }
 
-/* ============================
-   TEXT BELOW IMAGE
-============================ */
+
 .uploadText {
-  margin-top: 0.5rem; /* Reduced from 1rem */
-  font-size: 1.1rem;  /* Slightly smaller to fit the new proportions */
+  margin-top: 0.5rem; 
+  font-size: 1.1rem;  
   font-weight: 600;
   color: #111;
   text-align: center;
 }
 
 .uploadSubText {
-  margin: 0;          /* Removed default margins */
-  font-size: 0.85rem; /* Slightly smaller */
+  margin: 0;          
+  font-size: 0.85rem;
   color: #555;
   text-align: center;
 }
-/* ============================
-   CLOSE BUTTON
-============================ */
+
 .closeButton {
   position: absolute;
-  top: 15px; /* <-- Pulled up so it sits cleanly in the top right corner */
+  top: 15px; 
   right: 20px;
   font-size: 2rem;
   background: transparent;
@@ -347,9 +324,7 @@
   color: #777 !important;
 }
 
-/* ============================
-   RESPONSIVE MOBILE FIXES
-============================ */
+
 @media (max-width: 900px) {
   /* Hide the scattered images on small phones so it doesn't overlap text */
   .heroimg { opacity: 0.2; } 
@@ -358,9 +333,7 @@
   .heroContent { background: rgba(240, 234, 210, 0.9); }
   .resultsGrid { grid-template-columns: 1fr; }
 }
-/* ============================
-   CONTAINER (Fits in Dashboard)
-============================ */
+
 .pageContainer {
   width: 100%;
   max-width: 1200px;
@@ -368,5 +341,5 @@
   flex-direction: column;
   gap: 2rem;
   margin: 0 auto;
-  padding-top: 100px; /* <-- Add this so it doesn't hide under the header! */
+  padding-top: 100px; 
 }

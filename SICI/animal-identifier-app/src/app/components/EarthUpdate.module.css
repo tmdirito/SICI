@@ -165,11 +165,10 @@
 
 @media (max-width: 1024px) {
   .svgLine {
-    display: none; /* Hide the connector line on mobile/tablet */
+    display: none; 
   }
 }
 
-/* --- MOBILE FIXES --- */
 @media (max-width: 1024px) {
   .wrapper {
     flex-direction: column;
