@@ -67,4 +67,85 @@
   .text span {
     color: #e4e884;
     font-weight: 600;
+  }.aboutSection {
+  position: relative;
+  width: 100%;
+  
+  /* Use min-height and dvh to fix mobile browser jumpiness */
+  min-height: 100vh; 
+  min-height: 100dvh; 
+  
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff; 
+
+  /* Combined background properties to prevent overriding */
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.5),   
+      rgba(0, 0, 0, 0.5)
+    ),
+    url('/images/mission.jpg');
+  background-size: cover;    
+  background-position: center;
+  background-repeat: no-repeat;
+}
+  
+.bgVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  filter: brightness(0.35) contrast(1.2);
+}
+  
+.overlay {
+  position: relative;
+  z-index: 1;
+  max-width: 850px;
+  padding: 0 1.5rem;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1.3s ease-out;
+}
+  
+.fadeIn {
+  opacity: 1;
+  transform: translateY(0);
+}
+  
+.heading {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 25px rgba(137, 136, 136, 0.4);
+}
+  
+.text {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: #e3fff5;
+}
+  
+.text span {
+  color: #e4e884;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 2rem; /* Prevent large words from breaking viewport */
+    margin-bottom: 0.75rem;
   }
+  
+  .text {
+    font-size: 1rem; /* Better readability on small screens */
+    line-height: 1.6;
+  }
+}
